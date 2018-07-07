@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
@@ -32,7 +33,9 @@
             <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#onClick_load_button" text="Load" />
             <Button mnemonicParsing="false" onAction="#onClick_undo_button" text="Undo" />
             <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClick_clear_button" text="Clear" />
-            <TextField fx:id="txtFileName" />
+            <TextField fx:id="txtPosDir" text="./train_player/pos" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onClick_save_button" text="Save" />
+            <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" selected="true" text="AutoSave" />
         </items>
       </ToolBar>
       <AnchorPane fx:id="paneBottom" layoutX="57.0" layoutY="272.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">

@@ -6,9 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-import javax.swing.*;
-
 public class Main extends Application {
+    private MainFormController m_controller;
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -27,10 +26,12 @@ public class Main extends Application {
             //　ラベルをコントローラに渡しておく
             Label lbl = (Label)scene.lookup("#lblStatus");
             assert(lbl != null);
-            MainFormController controller = loader.getController();
-            controller.setLabel(lbl);
-
+            m_controller = loader.getController();
+            m_controller.setLabel(lbl);
+            m_controller.setScene(scene);
             primaryStage.show();
+
+            m_controller.changeAutoSave(scene);
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -44,5 +45,11 @@ public class Main extends Application {
         frame.setVisible(true);
         */
         launch(args);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        System.out.println("Stage is closing");
+        m_controller.doSave();
     }
 }
