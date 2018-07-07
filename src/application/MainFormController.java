@@ -288,11 +288,13 @@ public class MainFormController {
     private void m_setRectPosAndSize(MouseEvent evt) {
         if (m_rect == null) return;
         if (m_startEvent == null) return;
+        Pane pane = (Pane)((ImageView)evt.getSource()).getParent();
 
-        m_rect.setX(Math.min(m_startEvent.getX(), evt.getX()));
-        m_rect.setY(Math.min(m_startEvent.getY(), evt.getY()));
-        m_rect.setWidth(Math.abs(m_startEvent.getX() - evt.getX()));
-        m_rect.setHeight(Math.abs(m_startEvent.getY() - evt.getY()));
+        m_rect.setX(Math.max(0, Math.min(m_startEvent.getX(), evt.getX())));
+        m_rect.setY(Math.max(0, Math.min(m_startEvent.getY(), evt.getY())));
+
+        m_rect.setWidth(Math.min(pane.getWidth() - 1 - m_rect.getX(), Math.abs(m_startEvent.getX() - evt.getX())));
+        m_rect.setHeight(Math.min(pane.getHeight() - 1 - m_rect.getY(), Math.abs(m_startEvent.getY() - evt.getY())));
     }
 
     private void m_initRectangle(MouseEvent evt) {
@@ -303,8 +305,8 @@ public class MainFormController {
         m_rect = new Rectangle(
                 Math.max(0, Math.min(m_startEvent.getX(), evt.getX())),
                 Math.max(0, Math.min(m_startEvent.getY(), evt.getY())),
-                Math.min(pane.getWidth() - 1, Math.abs(m_startEvent.getX() - evt.getX())),
-                Math.min(pane.getHeight() - 1, Math.abs(m_startEvent.getY() - evt.getY())));
+                Math.min(pane.getWidth() - 1 - Math.max(0, Math.min(m_startEvent.getX(), evt.getX())), Math.abs(m_startEvent.getX() - evt.getX())),
+                Math.min(pane.getHeight() - 1 - Math.max(0, Math.min(m_startEvent.getY(), evt.getY())), Math.abs(m_startEvent.getY() - evt.getY())));
         m_rect.setFill(Color.TRANSPARENT);
         m_rect.setStroke(Color.BLUE);
         // マウスイベントを透過させる
@@ -341,11 +343,11 @@ public class MainFormController {
 
         File txtFile = new File(dir, POS_LIST_FILE_NAME);
         try (FileWriter filewriter = new FileWriter(txtFile, true)) {
-            filewriter.write(String.format("%s\n", m_getPosListLine(picPath)));
+            filewriter.write(String.format("%s\n", m_getPosListStr(picPath)));
         }
     }
 
-    private String m_getPosListLine(String picPath) {
+    private String m_getPosListStr(String picPath) {
         StringBuilder sb = new StringBuilder();
         sb.append(picPath);
         sb.append("\t");

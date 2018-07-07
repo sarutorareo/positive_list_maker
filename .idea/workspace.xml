@@ -2,18 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1f36e5a-220e-404e-92b7-73118e2a3be3" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainForm.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/positive_list_maker/application/MainFormController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/application/MainForm.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/MainForm.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/application/MainFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/application/MainFormController.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -39,8 +27,8 @@
       <file leaf-file-name="MainFormController.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/application/MainFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+            <state relative-caret-position="111">
+              <caret line="304" column="31" lean-forward="true" selection-start-line="304" selection-start-column="31" selection-end-line="304" selection-end-column="31" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1063#1064#0" expanded="true" />
@@ -97,7 +85,7 @@
         <entry file="file://$PROJECT_DIR$/src/application/Main.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="155">
-              <caret line="52" column="30" lean-forward="true" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
+              <caret line="52" column="30" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -177,6 +165,8 @@
       <find>save button</find>
       <find>dosave</find>
       <find>doSave</find>
+      <find>Math.</find>
+      <find>Math.min</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -197,8 +187,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
-    <option name="y" value="3" />
+    <option name="x" value="389" />
+    <option name="y" value="59" />
     <option name="width" value="1309" />
     <option name="height" value="755" />
   </component>
@@ -236,6 +226,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="extract.method.default.visibility" value="private" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../OpenCV_test" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -322,12 +313,11 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="3" width="1309" height="755" extended-state="0" />
-    <editor active="true" />
+    <frame x="389" y="59" width="1309" height="755" extended-state="0" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Messages" order="7" visible="true" weight="0.32954547" />
+      <window_info anchor="bottom" id="Messages" order="7" weight="0.32954547" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
@@ -788,7 +778,7 @@
     <entry file="file://$PROJECT_DIR$/src/application/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
-          <caret line="52" column="30" lean-forward="true" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
+          <caret line="52" column="30" selection-start-line="52" selection-start-column="30" selection-end-line="52" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -797,8 +787,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/application/MainFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="86" column="31" selection-start-line="86" selection-start-column="31" selection-end-line="86" selection-end-column="31" />
+        <state relative-caret-position="111">
+          <caret line="304" column="31" lean-forward="true" selection-start-line="304" selection-start-column="31" selection-end-line="304" selection-end-column="31" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1063#1064#0" expanded="true" />
