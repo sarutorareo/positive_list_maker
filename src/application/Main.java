@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
     private MainFormController m_controller;
+
     @Override
     public void start(Stage primaryStage) {
         try {
@@ -50,6 +51,6 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         System.out.println("Stage is closing");
-        m_controller.doSave();
+        m_controller.saveText();
     }
 }

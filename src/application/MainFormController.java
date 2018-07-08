@@ -16,6 +16,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.scene.shape.Rectangle;
+import opencv_client.CascadeClassify;
+import org.opencv.core.Rect;
 
 import javax.annotation.Resources;
 import javax.imageio.ImageIO;
@@ -29,6 +31,7 @@ public class MainFormController {
     private MouseEvent m_startEvent = null;
     private Rectangle m_rect = null;
     private Scene m_scene = null;
+    private String m_imgPath = null;
 
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList(
     );
@@ -54,10 +57,15 @@ public class MainFormController {
     protected void onClick_paste_button(ActionEvent evt) throws Exception {
         System.out.println("paste button current dir = " + new File(".").getAbsoluteFile());
         Scene scene = ((Button)evt.getSource()).getScene();
+        m_doPaste(scene);
+    }
+
+    private void m_doPaste(Scene scene) throws Exception {
+        // 変更前のtextをファイルに保存
         if (m_isAutoSave(scene)) {
-            doSave();
+            saveText();
         }
-        m_clearWindow(evt);
+        m_clearWindow(scene);
         // クリップボードの画像を取得
         Clipboard cb = Clipboard.getSystemClipboard();
         System.out.println(cb.getString());
@@ -68,15 +76,22 @@ public class MainFormController {
 
         // list view の初期化
         m_initTableView(scene);
+
+        // 変更後の画像をファイルに保存
+        if (m_isAutoSave(scene)) {
+            File f = saveImg();
+            if (f == null) throw new Exception("!!! failed at save img file");
+            m_imgPath = f.getPath();
+        }
     }
 
     @FXML
     protected void onClick_load_button(ActionEvent evt) throws Exception {
         System.out.println("load button");
         if (m_isAutoSave(m_scene)) {
-            doSave();
+            saveText();
         }
-        m_clearWindow(evt);
+        m_clearWindow(m_scene);
         // 画像ファイルを表示
         //imageの読み込み
         Image image = new Image( "file:d:/temp/160414_034715.jpg" );
@@ -97,36 +112,52 @@ public class MainFormController {
     @FXML
     protected void onClick_clear_button(ActionEvent evt) {
         System.out.println("clear button");
-        m_clearWindow(evt);
+        m_clearWindow(m_scene);
     }
 
     @FXML
-    protected void onClick_save_button(ActionEvent evt) throws IOException, Exception {
-        doSave();
+    protected void onClick_saveTxt_button(ActionEvent evt) throws IOException, Exception {
+        saveText();
     }
 
-    public void doSave() throws Exception {
+    @FXML
+    protected void onClick_saveImg_button(ActionEvent evt) throws IOException, Exception {
+        saveImg();
+    }
+
+    public void saveText() throws Exception {
+        if (m_imgPath == null) {
+            System.out.println("!!! no imageFile");
+            return;
+        }
         if (m_rectangleList.size() == 0) {
             System.out.println("!!! no rectangle");
             return;
         }
 
-        TextField txtPosDir = (TextField) m_scene.lookup("#txtPosDir");
-        String dir = txtPosDir.getText();
+        // テキストリストを保存
+        m_savePositiveListOneLine(m_scene, m_getDataDir(), (new File(m_imgPath).getName()));
+    }
+
+    private File saveImg() throws Exception {
+        final String dir = m_getDataDir();
         String picPath = m_getNewPicFileName(m_scene, dir);
+        File f = null;
         try {
             // 画像を保存
-            m_savePic(m_scene, picPath, "png");
+            f = m_doSaveImg(m_scene, picPath, "png");
         }
         catch (IOException ex) {
-            System.out.println("!!! IOException at m_savePic " + ex.getMessage());
+            System.out.println("!!! IOException at saveImg " + ex.getMessage());
         }
         catch (Exception ex) {
-            System.out.println("!!! Exception at m_savePic " + ex.getMessage());
+            System.out.println("!!! Exception at saveImg " + ex.getMessage());
         }
+        return f;
+    }
 
-        // テキストリストを保存
-        m_savePositiveListOneLine(m_scene, dir, picPath);
+    private String m_getDataDir() {
+        return ((TextField) m_scene.lookup("#txtPosDir")).getText();
     }
 
     @FXML
@@ -135,9 +166,20 @@ public class MainFormController {
         changeAutoSave(scene);
     }
 
-    private void m_clearWindow(ActionEvent evt) {
+    @FXML
+    protected void onClick_classify(ActionEvent evt) {
+        CascadeClassify cc = new CascadeClassify();
+        Rect[] rects = cc.classify(m_imgPath);
+        Pane pane = (Pane)((Button)evt.getSource()).getScene().lookup("#paneAnchorImage");
+        for (int i = 0; i < rects.length; i++) {
+            Rectangle newRect = m_rectToRectanble(rects[i]);
+            pane.getChildren().add(newRect);
+            m_rectangleList.add(newRect);
+        }
+    }
+
+    private void m_clearWindow(Scene scene) {
         m_rectangleList.clear();
-        Scene scene = ((Button)evt.getSource()).getScene();
         //Paneにimageviewを載せる
         Pane pane = (Pane) scene.lookup("#paneAnchorImage");
         pane.getChildren().clear();
@@ -159,12 +201,17 @@ public class MainFormController {
     }
 
     @FXML
-    protected void onKeyPressed_paneMain(KeyEvent evt) {
+    protected void onKeyPressed_paneMain(KeyEvent evt) throws Exception {
         System.out.println("キー isControl " + evt.isControlDown());
         System.out.println("キー  text " + evt.getText());
         if (evt.isControlDown() && (evt.getCode() == KeyCode.Z)) {
             Scene scene = ((Pane)evt.getSource()).getScene();
             m_undo(scene);
+            return;
+        }
+        if (evt.isControlDown() && (evt.getCode() == KeyCode.V)) {
+            Scene scene = ((Pane)evt.getSource()).getScene();
+            m_doPaste(scene);
         }
     }
 
@@ -210,7 +257,9 @@ public class MainFormController {
                     if (m_startEvent == null) return ;
                     assert(m_rect == null);
                     System.out.println("drag start" + m_getAxisStrFromEvent(evt));
-                    m_initRectangle(evt);
+                    Pane pane = (Pane)((ImageView)evt.getSource()).getParent();
+                    m_rect = m_initRectangle(evt, pane);
+                    pane.getChildren().add(m_rect);
 //                    evt.consume();
                 }
             });
@@ -297,33 +346,39 @@ public class MainFormController {
         m_rect.setHeight(Math.min(pane.getHeight() - 1 - m_rect.getY(), Math.abs(m_startEvent.getY() - evt.getY())));
     }
 
-    private void m_initRectangle(MouseEvent evt) {
-        if (m_startEvent == null) return;
-        assert(m_rect == null);
-
-        Pane pane = (Pane)((ImageView)evt.getSource()).getParent();
-        m_rect = new Rectangle(
+    private Rectangle m_initRectangle(MouseEvent evt, Pane pane) {
+        Rectangle newRect = new Rectangle(
                 Math.max(0, Math.min(m_startEvent.getX(), evt.getX())),
                 Math.max(0, Math.min(m_startEvent.getY(), evt.getY())),
                 Math.min(pane.getWidth() - 1 - Math.max(0, Math.min(m_startEvent.getX(), evt.getX())), Math.abs(m_startEvent.getX() - evt.getX())),
                 Math.min(pane.getHeight() - 1 - Math.max(0, Math.min(m_startEvent.getY(), evt.getY())), Math.abs(m_startEvent.getY() - evt.getY())));
-        m_rect.setFill(Color.TRANSPARENT);
-        m_rect.setStroke(Color.BLUE);
+        newRect.setFill(Color.TRANSPARENT);
+        newRect.setStroke(Color.BLUE);
         // マウスイベントを透過させる
-        m_rect.setMouseTransparent(true);
-        pane.getChildren().add(m_rect);
+        newRect.setMouseTransparent(true);
+
+        return newRect;
+    }
+
+    private Rectangle m_rectToRectanble(Rect r) {
+        Rectangle result = new Rectangle(r.x, r.y, r.width, r.height);
+        result.setFill(Color.TRANSPARENT);
+        result.setStroke(Color.RED);
+        result.setMouseTransparent(true);
+        return result;
     }
 
     private String m_getAxisStrFromEvent(MouseEvent evt) {
         return String.format("x = %f, y = %f", evt.getX(), evt.getY());
     }
 
-    private void m_savePic(Scene scene, String path, String fmt) throws java.io.IOException {
+    private File m_doSaveImg(Scene scene, String path, String fmt) throws java.io.IOException {
         ImageView imgView = (ImageView) scene.lookup("#imvPic");
-        if (imgView == null) return;
+        if (imgView == null) return null;
         Image img = imgView.getImage();
         File f = new File(path);
         ImageIO.write(SwingFXUtils.fromFXImage(img, null), fmt, f);
+        return f;
     }
 
     private String m_getNewPicFileName(Scene scene, String dir) throws Exception {
@@ -372,8 +427,9 @@ public class MainFormController {
     public void changeAutoSave(Scene scene)
     {
         CheckBox cbxAutoSave = (CheckBox)scene.lookup("#cbxAutoSave");
-        Button btnSave = (Button)scene.lookup("#btnSave");
-
-        btnSave.setDisable(cbxAutoSave.isSelected());
+        Button btnSaveImg = (Button)scene.lookup("#btnSaveImg");
+        btnSaveImg.setDisable(cbxAutoSave.isSelected());
+        Button btnSaveTxt = (Button)scene.lookup("#btnSaveTxt");
+        btnSaveTxt.setDisable(cbxAutoSave.isSelected());
     }
 }
