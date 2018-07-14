@@ -100,8 +100,10 @@ public class CascadeClassify {
             Imgproc.rectangle(mat_src, new Point(r.x, r.y), new Point(r.x+r.width, r.y + r.height), new Scalar(0, 0, 255));
         }
 
+        /*
         HighGui.imshow("wnd_in", mat_src);
         HighGui.waitKey(0);
+        */
         HighGui.destroyAllWindows();
 
         return faces.toArray();

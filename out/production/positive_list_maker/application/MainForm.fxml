@@ -37,7 +37,7 @@
             <Button fx:id="btnSaveImg" mnemonicParsing="false" onAction="#onClick_saveTxt_button" text="SaveImg" />
             <Button fx:id="btnSaveTxt" mnemonicParsing="false" onAction="#onClick_saveImg_button" text="SaveTxt" />
             <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" selected="true" text="AutoSave" />
-            <Button fx:id="btnClassify" mnemonicParsing="false" onAction="#onClick_classify" text="Crlassify" />
+            <CheckBox fx:id="cbxFixedSize" mnemonicParsing="false" selected="true" text="FixedSize" />
         </items>
       </ToolBar>
       <AnchorPane fx:id="paneBottom" layoutX="57.0" layoutY="272.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
