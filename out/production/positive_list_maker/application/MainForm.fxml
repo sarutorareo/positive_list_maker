@@ -12,7 +12,7 @@
 
 <AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainFormController">
    <children>
-       <SplitPane dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="41.0" prefHeight="281.0" prefWidth="545.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+       <SplitPane fx:id="spImageTable" dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="41.0" prefHeight="281.0" prefWidth="545.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
            <items>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="396.0">
                    <ScrollPane fx:id="paneImage" layoutX="14.0" layoutY="40.0" prefHeight="332.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

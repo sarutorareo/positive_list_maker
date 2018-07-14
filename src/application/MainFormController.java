@@ -38,8 +38,9 @@ public class MainFormController {
     private Rectangle m_rect = null;
     private Scene m_scene = null;
     private String m_imgPath = null;
-    private final int WIDTH = 175;
-    private final int HEIGHT = 70;
+    private final int RECT_WIDTH = 175;
+    private final int RECT_HEIGHT = 70;
+    private final int TABLE_WIDTH = 240;
 
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList(
     );
@@ -189,8 +190,8 @@ public class MainFormController {
         for (int i = 0; i < rects.length; i++) {
             Rectangle newRect = m_rectToRectanble(rects[i]);
             if (m_isFixedSize()) {
-                newRect.setWidth(WIDTH);
-                newRect.setHeight(HEIGHT);
+                newRect.setWidth(RECT_WIDTH);
+                newRect.setHeight(RECT_HEIGHT);
             }
             pane.getChildren().add(newRect);
             m_rectangleList.add(newRect);
@@ -312,8 +313,10 @@ public class MainFormController {
         }
 
         Window wnd = scene.getWindow();
-        wnd.setWidth(img.getWidth() + 128);
-        wnd.setHeight(img.getHeight() + 90);
+        wnd.setWidth(img.getWidth() + TABLE_WIDTH);
+        wnd.setHeight(img.getHeight() + 100);
+        SplitPane sp = (SplitPane)scene.lookup("#spImageTable");
+        sp.setDividerPosition(0,(img.getWidth() + 35) / (img.getWidth() + TABLE_WIDTH));
     }
 
     private void m_setAllRectangleStroke(boolean forceReset) {
@@ -413,8 +416,8 @@ public class MainFormController {
             public void handle(TableColumn.CellEditEvent event) {
                 if (m_isFixedSize()) {
                     Rectangle rowRect = (Rectangle)event.getRowValue();
-                    rowRect.setWidth(WIDTH);
-                    rowRect.setHeight(HEIGHT);
+                    rowRect.setWidth(RECT_WIDTH);
+                    rowRect.setHeight(RECT_HEIGHT);
                 }
             }
         });
@@ -454,8 +457,8 @@ public class MainFormController {
         if (isFixedSize) {
             x = Math.min(pane.getWidth(), Math.max(0, evt.getX()));
             y = Math.min(pane.getHeight(), Math.max(0, evt.getY()));
-            width = WIDTH;
-            height = HEIGHT;
+            width = RECT_WIDTH;
+            height = RECT_HEIGHT;
         }
         else {
             x = Math.min(pane.getWidth(), Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX())));
