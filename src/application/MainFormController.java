@@ -26,9 +26,7 @@ import org.opencv.core.Size;
 
 import javax.annotation.Resources;
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
@@ -685,10 +683,22 @@ public class MainFormController {
 
     private void m_savePositiveListOneLine(Scene scene, String dir, String picPath) throws IOException {
         final String POS_LIST_FILE_NAME = "pos_list.txt";
-
+        StringBuilder sb = new StringBuilder();
         File txtFile = new File(dir, POS_LIST_FILE_NAME);
-        try (FileWriter filewriter = new FileWriter(txtFile, true)) {
+        // 読む
+        try (BufferedReader br = new BufferedReader(new FileReader(txtFile))) {
+            String str;
+            while((str = br.readLine()) != null){
+                sb.append(String.format("%s\n", str));
+            }
+        }catch(FileNotFoundException e) {
+            System.out.println(e);
+        }
+
+        // 書く
+        try (FileWriter filewriter = new FileWriter(txtFile, false)) {
             filewriter.write(String.format("%s\n", m_getPosListStr(picPath)));
+            filewriter.write(sb.toString());
         }
     }
 
