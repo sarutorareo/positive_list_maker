@@ -46,6 +46,7 @@ public class MainFormController {
     private final int TABLE_WIDTH = 240;
 
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
+    private final ArrayList<Rectangle> m_fullRectangleList = new ArrayList<>();
 
     public MainFormController() {
         System.out.println("in constructor");
@@ -112,7 +113,7 @@ public class MainFormController {
         System.out.println(cb.getContentTypes());
         Image image = cb.getImage();
         //image viewの作成
-        m_initImageView(m_scene, image);
+        m_initImageView(image);
 
         // list view の初期化
         m_clearTableRows();
@@ -144,7 +145,7 @@ public class MainFormController {
         //imageの読み込み
         Image image = new Image( "file:d:/temp/160414_034715.jpg" );
         //image viewの作成
-        m_initImageView(m_scene, image);
+        m_initImageView(image);
 
         // list view の初期化
         m_clearTableRows();
@@ -154,8 +155,7 @@ public class MainFormController {
     @FXML
     protected void onClick_undo_button(ActionEvent evt) {
         System.out.println("undo button");
-        Scene scene = ((Button)evt.getSource()).getScene();
-        m_undo(scene);
+        m_undo();
     }
 
     @FXML
@@ -211,8 +211,12 @@ public class MainFormController {
 
     @FXML
     protected void onClick_autoSave(ActionEvent evt) {
-        Scene scene = ((CheckBox)evt.getSource()).getScene();
         m_changeAutoSave();
+    }
+
+    @FXML
+    protected void onClick_hideFullRect(ActionEvent evt) {
+        m_changeHideFullRect();
     }
 
     @FXML
@@ -238,6 +242,7 @@ public class MainFormController {
         Rect[] full_rects = cc.classify(m_imgPath, cascadeXmlPath,
                 full_cs.minNeighbors, full_cs.scaleFactor, full_cs.getMinSize(), full_cs.getMaxSize());
         m_getResultRectangles(full_rects, false);
+        m_changeHideFullRect();
 
         // 本番
         Rect[] rects = cc.classify(m_imgPath, cascadeXmlPath,
@@ -248,6 +253,7 @@ public class MainFormController {
 
     private void m_getResultRectangles(Rect[] rects, boolean isWithParams) {
         Pane pane = (Pane)m_scene.lookup("#paneAnchorImage");
+        Image img = ((ImageView)m_scene.lookup("#imvPic")).getImage();
 
         for (int i = 0; i < rects.length; i++) {
             Rectangle newRect = m_rectToRectanble(rects[i]);
@@ -255,6 +261,8 @@ public class MainFormController {
                 if (m_isFixedSize()) {
                     newRect.setWidth(RECT_WIDTH);
                     newRect.setHeight(RECT_HEIGHT);
+                    newRect.setX(Math.min(img.getWidth() - RECT_WIDTH, Math.max(0, newRect.getX())));
+                    newRect.setY(Math.min(img.getHeight() - RECT_HEIGHT, Math.max(0, newRect.getY())));
                 }
                 newRect.setStroke(Color.RED);
                 newRect.setStrokeWidth(3);
@@ -266,6 +274,7 @@ public class MainFormController {
                 newRect.setStrokeWidth(1);
                 newRect.setMouseTransparent(true);
                 pane.getChildren().add(newRect);
+                m_fullRectangleList.add(newRect);
             }
         }
     }
@@ -299,11 +308,19 @@ public class MainFormController {
         });
 
         m_rectangleList.clear();
+        m_fullRectangleList.clear();
         m_clearTableRows();
     }
 
-    private void m_undo(Scene scene) {
-        Pane pane = (Pane) scene.lookup("#paneAnchorImage");
+    private void m_changeHideFullRect() {
+        CheckBox chkHide = (CheckBox)m_scene.lookup("#cbxHideFullRect");
+        m_fullRectangleList.forEach(r -> {
+            r.setVisible(!chkHide.isSelected());
+        });
+    }
+
+    private void m_undo() {
+        Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
         if (pane.getChildren().size() == 0)
             return;
         Node lastNode = pane.getChildren().get(pane.getChildren().size()-1);
@@ -319,7 +336,7 @@ public class MainFormController {
         System.out.println("キー  text " + evt.getText());
         if (evt.isControlDown() && (evt.getCode() == KeyCode.Z)) {
             Scene scene = ((Pane)evt.getSource()).getScene();
-            m_undo(scene);
+            m_undo();
             return;
         }
         if (evt.isControlDown() && (evt.getCode() == KeyCode.V)) {
@@ -327,8 +344,8 @@ public class MainFormController {
         }
     }
 
-    private void m_initImageView(Scene scene, Image img) {
-        ImageView imgView = (ImageView)scene.lookup("#imvPic");
+    private void m_initImageView(Image img) {
+        ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
 
         if (imgView != null) {
             imgView.setImage(img);
@@ -362,8 +379,8 @@ public class MainFormController {
                     assert(m_rect == null);
                     System.out.println("drag start" + m_getAxisStrFromEvent(evt));
                     m_setAllRectangleStroke(true);
+                    m_rect = m_initRectangle(evt, m_isFixedSize());
                     Pane pane = (Pane)((ImageView)evt.getSource()).getParent();
-                    m_rect = m_initRectangle(evt, pane, m_isFixedSize());
                     pane.getChildren().add(m_rect);
 //                    evt.consume();
                 }
@@ -399,15 +416,17 @@ public class MainFormController {
             });
 
             //Paneにimageviewを載せる
-            Pane pane = (Pane) scene.lookup("#paneAnchorImage");
+            Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
             assert(pane != null);
             pane.getChildren().add( imgView );
+            pane.setMaxWidth(img.getWidth());
+            pane.setMaxHeight(img.getHeight());
         }
 
-        Window wnd = scene.getWindow();
+        Window wnd = m_scene.getWindow();
         wnd.setWidth(img.getWidth() + TABLE_WIDTH);
         wnd.setHeight(img.getHeight() + 145);
-        SplitPane sp = (SplitPane)scene.lookup("#spImageTable");
+        SplitPane sp = (SplitPane)m_scene.lookup("#spImageTable");
         sp.setDividerPosition(0,(img.getWidth() + 35) / (img.getWidth() + TABLE_WIDTH));
     }
 
@@ -518,44 +537,46 @@ public class MainFormController {
     private void m_setRectPosAndSize(MouseEvent evt, boolean isFixedSize) {
         if (m_rect == null) return;
         if (m_mousePressEvent == null) return;
-        Pane pane = (Pane)((ImageView)evt.getSource()).getParent();
+        ImageView imgView = (ImageView)evt.getSource();
 
         if (isFixedSize) {
-            m_rect.setX(Math.min(pane.getWidth(), Math.max(0, evt.getX())));
-            m_rect.setY(Math.min(pane.getHeight(), Math.max(0, evt.getY())));
+            m_rect.setX(Math.min(imgView.getImage().getWidth() - RECT_WIDTH, Math.max(0, evt.getX())));
+            m_rect.setY(Math.min(imgView.getImage().getHeight() - RECT_HEIGHT, Math.max(0, evt.getY())));
         }
         else {
-            m_rect.setX(Math.min(pane.getWidth(), Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX()))));
-            m_rect.setY(Math.min(pane.getHeight(), Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY()))));
-            m_rect.setWidth(Math.min(pane.getWidth() - 1 - m_rect.getX(), Math.abs(m_mousePressEvent.getX() - evt.getX())));
-            m_rect.setHeight(Math.min(pane.getHeight() - 1 - m_rect.getY(), Math.abs(m_mousePressEvent.getY() - evt.getY())));
+            m_rect.setX(Math.min(imgView.getImage().getWidth(), Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX()))));
+            m_rect.setY(Math.min(imgView.getImage().getHeight(), Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY()))));
+            m_rect.setWidth(Math.min(imgView.getImage().getWidth() - 1 - m_rect.getX(), Math.abs(m_mousePressEvent.getX() - evt.getX())));
+            m_rect.setHeight(Math.min(imgView.getImage().getHeight() - 1 - m_rect.getY(), Math.abs(m_mousePressEvent.getY() - evt.getY())));
         }
     }
 
     private void m_setRectPosAndSize_moveRect(MouseEvent evt, Rectangle rect) {
         if (m_mousePressPos == null) return;
-        Pane pane = (Pane)((Rectangle)evt.getSource()).getParent();
+        ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
 
-        rect.setX(Math.min(pane.getWidth(), Math.max(0, evt.getX() + m_mousePressPos.x)));
-        rect.setY(Math.min(pane.getHeight(), Math.max(0, evt.getY() + m_mousePressPos.y)));
+        rect.setX(Math.min(imgView.getImage().getWidth() - RECT_WIDTH, Math.max(0, evt.getX() + m_mousePressPos.x)));
+        rect.setY(Math.min(imgView.getImage().getHeight() - RECT_HEIGHT, Math.max(0, evt.getY() + m_mousePressPos.y)));
     }
 
-    private Rectangle m_initRectangle(MouseEvent evt, Pane pane, boolean isFixedSize) {
+    private Rectangle m_initRectangle(MouseEvent evt, boolean isFixedSize) {
         double x;
         double y;
         double width;
         double height;
+        Image img = ((ImageView)evt.getSource()).getImage();
+
         if (isFixedSize) {
-            x = Math.min(pane.getWidth(), Math.max(0, evt.getX()));
-            y = Math.min(pane.getHeight(), Math.max(0, evt.getY()));
+            x = Math.min(img.getWidth() - RECT_WIDTH, Math.max(0, evt.getX()));
+            y = Math.min(img.getHeight() - RECT_HEIGHT, Math.max(0, evt.getY()));
             width = RECT_WIDTH;
             height = RECT_HEIGHT;
         }
         else {
-            x = Math.min(pane.getWidth(), Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX())));
-            y = Math.min(pane.getHeight(), Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY())));
-            width = Math.min(pane.getWidth() - 1 - Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX())), Math.abs(m_mousePressEvent.getX() - evt.getX()));
-            height = Math.min(pane.getHeight() - 1 - Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY())), Math.abs(m_mousePressEvent.getY() - evt.getY()));
+            x = Math.min(img.getWidth(), Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX())));
+            y = Math.min(img.getHeight(), Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY())));
+            width = Math.min(img.getWidth() - 1 - Math.max(0, Math.min(m_mousePressEvent.getX(), evt.getX())), Math.abs(m_mousePressEvent.getX() - evt.getX()));
+            height = Math.min(img.getHeight() - 1 - Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY())), Math.abs(m_mousePressEvent.getY() - evt.getY()));
         }
 
         Rectangle newRect = new Rectangle(x, y, width, height);
@@ -588,7 +609,6 @@ public class MainFormController {
             public void handle(MouseEvent evt) {
                 if (m_mousePressPos == null) return ;
                 System.out.println("drag rect start" + m_getAxisStrFromEvent(evt));
-//                m_rectangleList.remove(newRect);
             }
         });
 
@@ -613,7 +633,6 @@ public class MainFormController {
                 m_setRectPosAndSize_moveRect(evt, newRect);
                 newRect.setStroke(Color.RED);
                 m_mousePressPos = null;
-//                m_rectangleList.add(newRect);
                 TableView table = (TableView)m_scene.lookup("#tblRectangles");
                 table.getItems().set(table.getItems().indexOf(newRect), newRect);
             }
@@ -707,6 +726,7 @@ public class MainFormController {
         Button btnSaveTxt = (Button)m_scene.lookup("#btnSaveTxt");
         btnSaveTxt.setDisable(cbxAutoSave.isSelected());
     }
+
     private void m_initParameterSettings(ClassifierSettings cs)
     {
         ChoiceBox chb = (ChoiceBox)m_scene.lookup("#chbFeatureType");
