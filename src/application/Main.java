@@ -31,8 +31,7 @@ public class Main extends Application {
             m_controller.setLabel(lbl);
             m_controller.setScene(scene);
             primaryStage.show();
-
-            m_controller.changeAutoSave(scene);
+            m_controller.onShow();
         } catch(Exception e) {
             e.printStackTrace();
         }

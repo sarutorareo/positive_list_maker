@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
@@ -12,7 +13,7 @@
 
 <AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainFormController">
    <children>
-       <SplitPane fx:id="spImageTable" dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="41.0" prefHeight="281.0" prefWidth="545.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+       <SplitPane fx:id="spImageTable" dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="71.0" prefHeight="301.0" prefWidth="715.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0">
            <items>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="396.0">
                    <ScrollPane fx:id="paneImage" layoutX="14.0" layoutY="40.0" prefHeight="332.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -27,7 +28,7 @@
                </AnchorPane>
            </items>
        </SplitPane>
-      <ToolBar layoutX="8.0" layoutY="50.0" prefHeight="40.0" prefWidth="324.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <ToolBar layoutX="8.0" layoutY="50.0" prefHeight="30.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <Button fx:id="btnPaste" mnemonicParsing="false" onAction="#onClick_paste_button" text="Paste" />
             <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#onClick_load_button" text="Load" />
@@ -45,5 +46,22 @@
             <Label fx:id="lblStatus" layoutX="14.0" layoutY="6.0" text="Label" />
          </children>
       </AnchorPane>
+      <ToolBar layoutY="35.0" prefHeight="30.0" prefWidth="715.0">
+        <items>
+            <ChoiceBox fx:id="chbFeatureType" prefHeight="25.0" prefWidth="70.0" />
+            <Label text="MN" />
+            <TextField fx:id="txtMinNeighbors" prefHeight="25.0" prefWidth="37.0" />
+            <Label text="SF" />
+            <TextField fx:id="txtScaleFactor" prefHeight="25.0" prefWidth="45.0" />
+            <Label text="Min" />
+            <TextField fx:id="txtMinSizeWidth" prefHeight="25.0" prefWidth="47.0" />
+            <TextField fx:id="txtMinSizeHeight" prefHeight="25.0" prefWidth="41.0" />
+            <Label text="Max" />
+            <TextField fx:id="txtMaxSizeWidth" prefHeight="25.0" prefWidth="45.0" />
+            <TextField fx:id="txtMaxSizeHeight" prefHeight="25.0" prefWidth="43.0" />
+          <Button fx:id="btnDetect" mnemonicParsing="false" onAction="#onClick_detect_button" text="Detect" />
+            <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onClick_save_button" text="Save" />
+        </items>
+      </ToolBar>
    </children>
 </AnchorPane>

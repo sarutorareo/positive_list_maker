@@ -1,5 +1,6 @@
 package opencv_client;
 
+import application.ClassifierSettings;
 import org.opencv.core.*;
 import org.opencv.highgui.HighGui;
 import org.opencv.imgcodecs.Imgcodecs;
@@ -15,38 +16,19 @@ public class CascadeClassify {
     static{
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
-/*
-    public static void main(String[] args) {
-        String path_in = "d:/temp/test_in.bmp";
-        String path_out = "d:/temp/test_out.bmp";
 
-        Mat mat_src = new Mat();
-        Mat mat_dst = new Mat();
-
-        mat_src = Imgcodecs.imread(path_in);                          // 入力画像の読み込み
-        HighGui.namedWindow("wnd_in", WINDOW_AUTOSIZE);
-        HighGui.imshow("wnd_in", mat_src);
-        Imgproc.cvtColor(mat_src, mat_dst, Imgproc.COLOR_BGR2GRAY); // カラー画像をグレー画像に変換
-        Imgcodecs.imwrite(path_out, mat_dst);                         // 出力画像を保存
-        HighGui.namedWindow("wnd_out", WINDOW_AUTOSIZE);
-        HighGui.imshow("wnd_out", mat_dst);
-        HighGui.waitKey(0);
-        HighGui.destroyAllWindows();
-    }
-*/
-
-    public Rect[] classify(String img_path ) {
+    public Rect[] classify(String img_path, String cascadeXmlPath,
+                           int minNeighbors, double scaleFactor,
+                           Size minSize, Size maxSize) {
         Mat mat_src = Imgcodecs.imread(img_path);                          // 入力画像の読み込み
 
         HighGui.namedWindow("wnd_in", WINDOW_AUTOSIZE);
 
-        /* 正面顔検出器のロード */
-        CascadeClassifier face_cascade = new CascadeClassifier( "D:\\MyProgram\\GitHub\\OpenCV\\training\\train_player\\cascade\\cascade.xml");
+        /* 検出器のロード */
+        CascadeClassifier face_cascade = new CascadeClassifier( cascadeXmlPath);
 
         MatOfRect faces = new MatOfRect();
-        int minNeighbors = 2;
-        double scaleFactor = 1.2;
-        face_cascade.detectMultiScale(mat_src, faces, scaleFactor, minNeighbors, CASCADE_SCALE_IMAGE, new Size(1, 1), new Size(3000, 3000));
+        face_cascade.detectMultiScale(mat_src, faces, scaleFactor, minNeighbors, CASCADE_SCALE_IMAGE, minSize, maxSize);
         System.out.println("faces.size = " + faces.size().toString());
 
         Rect[] rects = faces.toArray();

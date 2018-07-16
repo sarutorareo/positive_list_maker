@@ -4,3 +4,5 @@ train_player/
 out/
 #vimのバックアップファイルは入れない
 *~
+#.lnk
+*.lnk

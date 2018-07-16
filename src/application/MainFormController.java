@@ -22,6 +22,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.converter.DoubleStringConverter;
 import opencv_client.CascadeClassify;
 import org.opencv.core.Rect;
+import org.opencv.core.Size;
 
 import javax.annotation.Resources;
 import javax.imageio.ImageIO;
@@ -30,6 +31,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFormController {
     private Label m_lblStatus = null;
@@ -42,8 +45,29 @@ public class MainFormController {
     private final int RECT_HEIGHT = 70;
     private final int TABLE_WIDTH = 240;
 
-    private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList(
-    );
+    private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
+
+    public MainFormController() {
+        System.out.println("in constructor");
+    }
+
+    public void onShow() {
+        m_changeAutoSave();
+
+        m_initTableView();
+
+        // パラメータツールバーを初期化
+        ClassifierSettings cs = null;
+        try {
+             cs = ClassifierSettings.load();
+        }
+        catch (Exception ex)
+        {
+            System.out.println("!!! " + ex.toString());
+            cs = new ClassifierSettings();
+        }
+        m_initParameterSettings(cs);
+    }
 
     public void setLabel(Label lbl) {
         m_lblStatus = lbl;
@@ -53,10 +77,7 @@ public class MainFormController {
         m_scene = scene;
     }
 
-    public MainFormController() {
-        System.out.println("in constructor");
-    }
-    @FXML
+   @FXML
     protected void initialize(URL location, Resources resources)
     {
         System.out.println("in initialize");
@@ -65,26 +86,37 @@ public class MainFormController {
     @FXML
     protected void onClick_paste_button(ActionEvent evt) throws Exception {
         System.out.println("paste button current dir = " + new File(".").getAbsoluteFile());
-        Scene scene = ((Button)evt.getSource()).getScene();
-        m_doPaste(scene);
+        m_doPaste();
     }
 
-    private void m_doPaste(Scene scene) throws Exception {
+    @FXML
+    protected void onClick_save_button(ActionEvent evt) throws Exception {
+        System.out.println("save button current dir = " + new File(".").getAbsoluteFile());
+        m_doSaveSettings();
+    }
+
+    @FXML
+    protected void onClick_detect_button(ActionEvent evt) throws Exception {
+        m_classify();
+    }
+
+    private void m_doPaste() throws Exception {
         // 変更前のtextをファイルに保存
         if (m_isAutoSave()) {
             saveText();
         }
-        m_clearWindow(scene);
+        m_clearWindow();
         // クリップボードの画像を取得
         Clipboard cb = Clipboard.getSystemClipboard();
         System.out.println(cb.getString());
         System.out.println(cb.getContentTypes());
         Image image = cb.getImage();
         //image viewの作成
-        m_initImageView(scene, image);
+        m_initImageView(m_scene, image);
 
         // list view の初期化
-        m_initTableView(scene);
+        m_clearTableRows();
+        m_setTableRows();
 
         if (m_isAutoSave()) {
             // 変更後の画像をファイルに保存
@@ -92,8 +124,13 @@ public class MainFormController {
             if (f == null) throw new Exception("!!! failed at save img file");
             m_imgPath = f.getPath();
             // 検出器を動かして検出結果をリストに追加
-            m_classify(scene);
+            m_classify();
         }
+    }
+
+    private void m_setTableRows() {
+        TableView table = (TableView)m_scene.lookup("#tblRectangles");
+        table.setItems(m_rectangleList);
     }
 
     @FXML
@@ -102,7 +139,7 @@ public class MainFormController {
         if (m_isAutoSave()) {
             saveText();
         }
-        m_clearWindow(m_scene);
+        m_clearWindow();
         // 画像ファイルを表示
         //imageの読み込み
         Image image = new Image( "file:d:/temp/160414_034715.jpg" );
@@ -110,7 +147,8 @@ public class MainFormController {
         m_initImageView(m_scene, image);
 
         // list view の初期化
-        m_initTableView(m_scene);
+        m_clearTableRows();
+        m_setTableRows();
     }
 
     @FXML
@@ -123,7 +161,7 @@ public class MainFormController {
     @FXML
     protected void onClick_clear_button(ActionEvent evt) {
         System.out.println("clear button");
-        m_clearWindow(m_scene);
+        m_clearWindow();
     }
 
     @FXML
@@ -174,39 +212,94 @@ public class MainFormController {
     @FXML
     protected void onClick_autoSave(ActionEvent evt) {
         Scene scene = ((CheckBox)evt.getSource()).getScene();
-        changeAutoSave(scene);
+        m_changeAutoSave();
     }
 
     @FXML
     protected void onClick_classify(ActionEvent evt) {
-        m_classify(((Button)evt.getSource()).getScene());
+        m_classify();
     }
 
-    private void m_classify(Scene scene) {
-        CascadeClassify cc = new CascadeClassify();
-        Rect[] rects = cc.classify(m_imgPath);
+    private void m_classify() {
+        m_clearRectangles();
 
-        Pane pane = (Pane)scene.lookup("#paneAnchorImage");
+        CascadeClassify cc = new CascadeClassify();
+        ClassifierSettings cs = m_createClassifierSettingsFromGUI();
+        String cascadeXmlPath;
+        if (cs.fetureTypeIndex == 0) {
+             cascadeXmlPath = "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_haar\\cascade.xml";
+        }
+        else {
+            cascadeXmlPath = "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_lbp\\cascade.xml";
+        }
+
+        // フルパワー
+        ClassifierSettings full_cs = new ClassifierSettings();
+        Rect[] full_rects = cc.classify(m_imgPath, cascadeXmlPath,
+                full_cs.minNeighbors, full_cs.scaleFactor, full_cs.getMinSize(), full_cs.getMaxSize());
+        m_getResultRectangles(full_rects, false);
+
+        // 本番
+        Rect[] rects = cc.classify(m_imgPath, cascadeXmlPath,
+                cs.minNeighbors, cs.scaleFactor, cs.getMinSize(), cs.getMaxSize());
+        System.out.println("size = " + rects.length);
+        m_getResultRectangles(rects, true);
+    }
+
+    private void m_getResultRectangles(Rect[] rects, boolean isWithParams) {
+        Pane pane = (Pane)m_scene.lookup("#paneAnchorImage");
+
         for (int i = 0; i < rects.length; i++) {
             Rectangle newRect = m_rectToRectanble(rects[i]);
-            if (m_isFixedSize()) {
-                newRect.setWidth(RECT_WIDTH);
-                newRect.setHeight(RECT_HEIGHT);
+            if (isWithParams) {
+                if (m_isFixedSize()) {
+                    newRect.setWidth(RECT_WIDTH);
+                    newRect.setHeight(RECT_HEIGHT);
+                }
+                newRect.setStroke(Color.RED);
+                newRect.setStrokeWidth(3);
+                pane.getChildren().add(newRect);
+                m_rectangleList.add(newRect);
             }
-            pane.getChildren().add(newRect);
-            m_rectangleList.add(newRect);
+            else {
+                newRect.setStroke(Color.BLUE);
+                newRect.setStrokeWidth(1);
+                newRect.setMouseTransparent(true);
+                pane.getChildren().add(newRect);
+            }
         }
     }
 
-    private void m_clearWindow(Scene scene) {
-        m_rectangleList.clear();
-        //Paneにimageviewを載せる
-        Pane pane = (Pane) scene.lookup("#paneAnchorImage");
-        pane.getChildren().clear();
+    private void m_clearTableRows() {
+        TableView table = (TableView)m_scene.lookup("#tblRectangles");
+        table.getItems().clear();
+    }
 
-        Window wnd = scene.getWindow();
+    private void m_clearWindow() {
+        m_clearRectangles();
+
+        Window wnd = m_scene.getWindow();
         wnd.setWidth(640);
         wnd.setHeight(480);
+    }
+
+    private void m_clearRectangles() {
+        List<Rectangle> list = new ArrayList<Rectangle>();
+
+        Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
+
+        pane.getChildren().forEach(node -> {
+            if (node instanceof Rectangle) {
+                list.add((Rectangle)node);
+            }
+        });
+
+        list.forEach(r -> {
+            pane.getChildren().remove(r);
+        });
+
+        m_rectangleList.clear();
+        m_clearTableRows();
     }
 
     private void m_undo(Scene scene) {
@@ -230,8 +323,7 @@ public class MainFormController {
             return;
         }
         if (evt.isControlDown() && (evt.getCode() == KeyCode.V)) {
-            Scene scene = ((Pane)evt.getSource()).getScene();
-            m_doPaste(scene);
+            m_doPaste();
         }
     }
 
@@ -314,7 +406,7 @@ public class MainFormController {
 
         Window wnd = scene.getWindow();
         wnd.setWidth(img.getWidth() + TABLE_WIDTH);
-        wnd.setHeight(img.getHeight() + 100);
+        wnd.setHeight(img.getHeight() + 145);
         SplitPane sp = (SplitPane)scene.lookup("#spImageTable");
         sp.setDividerPosition(0,(img.getWidth() + 35) / (img.getWidth() + TABLE_WIDTH));
     }
@@ -334,8 +426,8 @@ public class MainFormController {
         }
     }
 
-    private void m_initTableView(Scene scene) {
-        TableView table = (TableView)scene.lookup("#tblRectangles");
+    private void m_initTableView() {
+        TableView table = (TableView)m_scene.lookup("#tblRectangles");
 
         table.setEditable(true);
 
@@ -366,7 +458,6 @@ public class MainFormController {
         colHeight.setCellValueFactory(
                 new PropertyValueFactory<>("Height")
         );
-        table.setItems(m_rectangleList);
 
         table.getSelectionModel().selectedItemProperty().addListener((observable, oldVal, newVal) ->
         {
@@ -533,7 +624,6 @@ public class MainFormController {
         Rectangle result = new Rectangle(r.x, r.y, r.width, r.height);
         result.setFill(Color.TRANSPARENT);
         result.setStroke(Color.RED);
-        // result.setMouseTransparent(true);
         m_setRectangleEvents(result);
         return result;
     }
@@ -549,6 +639,17 @@ public class MainFormController {
         File f = new File(path);
         ImageIO.write(SwingFXUtils.fromFXImage(img, null), fmt, f);
         return f;
+    }
+
+    private void m_doSaveSettings()
+    {
+        try {
+            ClassifierSettings cs = m_createClassifierSettingsFromGUI();
+            cs.save();
+        }
+        catch (java.io.IOException ex) {
+            System.out.println(ex.toString());
+        }
     }
 
     private String m_getNewPicFileName(Scene scene, String dir) throws Exception {
@@ -598,12 +699,55 @@ public class MainFormController {
         return cbxFixedSize.isSelected();
     }
 
-    public void changeAutoSave(Scene scene)
+    private void m_changeAutoSave()
     {
-        CheckBox cbxAutoSave = (CheckBox)scene.lookup("#cbxAutoSave");
-        Button btnSaveImg = (Button)scene.lookup("#btnSaveImg");
+        CheckBox cbxAutoSave = (CheckBox)m_scene.lookup("#cbxAutoSave");
+        Button btnSaveImg = (Button)m_scene.lookup("#btnSaveImg");
         btnSaveImg.setDisable(cbxAutoSave.isSelected());
-        Button btnSaveTxt = (Button)scene.lookup("#btnSaveTxt");
+        Button btnSaveTxt = (Button)m_scene.lookup("#btnSaveTxt");
         btnSaveTxt.setDisable(cbxAutoSave.isSelected());
+    }
+    private void m_initParameterSettings(ClassifierSettings cs)
+    {
+        ChoiceBox chb = (ChoiceBox)m_scene.lookup("#chbFeatureType");
+
+        final ObservableList<String> cmbList = FXCollections.observableArrayList();
+        cmbList.add("HAAR");
+        cmbList.add("LBP");
+        chb.setItems(cmbList);
+        chb.getSelectionModel().select(cs.fetureTypeIndex);
+
+        TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
+        txtMinNeighbors.setText(String.valueOf(cs.minNeighbors));
+        TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
+        txtScaleFactor.setText(String.valueOf(cs.scaleFactor));
+        TextField txtMinSizeWidth = (TextField)m_scene.lookup("#txtMinSizeWidth");
+        txtMinSizeWidth.setText(String.valueOf(cs.getMinSize().width));
+        TextField txtMinSizeHeight = (TextField)m_scene.lookup("#txtMinSizeHeight");
+        txtMinSizeHeight.setText(String.valueOf(cs.getMinSize().height));
+        TextField txtMaxSizeWidth = (TextField)m_scene.lookup("#txtMaxSizeWidth");
+        txtMaxSizeWidth.setText(String.valueOf(cs.getMaxSize().width));
+        TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
+        txtMaxSizeHeight.setText(String.valueOf(cs.getMaxSize().height));
+    }
+
+    private ClassifierSettings m_createClassifierSettingsFromGUI()
+    {
+        ChoiceBox chb = (ChoiceBox)m_scene.lookup("#chbFeatureType");
+        TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
+        TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
+        TextField txtMinSizeWidth = (TextField)m_scene.lookup("#txtMinSizeWidth");
+        TextField txtMinSizeHeight = (TextField)m_scene.lookup("#txtMinSizeHeight");
+        TextField txtMaxSizeWidth = (TextField)m_scene.lookup("#txtMaxSizeWidth");
+        TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
+
+        ClassifierSettings cs = new ClassifierSettings();
+        cs.fetureTypeIndex = chb.getSelectionModel().getSelectedIndex();
+        cs.minNeighbors = Integer.parseInt(txtMinNeighbors.getText());
+        cs.scaleFactor = Double.parseDouble(txtScaleFactor.getText());
+        cs.setMinSize(new Size(Double.parseDouble(txtMinSizeWidth.getText()), Double.parseDouble(txtMinSizeHeight.getText())));
+        cs.setMaxSize(new Size(Double.parseDouble(txtMaxSizeWidth.getText()), Double.parseDouble(txtMaxSizeHeight.getText())));
+
+        return cs;
     }
 }
