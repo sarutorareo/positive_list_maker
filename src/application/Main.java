@@ -3,17 +3,28 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import positive_list_maker.PositiveListMakerFormController;
 
 public class Main extends Application {
-    private MainFormController m_controller;
+    private PositiveListMakerFormController m_controller;
 
     @Override
     public void start(Stage primaryStage) {
         try {
             // FXMLのレイアウトをロード
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewForm.fxml"));
+            Parent root = loader.load();
+            // タイトルセット
+            primaryStage.setTitle("JavaFXSample");
+            // シーン生成
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.show();
+
+            /*
+            // FXMLのレイアウトをロード
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PositiveListMakerForm.fxml"));
             Parent root = loader.load();
 
             // タイトルセット
@@ -32,6 +43,7 @@ public class Main extends Application {
             m_controller.setScene(scene);
             primaryStage.show();
             m_controller.onShow();
+            */
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -50,6 +62,5 @@ public class Main extends Application {
     @Override
     public void stop() throws Exception {
         System.out.println("Stage is closing");
-        m_controller.saveText();
     }
 }

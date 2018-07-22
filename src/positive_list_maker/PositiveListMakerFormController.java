@@ -1,4 +1,6 @@
-package application;
+package positive_list_maker;
+import application.ClassifierSettings;
+import application.RectPos;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,9 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.*;
 import javafx.scene.input.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
@@ -23,16 +24,20 @@ import javafx.util.converter.DoubleStringConverter;
 import opencv_client.CascadeClassify;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
+import javax.swing.SwingUtilities;
 
 import javax.annotation.Resources;
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class MainFormController {
+public class PositiveListMakerFormController {
     private Label m_lblStatus = null;
     private MouseEvent m_mousePressEvent = null;
     private RectPos m_mousePressPos = null;
@@ -46,7 +51,7 @@ public class MainFormController {
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
     private final ArrayList<Rectangle> m_fullRectangleList = new ArrayList<>();
 
-    public MainFormController() {
+    public PositiveListMakerFormController() {
         System.out.println("in constructor");
     }
 
@@ -344,12 +349,11 @@ public class MainFormController {
 
     private void m_initImageView(Image img) {
         ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
+        Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
+        assert(pane != null);
 
-        if (imgView != null) {
-            imgView.setImage(img);
-        }
-        else {
-            imgView = new ImageView( img );
+        if (imgView == null) {
+            imgView = new ImageView();
             imgView.setId("imvPic");
             // マウスムーブ
             imgView.setOnMouseMoved( new EventHandler<MouseEvent>() {
@@ -414,18 +418,46 @@ public class MainFormController {
             });
 
             //Paneにimageviewを載せる
-            Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
-            assert(pane != null);
             pane.getChildren().add( imgView );
-            pane.setMaxWidth(img.getWidth());
-            pane.setMaxHeight(img.getHeight());
         }
 
+        // 両脇に黒い領域を追加する
+//        WritableImage newImg = m_expandImage(img);
+        Image newImg = img;
+        imgView.setImage(newImg);
+        pane.setMaxWidth(newImg.getWidth());
+        pane.setMaxHeight(newImg.getHeight());
+
         Window wnd = m_scene.getWindow();
-        wnd.setWidth(img.getWidth() + TABLE_WIDTH);
-        wnd.setHeight(img.getHeight() + 145);
+        wnd.setWidth(newImg.getWidth() + TABLE_WIDTH);
+        wnd.setHeight(newImg.getHeight() + 145);
         SplitPane sp = (SplitPane)m_scene.lookup("#spImageTable");
-        sp.setDividerPosition(0,(img.getWidth() + 35) / (img.getWidth() + TABLE_WIDTH));
+        sp.setDividerPosition(0,(newImg.getWidth() + 35) / (newImg.getWidth() + TABLE_WIDTH));
+    }
+
+    private WritableImage m_expandImage(Image img) {
+        int expandWidth = 100;
+        WritableImage newImg = new WritableImage((int)img.getWidth()+expandWidth, (int)img.getHeight());
+        PixelWriter pw = newImg.getPixelWriter();
+        PixelReader pr = img.getPixelReader();
+        // SwingFXUtils.toFXImage(expandedImg, img);
+        for (int x = 0; x < newImg.getWidth(); x++) {
+            for (int y = 0; y < newImg.getHeight(); y++) {
+                Color color;
+                if (x < expandWidth / 2) {
+                    color = Color.BLACK;
+                }
+                else if (x >= newImg.getWidth() - expandWidth/2) {
+                    color = Color.BLACK;
+                }
+                else {
+                    // srcのイメージのピクセルを読み込んで、destに書き込む
+                    color = pr.getColor(x - expandWidth / 2, y);
+                }
+                pw.setColor(x, y, color);
+            }
+        }
+        return newImg;
     }
 
     private void m_setAllRectangleStroke(boolean forceReset) {
