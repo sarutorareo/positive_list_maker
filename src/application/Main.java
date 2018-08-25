@@ -1,19 +1,19 @@
 package application;
+import classifier_ui.ClassifierViewFormController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import positive_list_maker.PositiveListMakerFormController;
 
 public class Main extends Application {
-    private ViewFormController m_controller;
+    private ClassifierViewFormController m_controller;
 
     @Override
     public void start(Stage primaryStage) {
         try {
             // FXMLのレイアウトをロード
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewForm.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("../classifier_ui/ClassifierViewForm.fxml"));
             Parent root = loader.load();
             // タイトルセット
             primaryStage.setTitle("JavaFXSample");

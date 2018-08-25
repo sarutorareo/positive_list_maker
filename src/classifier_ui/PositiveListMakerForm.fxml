@@ -11,7 +11,7 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="positive_list_maker.PositiveListMakerFormController">
+<AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classifier_ui.PositiveListMakerFormController">
    <children>
        <SplitPane fx:id="spImageTable" dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="71.0" prefHeight="301.0" prefWidth="715.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0">
            <items>
