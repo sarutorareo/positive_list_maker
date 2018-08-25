@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<java version="1.8.0_172" class="java.beans.XMLDecoder">
+ <object class="application.ClassifierSettings" id="ClassifierSettings0">
+  <void class="application.ClassifierSettings" method="getField">
+   <string>minNeighbors</string>
+   <void method="set">
+    <object idref="ClassifierSettings0"/>
+    <int>4</int>
+   </void>
+  </void>
+  <void class="application.ClassifierSettings" method="getField">
+   <string>scaleFactor</string>
+   <void method="set">
+    <object idref="ClassifierSettings0"/>
+    <double>1.5</double>
+   </void>
+  </void>
+  <void id="Size0" property="maxSize">
+   <void class="org.opencv.core.Size" method="getField">
+    <string>width</string>
+    <void method="set">
+     <object idref="Size0"/>
+     <double>8.0</double>
+    </void>
+   </void>
+   <void class="org.opencv.core.Size" method="getField">
+    <string>height</string>
+    <void method="set">
+     <object idref="Size0"/>
+     <double>9.0</double>
+    </void>
+   </void>
+  </void>
+  <void property="maxSize">
+   <object idref="Size0"/>
+  </void>
+  <void id="Size1" property="minSize">
+   <void class="org.opencv.core.Size" method="getField">
+    <string>width</string>
+    <void method="set">
+     <object idref="Size1"/>
+     <double>6.0</double>
+    </void>
+   </void>
+   <void class="org.opencv.core.Size" method="getField">
+    <string>height</string>
+    <void method="set">
+     <object idref="Size1"/>
+     <double>7.0</double>
+    </void>
+   </void>
+  </void>
+  <void property="minSize">
+   <object idref="Size1"/>
+  </void>
+ </object>
+</java>

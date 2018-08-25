@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import positive_list_maker.PositiveListMakerFormController;
 
 public class Main extends Application {
-    private PositiveListMakerFormController m_controller;
+    private ViewFormController m_controller;
 
     @Override
     public void start(Stage primaryStage) {
@@ -20,6 +20,8 @@ public class Main extends Application {
             // シーン生成
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
+            m_controller = loader.getController();
+            m_controller.setScene(scene);
             primaryStage.show();
 
             /*

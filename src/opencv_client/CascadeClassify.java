@@ -27,11 +27,11 @@ public class CascadeClassify {
         /* 検出器のロード */
         CascadeClassifier face_cascade = new CascadeClassifier( cascadeXmlPath);
 
-        MatOfRect faces = new MatOfRect();
-        face_cascade.detectMultiScale(mat_src, faces, scaleFactor, minNeighbors, CASCADE_SCALE_IMAGE, minSize, maxSize);
-        System.out.println("faces.size = " + faces.size().toString());
+        MatOfRect detects = new MatOfRect();
+        face_cascade.detectMultiScale(mat_src, detects, scaleFactor, minNeighbors, CASCADE_SCALE_IMAGE, minSize, maxSize);
+        System.out.println("faces.size = " + detects.size().toString());
 
-        Rect[] rects = faces.toArray();
+        Rect[] rects = detects.toArray();
         for(int i = 0; i < rects.length; i++) {
             Rect r = rects[i];
             Imgproc.rectangle(mat_src, new Point(r.x, r.y), new Point(r.x+r.width, r.y + r.height), new Scalar(0, 0, 255));
@@ -43,6 +43,6 @@ public class CascadeClassify {
         */
         HighGui.destroyAllWindows();
 
-        return faces.toArray();
+        return detects.toArray();
     }
 }

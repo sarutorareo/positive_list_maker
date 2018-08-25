@@ -24,17 +24,13 @@ import javafx.util.converter.DoubleStringConverter;
 import opencv_client.CascadeClassify;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
-import javax.swing.SwingUtilities;
 
 import javax.annotation.Resources;
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.net.URL;
-import java.nio.IntBuffer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PositiveListMakerFormController {
@@ -46,7 +42,6 @@ public class PositiveListMakerFormController {
     private String m_imgPath = null;
     private final int RECT_WIDTH = 175;
     private final int RECT_HEIGHT = 70;
-    private final int TABLE_WIDTH = 240;
 
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
     private final ArrayList<Rectangle> m_fullRectangleList = new ArrayList<>();
@@ -64,6 +59,8 @@ public class PositiveListMakerFormController {
         ClassifierSettings cs = null;
         try {
              cs = ClassifierSettings.load();
+
+//            System.out.println("cs min" + cs.minNeighbors);
         }
         catch (Exception ex)
         {
@@ -124,7 +121,7 @@ public class PositiveListMakerFormController {
 
         if (m_isAutoSave()) {
             // 変更後の画像をファイルに保存
-            File f = saveImg();
+            File f = m_saveImg();
             if (f == null) throw new Exception("!!! failed at save img file");
             m_imgPath = f.getPath();
             // 検出器を動かして検出結果をリストに追加
@@ -174,7 +171,7 @@ public class PositiveListMakerFormController {
 
     @FXML
     protected void onClick_saveImg_button(ActionEvent evt) throws IOException, Exception {
-        saveImg();
+        m_saveImg();
     }
 
     public void saveText() throws Exception {
@@ -191,7 +188,7 @@ public class PositiveListMakerFormController {
         m_savePositiveListOneLine(m_scene, m_getDataDir(), (new File(m_imgPath).getName()));
     }
 
-    private File saveImg() throws Exception {
+    private File m_saveImg() throws Exception {
         final String dir = m_getDataDir();
         String picPath = m_getNewPicFileName(m_scene, dir);
         File f = null;
@@ -200,10 +197,10 @@ public class PositiveListMakerFormController {
             f = m_doSaveImg(m_scene, picPath, "png");
         }
         catch (IOException ex) {
-            System.out.println("!!! IOException at saveImg " + ex.getMessage());
+            System.out.println("!!! IOException at m_saveImg " + ex.getMessage());
         }
         catch (Exception ex) {
-            System.out.println("!!! Exception at saveImg " + ex.getMessage());
+            System.out.println("!!! Exception at m_saveImg " + ex.getMessage());
         }
         return f;
     }
@@ -233,7 +230,7 @@ public class PositiveListMakerFormController {
         CascadeClassify cc = new CascadeClassify();
         ClassifierSettings cs = m_createClassifierSettingsFromGUI();
         String cascadeXmlPath;
-        if (cs.fetureTypeIndex == 0) {
+        if (cs.featureTypeIndex == 0) {
              cascadeXmlPath = "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_haar\\cascade.xml";
         }
         else {
@@ -422,13 +419,14 @@ public class PositiveListMakerFormController {
         }
 
         // 両脇に黒い領域を追加する
-//        WritableImage newImg = m_expandImage(img);
+        // WritableImage newImg = m_expandImage(img);
         Image newImg = img;
         imgView.setImage(newImg);
         pane.setMaxWidth(newImg.getWidth());
         pane.setMaxHeight(newImg.getHeight());
 
         Window wnd = m_scene.getWindow();
+        final int TABLE_WIDTH = 240;
         wnd.setWidth(newImg.getWidth() + TABLE_WIDTH);
         wnd.setHeight(newImg.getHeight() + 145);
         SplitPane sp = (SplitPane)m_scene.lookup("#spImageTable");
@@ -444,15 +442,15 @@ public class PositiveListMakerFormController {
         for (int x = 0; x < newImg.getWidth(); x++) {
             for (int y = 0; y < newImg.getHeight(); y++) {
                 Color color;
-                if (x < expandWidth / 2) {
+                if (x < (expandWidth/2 )) {
                     color = Color.BLACK;
                 }
-                else if (x >= newImg.getWidth() - expandWidth/2) {
+                else if (x >= newImg.getWidth() - (expandWidth/2 )) {
                     color = Color.BLACK;
                 }
                 else {
                     // srcのイメージのピクセルを読み込んで、destに書き込む
-                    color = pr.getColor(x - expandWidth / 2, y);
+                    color = pr.getColor(x - expandWidth/2, y);
                 }
                 pw.setColor(x, y, color);
             }
@@ -777,7 +775,7 @@ public class PositiveListMakerFormController {
         cmbList.add("HAAR");
         cmbList.add("LBP");
         chb.setItems(cmbList);
-        chb.getSelectionModel().select(cs.fetureTypeIndex);
+        chb.getSelectionModel().select(cs.featureTypeIndex);
 
         TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
         txtMinNeighbors.setText(String.valueOf(cs.minNeighbors));
@@ -804,7 +802,7 @@ public class PositiveListMakerFormController {
         TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
 
         ClassifierSettings cs = new ClassifierSettings();
-        cs.fetureTypeIndex = chb.getSelectionModel().getSelectedIndex();
+        cs.featureTypeIndex = chb.getSelectionModel().getSelectedIndex();
         cs.minNeighbors = Integer.parseInt(txtMinNeighbors.getText());
         cs.scaleFactor = Double.parseDouble(txtScaleFactor.getText());
         cs.setMinSize(new Size(Double.parseDouble(txtMinSizeWidth.getText()), Double.parseDouble(txtMinSizeHeight.getText())));

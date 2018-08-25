@@ -1,11 +1,15 @@
 package application;
 
+import com.sun.xml.internal.txw2.output.XmlSerializer;
 import org.opencv.core.Size;
-
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
 import java.io.*;
 
 public class ClassifierSettings implements Serializable {
-    public int fetureTypeIndex = 0;
+    private static final String FILE_NAME = "classifier_settings.xml";
+
+    public int featureTypeIndex = 0;
     public int minNeighbors = 0;
     public double scaleFactor = 1.01;
     private double minSizeWidth = 1;
@@ -30,13 +34,28 @@ public class ClassifierSettings implements Serializable {
     }
 
     public void save() throws java.io.IOException {
-        FileOutputStream outFile = new FileOutputStream("classifier_settings.dat");
-        ObjectOutputStream outObject = new ObjectOutputStream(outFile);
-        outObject.writeObject(this);
+        XMLEncoder encoder = new XMLEncoder(
+                new BufferedOutputStream(
+                        new FileOutputStream(FILE_NAME)));
+        encoder.writeObject(this);
+        encoder.close();
     }
-    static public ClassifierSettings load() throws java.io.IOException, java.lang.ClassNotFoundException {
-        FileInputStream inFile = new FileInputStream("classifier_settings.dat");
-        ObjectInputStream inObject = new ObjectInputStream(inFile);
-        return (ClassifierSettings)inObject.readObject();
+    static public ClassifierSettings load() throws java.io.IOException {
+        XMLDecoder dec = new XMLDecoder(
+                new BufferedInputStream(
+                        new FileInputStream(FILE_NAME)));
+        ClassifierSettings cs = (ClassifierSettings)dec.readObject();
+        dec.close();
+        return cs;
+    }
+
+    public String getCascadeXmlPath()
+    {
+        if (featureTypeIndex == 0) {
+             return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_haar\\cascade.xml";
+        }
+        else {
+            return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_lbp\\cascade.xml";
+        }
     }
 }

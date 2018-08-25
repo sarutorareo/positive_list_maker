@@ -6,3 +6,8 @@ out/
 *~
 #.lnk
 *.lnk
+#.swp
+*.swp
+#classifier_settings (dat)
+classifier_settings.dat*
+
