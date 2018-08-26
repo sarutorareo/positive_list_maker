@@ -18,7 +18,7 @@
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="396.0">
                    <ScrollPane fx:id="paneImage" layoutX="14.0" layoutY="40.0" prefHeight="332.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                        <content>
-                           <AnchorPane fx:id="paneAnchorImage" prefHeight="200.0" prefWidth="242.0" />
+                           <AnchorPane fx:id="paneAnchorImage" prefHeight="258.0" prefWidth="340.0" />
                        </content></ScrollPane>
                </AnchorPane>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -31,12 +31,10 @@
       <ToolBar layoutX="8.0" layoutY="50.0" prefHeight="30.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <Button fx:id="btnPaste" mnemonicParsing="false" onAction="#onClick_paste_button" text="Paste" />
-            <Button fx:id="btnLoad" mnemonicParsing="false" onAction="#onClick_load_button" text="Load" />
             <Button mnemonicParsing="false" onAction="#onClick_undo_button" text="Undo" />
             <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClick_clear_button" text="Clear" />
             <TextField fx:id="txtPosDir" text="./train_player/pos" />
-            <Button fx:id="btnSaveImg" mnemonicParsing="false" onAction="#onClick_saveTxt_button" text="SaveImg" />
-            <Button fx:id="btnSaveTxt" mnemonicParsing="false" onAction="#onClick_saveImg_button" text="SaveTxt" />
+            <Button fx:id="btnSaveTxtImg" mnemonicParsing="false" onAction="#onClick_saveTextAndImage_button" text="SaveTxtImg" />
             <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" selected="true" text="AutoSave" />
             <CheckBox fx:id="cbxFixedSize" mnemonicParsing="false" selected="true" text="FixedSize" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />

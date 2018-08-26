@@ -46,7 +46,7 @@ public class ClassifierUI {
         });
     }
 
-    public void classify(ClassifierSettings cs, Image fxImage, Pane pane) {
+    public ClassifyResult classify(ClassifierSettings cs, Image fxImage) {
         CascadeClassifierFacade cc = new CascadeClassifierFacade();
         String cascadeXmlPath = cs.getCascadeXmlPath();
 
@@ -54,24 +54,25 @@ public class ClassifierUI {
         ClassifierSettings full_cs = new ClassifierSettings();
 
         // 検出器を動かして検出結果をリストに追加
-        Rect[] full_rects = cc.classify(fxImage, cascadeXmlPath,
-                full_cs.minNeighbors, full_cs.scaleFactor, full_cs.getMinSize(), full_cs.getMaxSize());
-        m_getResultRectangles(pane, fxImage, full_rects, false);
+        boolean removeDuplicate = false;
+        ArrayList<Rectangle> fullRects = cc.classify(fxImage, cascadeXmlPath,
+                full_cs.minNeighbors, full_cs.scaleFactor,
+                full_cs.getMinSize(), full_cs.getMaxSize(), removeDuplicate);
 
         // 本番
-        Rect[] rects = cc.classify(fxImage, cascadeXmlPath,
-                cs.minNeighbors, cs.scaleFactor, cs.getMinSize(), cs.getMaxSize());
-        System.out.println("size = " + rects.length);
-        m_getResultRectangles(pane, fxImage, rects, true);
-
+        removeDuplicate = true;
+        ArrayList<Rectangle> rects = cc.classify(fxImage, cascadeXmlPath,
+                cs.minNeighbors, cs.scaleFactor,
+                cs.getMinSize(), cs.getMaxSize(), removeDuplicate);
+        System.out.println("size = " + rects.size());
+        return new ClassifyResult(rects, fullRects);
     }
 
-    private void m_getResultRectangles(Pane pane, Image img, Rect[] rects, boolean isWithParams) {
+    public void getResultRectangles(Pane pane, Image img, ArrayList<Rectangle> rects, boolean isWithParams) {
         final int RECT_WIDTH = 175;
         final int RECT_HEIGHT = 70;
 
-        for (int i = 0; i < rects.length; i++) {
-            Rectangle newRect = m_rectToRectanble(rects[i]);
+        rects.forEach(newRect -> {
             if (isWithParams) {
                 if (true) {
                     newRect.setWidth(RECT_WIDTH);
@@ -91,13 +92,8 @@ public class ClassifierUI {
                 pane.getChildren().add(newRect);
                 getFullRectangleList().add(newRect);
             }
-        }
+        });
     }
 
-    private Rectangle m_rectToRectanble(Rect r) {
-        Rectangle result = new Rectangle(r.x, r.y, r.width, r.height);
-        result.setFill(Color.TRANSPARENT);
-        return result;
-    }
 
 }

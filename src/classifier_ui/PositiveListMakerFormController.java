@@ -21,7 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.scene.shape.Rectangle;
 import javafx.util.converter.DoubleStringConverter;
-import opencv_client.CascadeClassifierFacade;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 
@@ -37,7 +36,6 @@ public class PositiveListMakerFormController {
     private RectPos m_mousePressPos = null;
     private Rectangle m_rect = null;
     private Scene m_scene = null;
-    private String m_imgPath = null;
     private final int RECT_WIDTH = 175;
     private final int RECT_HEIGHT = 70;
 
@@ -51,7 +49,7 @@ public class PositiveListMakerFormController {
         System.out.println("in constructor");
     }
 
-    public void onShow() {
+    public void onShow(Image img) throws Exception {
         m_changeAutoSave();
 
         m_initTableView();
@@ -69,6 +67,10 @@ public class PositiveListMakerFormController {
             cs = new ClassifierSettings();
         }
         m_initParameterSettings(cs);
+
+        if (img != null) {
+            m_setImage(img);
+        }
     }
 
     public void setLabel(Label lbl) {
@@ -104,15 +106,30 @@ public class PositiveListMakerFormController {
 
     private void m_doPaste() throws Exception {
         // 変更前のtextをファイルに保存
-        if (m_isAutoSave()) {
-            saveText();
+        Image img = m_getImage();
+        if (m_isAutoSave() && (img != null)) {
+            // 変更後の画像をファイルに保存
+            File f = saveImage(img);
+            if (f == null) throw new Exception("!!! failed at save img file");
+            saveText(f.getPath());
         }
         m_clearWindow();
         // クリップボードの画像を取得
+        /****************
+         * Clipboard.getImage()では、コピー元のContentTypes()によっては、
+         * ImageViewに表示されない（classifyはできているので、画像自体は取得できていると思われる）
+         * [[application/x-java-rawimage], [text/html], [cf17]]     ブラウザから「画像をコピー」⇒ ImageViewで表示できる
+         * [[application/x-java-rawimage], [cf17]]      Alt + PrintScreenキー ⇒ ImageViewで表示できる
+         * [[application/x-java-rawimage], [InShellDragLoop], [ms-stuff/preferred-drop-effect]]  Excelに貼り付けた画像をコピー ⇒ ImageViewで表示できない
+         * [[application/x-java-rawimage], [Object Descriptor]] ペイントに貼り付けた画像をコピー ⇒ ImageViewで表示できない
+         */
         Clipboard cb = Clipboard.getSystemClipboard();
-        System.out.println(cb.getString());
         System.out.println(cb.getContentTypes());
-        Image image = cb.getImage();
+        Image newImage = cb.getImage();
+        m_setImage(newImage);
+    }
+
+    private void m_setImage(Image image) throws Exception {
         //image viewの作成
         m_initImageView(image);
 
@@ -121,10 +138,6 @@ public class PositiveListMakerFormController {
         m_setTableRows();
 
         if (m_isAutoSave()) {
-            // 変更後の画像をファイルに保存
-            File f = m_saveImg();
-            if (f == null) throw new Exception("!!! failed at save img file");
-            m_imgPath = f.getPath();
             // 検出器を動かして検出結果をリストに追加
             m_classify();
         }
@@ -133,24 +146,6 @@ public class PositiveListMakerFormController {
     private void m_setTableRows() {
         TableView table = (TableView)m_scene.lookup("#tblRectangles");
         table.setItems(m_classifierUI.getRectangleList());
-    }
-
-    @FXML
-    protected void onClick_load_button(ActionEvent evt) throws Exception {
-        System.out.println("load button");
-        if (m_isAutoSave()) {
-            saveText();
-        }
-        m_clearWindow();
-        // 画像ファイルを表示
-        //imageの読み込み
-        Image image = new Image( "file:d:/temp/160414_034715.jpg" );
-        //image viewの作成
-        m_initImageView(image);
-
-        // list view の初期化
-        m_clearTableRows();
-        m_setTableRows();
     }
 
     @FXML
@@ -166,42 +161,39 @@ public class PositiveListMakerFormController {
     }
 
     @FXML
-    protected void onClick_saveTxt_button(ActionEvent evt) throws IOException, Exception {
-        saveText();
+    protected void onClick_saveTextAndImage_button(ActionEvent evt) throws IOException, Exception {
+        Image img = m_getImage();
+        File f = saveImage(img);
+        saveText(f.getPath());
     }
 
-    @FXML
-    protected void onClick_saveImg_button(ActionEvent evt) throws IOException, Exception {
-        m_saveImg();
-    }
-
-    public void saveText() throws Exception {
-        if (m_imgPath == null) {
-            System.out.println("!!! no imageFile");
-            return;
-        }
+    public void saveText(String imgPath) throws Exception {
         if (m_classifierUI.getRectangleList().size() == 0) {
             System.out.println("!!! no rectangle");
             return;
         }
 
         // テキストリストを保存
-        m_savePositiveListOneLine(m_scene, m_getDataDir(), (new File(m_imgPath).getName()));
+        m_savePositiveListOneLine(m_scene, m_getDataDir(), (new File(imgPath).getName()));
     }
 
-    private File m_saveImg() throws Exception {
+    public File saveImage() throws Exception {
+        return saveImage(m_getImage());
+    }
+    public File saveImage(Image img) throws Exception {
+        if (img == null) return null;
         final String dir = m_getDataDir();
         String picPath = m_getNewPicFileName(m_scene, dir);
         File f = null;
         try {
             // 画像を保存
-            f = m_doSaveImg(m_scene, picPath, "png");
+            f = m_doSaveImg(m_scene, img, picPath, "png");
         }
         catch (IOException ex) {
-            System.out.println("!!! IOException at m_saveImg " + ex.getMessage());
+            System.out.println("!!! IOException at saveImage " + ex.getMessage());
         }
         catch (Exception ex) {
-            System.out.println("!!! Exception at m_saveImg " + ex.getMessage());
+            System.out.println("!!! Exception at saveImage " + ex.getMessage());
         }
         return f;
     }
@@ -237,8 +229,11 @@ public class PositiveListMakerFormController {
         // 検出器のパラメータを取得
         ClassifierSettings cs = m_createClassifierSettingsFromGUI();
 
-        // 検出、結果の表示
-        m_classifierUI.classify(cs, fxImage, pane);
+        // 検出
+        ClassifyResult cr = m_classifierUI.classify(cs, fxImage);
+        // 結果の表示
+        m_classifierUI.getResultRectangles(pane, fxImage, cr.fullRects, false);
+        m_classifierUI.getResultRectangles(pane, fxImage, cr.rects, true);
 
         // 後から編集可能にするためイベントを設定
         m_classifierUI.getRectangleList().forEach(r -> {
@@ -304,6 +299,7 @@ public class PositiveListMakerFormController {
         assert(pane != null);
 
         if (imgView == null) {
+            System.out.println("create new ImageView");
             imgView = new ImageView();
             imgView.setId("imvPic");
             // マウスムーブ
@@ -376,6 +372,7 @@ public class PositiveListMakerFormController {
         // WritableImage newImg = m_expandImage(img);
         Image newImg = img;
         imgView.setImage(newImg);
+        imgView.setVisible(true);
         // 画面サイズを調整
         pane.setMaxWidth(newImg.getWidth());
         pane.setMaxHeight(newImg.getHeight());
@@ -632,10 +629,7 @@ public class PositiveListMakerFormController {
         return String.format("x = %f, y = %f", evt.getX(), evt.getY());
     }
 
-    private File m_doSaveImg(Scene scene, String path, String fmt) throws java.io.IOException {
-        ImageView imgView = (ImageView) scene.lookup("#imvPic");
-        if (imgView == null) return null;
-        Image img = imgView.getImage();
+    private File m_doSaveImg(Scene scene, Image img, String path, String fmt) throws java.io.IOException {
         File f = new File(path);
         ImageIO.write(SwingFXUtils.fromFXImage(img, null), fmt, f);
         return f;
@@ -714,9 +708,7 @@ public class PositiveListMakerFormController {
     private void m_changeAutoSave()
     {
         CheckBox cbxAutoSave = (CheckBox)m_scene.lookup("#cbxAutoSave");
-        Button btnSaveImg = (Button)m_scene.lookup("#btnSaveImg");
-        btnSaveImg.setDisable(cbxAutoSave.isSelected());
-        Button btnSaveTxt = (Button)m_scene.lookup("#btnSaveTxt");
+        Button btnSaveTxt = (Button)m_scene.lookup("#btnSaveTxtImg");
         btnSaveTxt.setDisable(cbxAutoSave.isSelected());
     }
 
@@ -762,5 +754,11 @@ public class PositiveListMakerFormController {
         cs.setMaxSize(new Size(Double.parseDouble(txtMaxSizeWidth.getText()), Double.parseDouble(txtMaxSizeHeight.getText())));
 
         return cs;
+    }
+
+    private Image m_getImage() {
+        ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
+        if (imgView == null) return null;
+        return imgView.getImage();
     }
 }

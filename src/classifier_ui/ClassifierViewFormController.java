@@ -9,19 +9,15 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import opencv_client.CascadeClassifierFacade;
-import org.opencv.core.Rect;
 
 import javafx.embed.swing.SwingFXUtils;
-
-import javax.imageio.ImageIO;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -30,9 +26,8 @@ import java.nio.file.Paths;
 
 public class ClassifierViewFormController {
     private final ClassifierUI m_classifierUI = new ClassifierUI();
-    private PositiveListMakerFormController m_controller;
     private Scene m_scene = null;
-
+    private AutoCaptureThread m_autoCaptureThread = null;
     public void setScene(Scene scene) {
         m_scene = scene;
     }
@@ -45,24 +40,23 @@ public class ClassifierViewFormController {
             Stage stage = new Stage();
             stage.initOwner(parent);
             stage.setTitle("new window example");
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("PositiveListMakerForm.fxml"));
             FXMLLoader loader = new FXMLLoader(Paths.get("src\\classifier_ui\\PositiveListMakerForm.fxml").toUri().toURL());
-            Scene scene = new Scene(loader.load());// new Scene(FXMLLoader.load(Paths.get("PositiveListMakerForm.fxml").toUri().toURL())
+            Scene scene = new Scene(loader.load());
             stage.setScene(scene);
 
-            //　ラベルをコントローラに渡しておく
+            //　コントローラにデータを渡しておく
             Label lbl = (Label)scene.lookup("#lblStatus");
             assert(lbl != null);
             PositiveListMakerFormController m_controller = loader.getController();
             m_controller.setLabel(lbl);
             m_controller.setScene(scene);
 
-            // FXMLLoader loader = new FXMLLoader(getClass().getResource("PositiveListMakerForm.fxml"));
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
                 public void handle(WindowEvent we)  {
                     System.out.println("Stage is closing");
                     try {
-                        m_controller.saveText();
+                        File f = m_controller.saveImage();
+                        m_controller.saveText(f.getPath());
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }
@@ -70,7 +64,7 @@ public class ClassifierViewFormController {
             });
 
             stage.show();
-            m_controller.onShow();
+            m_controller.onShow(m_getImage());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -78,10 +72,25 @@ public class ClassifierViewFormController {
 
     @FXML
     protected void onClick_capture_button(ActionEvent evt) throws Exception {
-        System.out.println("capture_button");
-        m_clearRects();
+        captureImageAndClassify();
+    }
+
+    public synchronized ClassifyResult captureImageAndClassify() {
+        System.out.println("captureImageAndClassify");
         m_doCapture();
-        m_classify();
+        return m_classify();
+    }
+
+    public void setResult(ClassifyResult cr) {
+        Pane pane = (Pane) m_scene.lookup("#pnImageView");
+        m_classifierUI.clearRects(pane);
+        // 画像を取得
+        Image fxImage = m_getImage();
+
+        // 結果の表示
+        m_classifierUI.getResultRectangles(pane, fxImage, cr.fullRects, false);
+        m_classifierUI.getResultRectangles(pane, fxImage, cr.rects, true);
+        m_changeHideFullRect();
     }
 
     @FXML
@@ -89,19 +98,44 @@ public class ClassifierViewFormController {
         m_changeHideFullRect();
     }
 
+    @FXML
+    protected void onClick_autoCapture_button(ActionEvent evt) {
+        m_changeAutoCapture();
+    }
+
     private void m_changeHideFullRect() {
         CheckBox chkHide = (CheckBox)m_scene.lookup("#cbxHideFullRect");
         m_classifierUI.changeHideFullRect(chkHide.isSelected());
     }
 
-    public void m_classify() {
-        Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        m_classifierUI.clearRects(pane);
+    private void m_changeAutoCapture() {
+        ToggleButton tglAutoCapture = (ToggleButton)m_scene.lookup("#tglAutoCapture");
+        if (tglAutoCapture.isSelected()) {
+            m_startThread();
+        }
+        else {
+            stopThread();
+        }
+    }
 
+    private void m_startThread() {
+        if (m_autoCaptureThread == null) {
+            m_autoCaptureThread = new AutoCaptureThread(this);
+        }
+        m_autoCaptureThread.start();
+    }
+
+    public void stopThread() {
+        if (m_autoCaptureThread == null) {
+            return;
+        }
+        m_autoCaptureThread.stopLoop();
+        m_autoCaptureThread = null;
+    }
+
+    public ClassifyResult m_classify() {
         // 画像を取得
-        ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
-        assert(imgView != null);
-        javafx.scene.image.Image fxImage = imgView.getImage();
+        Image fxImage = m_getImage();
 
         // 検出器のパラメータを取得
         ClassifierSettings cs = null;
@@ -111,10 +145,14 @@ public class ClassifierViewFormController {
             cs = new ClassifierSettings();
         }
 
-        // 検出、結果の表示
-        m_classifierUI.classify(cs, fxImage, pane);
+        // 検出
+        return m_classifierUI.classify(cs, fxImage);
+    }
 
-        m_changeHideFullRect();
+    private Image m_getImage() {
+        ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
+        assert(imgView != null);
+        return imgView.getImage();
     }
 
     private void m_doCapture() {
@@ -142,10 +180,5 @@ public class ClassifierViewFormController {
         } catch (AWTException e) {
             e.printStackTrace();
         }
-    }
-
-    private void m_clearRects() {
-        Pane pane = (Pane)m_scene.lookup("#pnImageView");
-        m_classifierUI.clearRects(pane);
     }
 }

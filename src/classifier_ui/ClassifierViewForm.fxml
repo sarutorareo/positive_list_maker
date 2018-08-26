@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,8 +15,9 @@
          </children></AnchorPane>
       <ToolBar prefHeight="40.0" prefWidth="600.0">
          <items>
-            <Button mnemonicParsing="false" onAction="#onClick_positive_list_button" text="Button" />
+            <Button mnemonicParsing="false" onAction="#onClick_positive_list_button" text="AddPosList" />
             <Button mnemonicParsing="false" onAction="#onClick_capture_button" text="Capture" />
+            <ToggleButton fx:id="tglAutoCapture" mnemonicParsing="false" onAction="#onClick_autoCapture_button" text="AutoCapture" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
          </items>
       </ToolBar>
