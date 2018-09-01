@@ -158,7 +158,7 @@ public class ClassifierViewFormController {
     private void m_doCapture() {
         try {
             // キャプチャの範囲 (starsの画面はwidth = 795, height = 579)
-            java.awt.Rectangle bounds = new java.awt.Rectangle(0, 0, 880, 640);
+            java.awt.Rectangle bounds = new java.awt.Rectangle(0, 100, 880, 640);
 
             // これで画面キャプチャ
             Robot robot = new Robot();

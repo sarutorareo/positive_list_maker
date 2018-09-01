@@ -8,7 +8,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import opencv_client.CascadeClassifierFacade;
-import org.opencv.core.Rect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,7 @@ public class ClassifierUI {
     private final ArrayList<Rectangle> m_fullRectangleList = new ArrayList<>();
 
     public void clearRects(Pane pane) {
+        System.out.println("clearRects ");
         List<Rectangle> list = new ArrayList();
         pane.getChildren().forEach(node -> {
             if (node instanceof Rectangle) {

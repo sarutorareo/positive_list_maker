@@ -47,6 +47,7 @@
       </AnchorPane>
       <ToolBar layoutY="35.0" prefHeight="30.0" prefWidth="715.0">
         <items>
+            <ChoiceBox fx:id="chbTarget" prefHeight="25.0" prefWidth="92.0" />
             <ChoiceBox fx:id="chbFeatureType" prefHeight="25.0" prefWidth="70.0" />
             <Label text="MN" />
             <TextField fx:id="txtMinNeighbors" prefHeight="25.0" prefWidth="37.0" />

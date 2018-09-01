@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -21,6 +22,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.scene.shape.Rectangle;
 import javafx.util.converter.DoubleStringConverter;
+import javafx.collections.FXCollections;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 
@@ -109,9 +111,7 @@ public class PositiveListMakerFormController {
         Image img = m_getImage();
         if (m_isAutoSave() && (img != null)) {
             // 変更後の画像をファイルに保存
-            File f = saveImage(img);
-            if (f == null) throw new Exception("!!! failed at save img file");
-            saveText(f.getPath());
+            m_saveTextAndImage();
         }
         m_clearWindow();
         // クリップボードの画像を取得
@@ -135,7 +135,7 @@ public class PositiveListMakerFormController {
 
         // list view の初期化
         m_clearTableRows();
-        m_setTableRows();
+        m_setTableRows(getCurrentTargetItems());
 
         if (m_isAutoSave()) {
             // 検出器を動かして検出結果をリストに追加
@@ -143,9 +143,22 @@ public class PositiveListMakerFormController {
         }
     }
 
-    private void m_setTableRows() {
+    private ObservableList<Rectangle> getCurrentTargetItems() {
+        ChoiceBox chbTarget = (ChoiceBox)m_scene.lookup("#chbTarget");
+        System.out.println("curent target index = " +  chbTarget.getSelectionModel().getSelectedIndex());
+        switch (chbTarget.getSelectionModel().getSelectedIndex()) {
+            case 0:
+                return m_classifierUI.getRectangleList();
+            case 1:
+                return javafx.collections.FXCollections.observableArrayList();
+            default:
+                return null;
+        }
+    }
+
+    private void m_setTableRows(ObservableList items) {
         TableView table = (TableView)m_scene.lookup("#tblRectangles");
-        table.setItems(m_classifierUI.getRectangleList());
+        table.setItems(items);
     }
 
     @FXML
@@ -162,6 +175,15 @@ public class PositiveListMakerFormController {
 
     @FXML
     protected void onClick_saveTextAndImage_button(ActionEvent evt) throws IOException, Exception {
+        m_saveTextAndImage();
+    }
+
+    private void m_saveTextAndImage() throws Exception {
+        if (m_classifierUI.getRectangleList().size() == 0) {
+            System.out.println("!!! no rectangle");
+            return;
+        }
+
         Image img = m_getImage();
         File f = saveImage(img);
         saveText(f.getPath());
@@ -236,9 +258,7 @@ public class PositiveListMakerFormController {
         m_classifierUI.getResultRectangles(pane, fxImage, cr.rects, true);
 
         // 後から編集可能にするためイベントを設定
-        m_classifierUI.getRectangleList().forEach(r -> {
-            m_setRectangleEvents(r);
-        });
+        m_classifierUI.getRectangleList().forEach( this::m_setRectangleEvents );
 
         // フルパワーの表示on/off
         m_changeHideFullRect();
@@ -712,16 +732,35 @@ public class PositiveListMakerFormController {
         btnSaveTxt.setDisable(cbxAutoSave.isSelected());
     }
 
+    private void m_chbTargetChanged(Event event)
+    {
+        // list view の初期化
+        m_setTableRows(getCurrentTargetItems());
+    }
+
     private void m_initParameterSettings(ClassifierSettings cs)
     {
-        ChoiceBox chb = (ChoiceBox)m_scene.lookup("#chbFeatureType");
+        // Targetチョイスボックス
+        ChoiceBox chbTarget = (ChoiceBox)m_scene.lookup("#chbTarget");
+        EventHandler<ActionEvent> choiceBoxChanged = this::m_chbTargetChanged;
+        chbTarget.addEventHandler( ActionEvent.ACTION , choiceBoxChanged );
+
+        final ObservableList<String> cmbListTarget = FXCollections.observableArrayList();
+        cmbListTarget.add("Player");
+        cmbListTarget.add("Dealer");
+        chbTarget.setItems(cmbListTarget);
+        chbTarget.getSelectionModel().select(0);
+
+        // FeatureTypeチョイスボックス
+        ChoiceBox chbFeatureType = (ChoiceBox)m_scene.lookup("#chbFeatureType");
 
         final ObservableList<String> cmbList = FXCollections.observableArrayList();
         cmbList.add("HAAR");
         cmbList.add("LBP");
-        chb.setItems(cmbList);
-        chb.getSelectionModel().select(cs.featureTypeIndex);
+        chbFeatureType.setItems(cmbList);
+        chbFeatureType.getSelectionModel().select(cs.featureTypeIndex);
 
+        // 各種パラメータ
         TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
         txtMinNeighbors.setText(String.valueOf(cs.minNeighbors));
         TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
