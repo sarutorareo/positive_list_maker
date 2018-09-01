@@ -22,7 +22,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.scene.shape.Rectangle;
 import javafx.util.converter.DoubleStringConverter;
-import javafx.collections.FXCollections;
 import org.opencv.core.Rect;
 import org.opencv.core.Size;
 
@@ -46,6 +45,7 @@ public class PositiveListMakerFormController {
     private final ArrayList<Rectangle> m_classifierUI.getFullRectangleList() = new ArrayList<>();
     */
     private final ClassifierUI m_classifierUI = new ClassifierUI();
+    private ClassifyResultPlayer m_crPlayer = new ClassifyResultPlayer();
 
     public PositiveListMakerFormController() {
         System.out.println("in constructor");
@@ -135,7 +135,6 @@ public class PositiveListMakerFormController {
 
         // list view の初期化
         m_clearTableRows();
-        m_setTableRows(getCurrentTargetItems());
 
         if (m_isAutoSave()) {
             // 検出器を動かして検出結果をリストに追加
@@ -145,10 +144,11 @@ public class PositiveListMakerFormController {
 
     private ObservableList<Rectangle> getCurrentTargetItems() {
         ChoiceBox chbTarget = (ChoiceBox)m_scene.lookup("#chbTarget");
-        System.out.println("curent target index = " +  chbTarget.getSelectionModel().getSelectedIndex());
+        System.out.println("getCurrentTargetItems curent target index = " +  chbTarget.getSelectionModel().getSelectedIndex());
         switch (chbTarget.getSelectionModel().getSelectedIndex()) {
             case 0:
-                return m_classifierUI.getRectangleList();
+                System.out.println("getCurrentTargetItems  = " + m_crPlayer.getRectangleList().size());
+                return m_crPlayer.getRectangleList();
             case 1:
                 return javafx.collections.FXCollections.observableArrayList();
             default:
@@ -179,7 +179,7 @@ public class PositiveListMakerFormController {
     }
 
     private void m_saveTextAndImage() throws Exception {
-        if (m_classifierUI.getRectangleList().size() == 0) {
+        if (m_crPlayer.getRectangleList().size() == 0) {
             System.out.println("!!! no rectangle");
             return;
         }
@@ -190,7 +190,7 @@ public class PositiveListMakerFormController {
     }
 
     public void saveText(String imgPath) throws Exception {
-        if (m_classifierUI.getRectangleList().size() == 0) {
+        if (m_crPlayer.getRectangleList().size() == 0) {
             System.out.println("!!! no rectangle");
             return;
         }
@@ -234,11 +234,6 @@ public class PositiveListMakerFormController {
         m_changeHideFullRect();
     }
 
-    @FXML
-    protected void onClick_classify(ActionEvent evt) {
-        m_classify();
-    }
-
     private void m_classify() {
         m_clearRectangles();
 
@@ -252,16 +247,22 @@ public class PositiveListMakerFormController {
         ClassifierSettings cs = m_createClassifierSettingsFromGUI();
 
         // 検出
-        ClassifyResult cr = m_classifierUI.classify(cs, fxImage);
+        m_crPlayer = (ClassifyResultPlayer)m_classifierUI.classify(cs, fxImage);
+        System.out.println(String.format("m_classifyUI.classify resultRecultSize = %d, fullResutSize = %d",
+                m_crPlayer.getRectangleList().size(), m_crPlayer.getFullRectangleList().size()));
         // 結果の表示
-        m_classifierUI.getResultRectangles(pane, fxImage, cr.fullRects, false);
-        m_classifierUI.getResultRectangles(pane, fxImage, cr.rects, true);
+        m_crPlayer.getResultRectangles(pane, fxImage, m_crPlayer.getFullRectangleList(),
+                false, false);
+        m_crPlayer.getResultRectangles(pane, fxImage, m_crPlayer.getRectangleList(),
+                true, m_isFixedSize());
 
         // 後から編集可能にするためイベントを設定
-        m_classifierUI.getRectangleList().forEach( this::m_setRectangleEvents );
+        m_crPlayer.getRectangleList().forEach( this::m_setRectangleEvents );
 
         // フルパワーの表示on/off
         m_changeHideFullRect();
+        // テーブルに結果をセット
+        m_setTableRows(getCurrentTargetItems());
     }
 
     private void m_clearTableRows() {
@@ -279,13 +280,13 @@ public class PositiveListMakerFormController {
 
     private void m_clearRectangles() {
         Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
-        m_classifierUI.clearRects(pane);
+        m_crPlayer.clearRects(pane);
         m_clearTableRows();
     }
 
     private void m_changeHideFullRect() {
         CheckBox chkHide = (CheckBox)m_scene.lookup("#cbxHideFullRect");
-        m_classifierUI.changeHideFullRect(chkHide.isSelected());
+        m_crPlayer.changeHideFullRect(chkHide.isSelected());
     }
 
     private void m_undo() {
@@ -296,7 +297,7 @@ public class PositiveListMakerFormController {
         if (!(lastNode instanceof Rectangle))
             return;
         pane.getChildren().remove(lastNode);
-        m_classifierUI.getRectangleList().remove(lastNode);
+        m_crPlayer.getRectangleList().remove(lastNode);
     }
 
     @FXML
@@ -378,7 +379,7 @@ public class PositiveListMakerFormController {
                     m_setRectPosAndSize(evt, m_isFixedSize());
                     m_rect.setStroke(Color.RED);
                     m_mousePressEvent = null;
-                    m_classifierUI.getRectangleList().add(m_rect);
+                    m_crPlayer.getRectangleList().add(m_rect);
                     m_rect = null;
 //                    evt.consume();
                 }
@@ -703,9 +704,9 @@ public class PositiveListMakerFormController {
         StringBuilder sb = new StringBuilder();
         sb.append(picPath);
         sb.append("\t");
-        sb.append(m_classifierUI.getRectangleList().size());
+        sb.append(m_crPlayer.getRectangleList().size());
         sb.append("\t");
-        m_classifierUI.getRectangleList().forEach(r -> {
+        m_crPlayer.getRectangleList().forEach(r -> {
             sb.append(String.format("%d %d %d %d\t",
                     Math.round(Math.ceil(r.getX())),
                     Math.round(Math.ceil(r.getY())),

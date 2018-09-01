@@ -26,6 +26,7 @@ import java.nio.file.Paths;
 
 public class ClassifierViewFormController {
     private final ClassifierUI m_classifierUI = new ClassifierUI();
+    private ClassifyResultPlayer m_crPlayer = new ClassifyResultPlayer();
     private Scene m_scene = null;
     private AutoCaptureThread m_autoCaptureThread = null;
     public void setScene(Scene scene) {
@@ -72,7 +73,8 @@ public class ClassifierViewFormController {
 
     @FXML
     protected void onClick_capture_button(ActionEvent evt) throws Exception {
-        captureImageAndClassify();
+        ClassifyResult cr = captureImageAndClassify();
+        setResult(cr);
     }
 
     public synchronized ClassifyResult captureImageAndClassify() {
@@ -83,13 +85,16 @@ public class ClassifierViewFormController {
 
     public void setResult(ClassifyResult cr) {
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        m_classifierUI.clearRects(pane);
+        m_crPlayer.clearRects(pane);
+        m_crPlayer = (ClassifyResultPlayer)cr;
+        System.out.println(String.format("m_classifyUI.classify resultRecultSize = %d, fullResutSize = %d",
+                m_crPlayer.getRectangleList().size(), m_crPlayer.getFullRectangleList().size()));
         // 画像を取得
         Image fxImage = m_getImage();
 
         // 結果の表示
-        m_classifierUI.getResultRectangles(pane, fxImage, cr.fullRects, false);
-        m_classifierUI.getResultRectangles(pane, fxImage, cr.rects, true);
+        m_crPlayer.getResultRectangles(pane, fxImage, cr.getFullRectangleList(), false, true);
+        m_crPlayer.getResultRectangles(pane, fxImage, cr.getRectangleList(), true, true);
         m_changeHideFullRect();
     }
 
@@ -105,7 +110,7 @@ public class ClassifierViewFormController {
 
     private void m_changeHideFullRect() {
         CheckBox chkHide = (CheckBox)m_scene.lookup("#cbxHideFullRect");
-        m_classifierUI.changeHideFullRect(chkHide.isSelected());
+        m_crPlayer.changeHideFullRect(chkHide.isSelected());
     }
 
     private void m_changeAutoCapture() {
