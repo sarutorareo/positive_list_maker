@@ -28,11 +28,17 @@ public class CFFacade {
         throw new Exception("abstract method!!!!!!!!!!!!");
     }
 
-    public CFResult classify(CFSettings cs, Image fxImage)  throws Exception {
+    protected CFSettings m_createSettings(boolean isLoad) throws Exception {
+        throw new Exception("abstract method!!!!!!!!!!!!");
+    }
+
+    public CFResult classify(Image fxImage)  throws Exception {
+        // 設定読み込み
+        CFSettings cs = m_createSettings(true);
         String cascadeXmlPath = cs.getCascadeXmlPath();
 
-        // フルパワー
-        CFSettings full_cs = new CFSettings();
+        // フルパワーの設定読み込み
+        CFSettings full_cs = m_createSettings(false);
 
         // 検出器を動かして検出結果をリストに追加
         ArrayList<Rectangle> fullRects = m_doClassify(fxImage, cascadeXmlPath,

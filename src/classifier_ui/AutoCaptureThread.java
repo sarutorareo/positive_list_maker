@@ -1,5 +1,6 @@
 package classifier_ui;
 
+import groovy.transform.PackageScope;
 import javafx.application.Platform;
 
 public class AutoCaptureThread extends Thread {
@@ -8,10 +9,12 @@ public class AutoCaptureThread extends Thread {
     private int m_loopCount = 0;
     final private int SLEEP_M_SEC = 500;
 
-    public AutoCaptureThread(ClassifierViewFormController cvfController) {
+    @PackageScope
+    AutoCaptureThread(ClassifierViewFormController cvfController) {
         m_cvfController = cvfController;
     }
-    public synchronized void stopLoop() {
+    @PackageScope
+    synchronized void stopLoop() {
         m_loopFlag = false;
     }
     public void run() {
@@ -19,11 +22,11 @@ public class AutoCaptureThread extends Thread {
         while (m_loopFlag) {
             System.out.println("roop " + m_loopCount);
             try {
-                CFResult cr = m_cvfController.captureImageAndClassify();
+                m_cvfController.captureImageAndClassify();
                 Platform.runLater(new Runnable() {
                     public void run() {
-                                            m_cvfController.setResult(cr);
-                                                                          }
+                        m_cvfController.setResult();
+                    }
                 });
             } catch (Exception ex) {
                 System.out.println(ex.getMessage());

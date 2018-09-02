@@ -1,11 +1,11 @@
 package classifier_ui;
 import application.RectPos;
+import groovy.transform.PackageScope;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -21,9 +21,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.scene.shape.Rectangle;
 import javafx.util.converter.DoubleStringConverter;
-import opencv_client.CFFacadeDealerButton;
-import opencv_client.CFFacadePlayer;
-import org.opencv.core.Rect;
 import org.opencv.core.Size;
 
 import javax.annotation.Resources;
@@ -54,23 +51,25 @@ public class PositiveListMakerFormController {
         System.out.println("in constructor");
     }
 
-    public void onShow(Image img) throws Exception {
+    @PackageScope
+    void onShow(Image img) throws Exception {
         m_changeAutoSave();
-
         m_initTableView();
+        m_initChoiceBoxTarget();
 
         // パラメータツールバーを初期化
         CFSettings cs = null;
         try {
-             cs = CFSettings.load();
+             cs = CFSettingsPlayer.load();
 
 //            System.out.println("cs min" + cs.minNeighbors);
         }
         catch (Exception ex)
         {
             System.out.println("!!! " + ex.toString());
-            cs = new CFSettings();
+            cs = new CFSettingsPlayer();
         }
+
         m_initParameterSettings(cs);
 
         if (img != null) {
@@ -78,7 +77,21 @@ public class PositiveListMakerFormController {
         }
     }
 
-    public void setLabel(Label lbl) {
+    private void m_initChoiceBoxTarget() {
+        // Targetチョイスボックス
+        ChoiceBox chbTarget = (ChoiceBox)m_scene.lookup("#chbTarget");
+        EventHandler<ActionEvent> choiceBoxChanged = this::m_chbTargetChanged;
+        chbTarget.addEventHandler( ActionEvent.ACTION , choiceBoxChanged );
+
+        final ObservableList<String> cmbListTarget = FXCollections.observableArrayList();
+        cmbListTarget.add("Player");
+        cmbListTarget.add("Dealer");
+        chbTarget.setItems(cmbListTarget);
+        chbTarget.getSelectionModel().select(0);
+    }
+
+    @PackageScope
+    void setLabel(Label lbl) {
         m_lblStatus = lbl;
     }
 
@@ -86,7 +99,7 @@ public class PositiveListMakerFormController {
         m_scene = scene;
     }
 
-   @FXML
+    @FXML
     protected void initialize(URL location, Resources resources)
     {
         System.out.println("in initialize");
@@ -145,19 +158,23 @@ public class PositiveListMakerFormController {
         }
     }
 
-    private ObservableList<Rectangle> getCurrentTargetItems() {
-        ChoiceBox chbTarget = (ChoiceBox)m_scene.lookup("#chbTarget");
-        System.out.println("getCurrentTargetItems curent target index = " +  chbTarget.getSelectionModel().getSelectedIndex());
-        switch (chbTarget.getSelectionModel().getSelectedIndex()) {
+    private ObservableList<Rectangle> m_getCurrentTargetItems() {
+        System.out.println("m_getCurrentTargetItems curent target index = " + m_getSelectedTargetIndex());
+        switch (m_getSelectedTargetIndex()) {
             case 0:
-                System.out.println("getCurrentTargetItems  = " + m_cfPlayer.getRectangleList().size());
+                System.out.println("m_getCurrentTargetItems  = " + m_cfPlayer.getRectangleList().size());
                 return m_cfPlayer.getRectangleList();
             case 1:
-                System.out.println("getCurrentTargetItems  = " + m_cfDealerButton.getRectangleList().size());
+                System.out.println("m_getCurrentTargetItems  = " + m_cfDealerButton.getRectangleList().size());
                 return m_cfDealerButton.getRectangleList();
             default:
                 return null;
         }
+    }
+
+    private int m_getSelectedTargetIndex() {
+        ChoiceBox chb = (ChoiceBox)m_scene.lookup("#chbTarget");
+        return chb.getSelectionModel().getSelectedIndex();
     }
 
     private void m_setTableRows(ObservableList items) {
@@ -249,25 +266,22 @@ public class PositiveListMakerFormController {
 
         // Player
         {
-            // 検出器のパラメータを取得
-            CFSettings cs = m_createClassifierSettingsFromGUI();
-
             // 検出
-            m_cfPlayer.classify(cs, fxImage, pane, m_isFixedSize(),this::m_setRectangleEvents );
+            m_cfPlayer.classify(fxImage, this::m_setRectangleEvents );
+            m_cfPlayer.setResultToPane(fxImage, pane, m_isFixedSize());
         }
 
         // DealerButton
         {
-            // 検出器のパラメータを取得
-            CFSettings cs = m_createClassifierSettingsFromGUI();
             // 検出
-            m_cfDealerButton.classify(cs, fxImage, pane, m_isFixedSize(),this::m_setRectangleEvents );
+            m_cfDealerButton.classify(fxImage, this::m_setRectangleEvents );
+            m_cfDealerButton.setResultToPane(fxImage, pane, m_isFixedSize());
         }
 
         // フルパワーの表示on/off
         m_changeHideFullRect();
         // テーブルに結果をセット
-        m_setTableRows(getCurrentTargetItems());
+        m_setTableRows(m_getCurrentTargetItems());
     }
 
     private void m_clearTableRows() {
@@ -634,13 +648,6 @@ public class PositiveListMakerFormController {
         });
     }
 
-    private Rectangle m_rectToRectanble(Rect r) {
-        Rectangle result = new Rectangle(r.x, r.y, r.width, r.height);
-        result.setFill(Color.TRANSPARENT);
-        result.setStroke(Color.RED);
-        return result;
-    }
-
     private String m_getAxisStrFromEvent(MouseEvent evt) {
         return String.format("x = %f, y = %f", evt.getX(), evt.getY());
     }
@@ -654,7 +661,19 @@ public class PositiveListMakerFormController {
     private void m_doSaveSettings()
     {
         try {
-            CFSettings cs = m_createClassifierSettingsFromGUI();
+            CFSettings cs;
+            int idx = m_getSelectedTargetIndex();
+            switch(idx) {
+                case 0:
+                    cs = m_createClassifierSettingsFromGUI_player();
+                    break;
+                case 1:
+                    cs = m_createClassifierSettingsFromGUI_dealerButton();
+                    break;
+                default:
+                    assert(false);
+                    return;
+            }
             cs.save();
         }
         catch (java.io.IOException ex) {
@@ -728,24 +747,36 @@ public class PositiveListMakerFormController {
         btnSaveTxt.setDisable(cbxAutoSave.isSelected());
     }
 
-    private void m_chbTargetChanged(Event event)
+    private void m_chbTargetChanged(ActionEvent event)
     {
+        CFSettings cs = new CFSettingsPlayer();
+        int idx = m_getSelectedTargetIndex();
+        try {
+            switch (idx) {
+                case 0:
+                    cs = CFSettingsPlayer.load();
+                    break;
+                case 1:
+                    cs = CFSettingsDealerButton.load();
+                    break;
+                default:
+                    assert (false);
+                    return;
+            }
+        } catch(IOException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        // 設定をロード
+        m_initParameterSettings(cs);
+
         // list view の初期化
-        m_setTableRows(getCurrentTargetItems());
+        m_setTableRows(m_getCurrentTargetItems());
     }
 
     private void m_initParameterSettings(CFSettings cs)
     {
-        // Targetチョイスボックス
-        ChoiceBox chbTarget = (ChoiceBox)m_scene.lookup("#chbTarget");
-        EventHandler<ActionEvent> choiceBoxChanged = this::m_chbTargetChanged;
-        chbTarget.addEventHandler( ActionEvent.ACTION , choiceBoxChanged );
-
-        final ObservableList<String> cmbListTarget = FXCollections.observableArrayList();
-        cmbListTarget.add("Player");
-        cmbListTarget.add("Dealer");
-        chbTarget.setItems(cmbListTarget);
-        chbTarget.getSelectionModel().select(0);
 
         // FeatureTypeチョイスボックス
         ChoiceBox chbFeatureType = (ChoiceBox)m_scene.lookup("#chbFeatureType");
@@ -771,9 +802,8 @@ public class PositiveListMakerFormController {
         txtMaxSizeHeight.setText(String.valueOf(cs.getMaxSize().height));
     }
 
-    private CFSettings m_createClassifierSettingsFromGUI()
+    private CFSettings m_createClassifierSettingsFromGUI_player()
     {
-        ChoiceBox chb = (ChoiceBox)m_scene.lookup("#chbFeatureType");
         TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
         TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
         TextField txtMinSizeWidth = (TextField)m_scene.lookup("#txtMinSizeWidth");
@@ -781,8 +811,8 @@ public class PositiveListMakerFormController {
         TextField txtMaxSizeWidth = (TextField)m_scene.lookup("#txtMaxSizeWidth");
         TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
 
-        CFSettings cs = new CFSettings();
-        cs.featureTypeIndex = chb.getSelectionModel().getSelectedIndex();
+        CFSettingsPlayer cs = new CFSettingsPlayer();
+        cs.featureTypeIndex = m_getSelectedTargetIndex();
         cs.minNeighbors = Integer.parseInt(txtMinNeighbors.getText());
         cs.scaleFactor = Double.parseDouble(txtScaleFactor.getText());
         cs.setMinSize(new Size(Double.parseDouble(txtMinSizeWidth.getText()), Double.parseDouble(txtMinSizeHeight.getText())));
@@ -790,6 +820,26 @@ public class PositiveListMakerFormController {
 
         return cs;
     }
+
+    private CFSettings m_createClassifierSettingsFromGUI_dealerButton()
+    {
+        TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
+        TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
+        TextField txtMinSizeWidth = (TextField)m_scene.lookup("#txtMinSizeWidth");
+        TextField txtMinSizeHeight = (TextField)m_scene.lookup("#txtMinSizeHeight");
+        TextField txtMaxSizeWidth = (TextField)m_scene.lookup("#txtMaxSizeWidth");
+        TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
+
+        CFSettingsDealerButton cs = new CFSettingsDealerButton();
+        cs.featureTypeIndex = m_getSelectedTargetIndex();
+        cs.minNeighbors = Integer.parseInt(txtMinNeighbors.getText());
+        cs.scaleFactor = Double.parseDouble(txtScaleFactor.getText());
+        cs.setMinSize(new Size(Double.parseDouble(txtMinSizeWidth.getText()), Double.parseDouble(txtMinSizeHeight.getText())));
+        cs.setMaxSize(new Size(Double.parseDouble(txtMaxSizeWidth.getText()), Double.parseDouble(txtMaxSizeHeight.getText())));
+
+        return cs;
+    }
+
 
     private Image m_getImage() {
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");

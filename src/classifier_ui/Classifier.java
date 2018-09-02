@@ -12,7 +12,8 @@ import java.util.function.Consumer;
 abstract public class Classifier {
     private CFResult m_cr;
 
-    public Classifier() {
+    @PackageScope
+    Classifier() {
        m_cr = m_createDefaultCFResult();
     }
 
@@ -20,22 +21,24 @@ abstract public class Classifier {
     abstract protected CFResult m_createDefaultCFResult();
 
     @PackageScope
-    void classify( CFSettings cs, Image fxImage,
-                         Pane pane, boolean isFixedSize,
-                         Consumer<Rectangle> setRectangleEvents
+    void classify( Image fxImage, Consumer<Rectangle> setRectangleEvents
                          ) throws Exception {
-        m_cr = m_createFacade().classify(cs, fxImage);
+        m_cr = m_createFacade().classify(fxImage);
 
         System.out.println(String.format(m_cr.getClass().toString() + ": m_classifyUI.classify resultRectSize = %d, fullRectSize = %d",
                 m_cr.getRectangleList().size(), m_cr.getFullRectangleList().size()));
+
+        // 後から編集可能にするためイベントを設定
+        m_cr.getRectangleList().forEach(setRectangleEvents);
+    }
+
+    @PackageScope
+    void setResultToPane(Image fxImage, Pane pane, boolean isFixedSize) {
         // 結果の表示
         m_cr.getResultRectangles(pane, fxImage, m_cr.getFullRectangleList(),
                 false, false);
         m_cr.getResultRectangles(pane, fxImage, m_cr.getRectangleList(),
                 true, isFixedSize);
-
-        // 後から編集可能にするためイベントを設定
-        m_cr.getRectangleList().forEach(setRectangleEvents);
     }
 
     @PackageScope

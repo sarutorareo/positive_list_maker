@@ -1,5 +1,6 @@
 package classifier_ui;
 
+import groovy.transform.PackageScope;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.scene.shape.Rectangle;
 
 import javafx.embed.swing.SwingFXUtils;
 import opencv_client.CFFacadePlayer;
@@ -25,7 +27,8 @@ import java.io.*;
 import java.nio.file.Paths;
 
 public class ClassifierViewFormController {
-    private CFResultPlayer m_crPlayer = new CFResultPlayer();
+    private ClassifierPlayer m_cfPlayer = new ClassifierPlayer();
+    private ClassifierDealerButton m_cfDealerButton = new ClassifierDealerButton();
     private Scene m_scene = null;
     private AutoCaptureThread m_autoCaptureThread = null;
     public void setScene(Scene scene) {
@@ -72,34 +75,42 @@ public class ClassifierViewFormController {
 
     @FXML
     protected void onClick_capture_button(ActionEvent evt) throws Exception {
-        CFResult cr = captureImageAndClassify();
-        setResult(cr);
+        captureImageAndClassify();
+        setResult();
     }
 
-    public synchronized CFResult captureImageAndClassify() throws Exception {
+    @PackageScope
+    synchronized void captureImageAndClassify() throws Exception {
         System.out.println("captureImageAndClassify");
         m_doCapture();
-        return m_classify();
+        m_classify();
     }
 
-    public void setResult(CFResult cr) {
+    private void m_changeHideFullRect() {
+        CheckBox chkHide = (CheckBox)m_scene.lookup("#cbxHideFullRect");
+        boolean isHide = chkHide.isSelected();
+        m_cfPlayer.changeHideFullRect(isHide);
+        m_cfDealerButton.changeHideFullRect(isHide);
+    }
+
+    @PackageScope
+    void setResult() {
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        m_crPlayer.clearRects(pane);
-        m_crPlayer = (CFResultPlayer)cr;
         System.out.println(String.format("m_classifyUI.classify resultRecultSize = %d, fullResutSize = %d",
-                m_crPlayer.getRectangleList().size(), m_crPlayer.getFullRectangleList().size()));
+                m_cfPlayer.getRectangleList().size(), m_cfPlayer.getFullRectangleList().size()));
+
         // 画像を取得
         Image fxImage = m_getImage();
+        m_cfPlayer.setResultToPane(fxImage, pane, true);
+        m_cfDealerButton.setResultToPane(fxImage, pane, true);
 
         // 結果の表示
-        m_crPlayer.getResultRectangles(pane, fxImage, cr.getFullRectangleList(), false, true);
-        m_crPlayer.getResultRectangles(pane, fxImage, cr.getRectangleList(), true, true);
         m_changeHideFullRect();
     }
 
     @FXML
     protected void onClick_hideFullRect(ActionEvent evt) {
-        m_changeHideFullRect();
+        m_cfPlayer.changeHideFullRect(m_isHideFullRect());
     }
 
     @FXML
@@ -107,9 +118,9 @@ public class ClassifierViewFormController {
         m_changeAutoCapture();
     }
 
-    private void m_changeHideFullRect() {
+    private boolean m_isHideFullRect() {
         CheckBox chkHide = (CheckBox)m_scene.lookup("#cbxHideFullRect");
-        m_crPlayer.changeHideFullRect(chkHide.isSelected());
+        return chkHide.isSelected();
     }
 
     private void m_changeAutoCapture() {
@@ -137,20 +148,18 @@ public class ClassifierViewFormController {
         m_autoCaptureThread = null;
     }
 
-    private CFResult m_classify() throws Exception {
+    private void m_classify() throws Exception {
         // 画像を取得
         Image fxImage = m_getImage();
 
-        // 検出器のパラメータを取得
-        CFSettings cs = null;
-        try {
-            cs = CFSettings.load();
-        } catch(IOException ex) {
-            cs = new CFSettings();
-        }
-
         // 検出
-        return new CFFacadePlayer().classify(cs, fxImage);
+        m_cfPlayer.classify(fxImage, this::m_dummySetEvents);
+
+        m_cfDealerButton.classify(fxImage, this::m_dummySetEvents);
+    }
+    private void m_dummySetEvents(Rectangle rect)
+    {
+        ;
     }
 
     private Image m_getImage() {

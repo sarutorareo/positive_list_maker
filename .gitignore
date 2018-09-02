@@ -1,5 +1,6 @@
 ﻿#train フォルダは入れない
 train_player/
+train_dealerButton/
 #out フォルダは入れない
 out/
 #vimのバックアップファイルは入れない

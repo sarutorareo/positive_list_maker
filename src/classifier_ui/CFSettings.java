@@ -1,12 +1,12 @@
 package classifier_ui;
 
+import groovy.transform.PackageScope;
 import org.opencv.core.Size;
-import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
 
-public class CFSettings implements Serializable {
-    private static final String FILE_NAME = "classifier_settings.xml";
+abstract public class CFSettings implements Serializable {
+    abstract protected String m_getSettingFileName();
 
     public int featureTypeIndex = 0;
     public int minNeighbors = 0;
@@ -32,29 +32,14 @@ public class CFSettings implements Serializable {
         maxSizeHeight = maxSize.height;
     }
 
-    public void save() throws java.io.IOException {
+    @PackageScope
+    void save() throws java.io.IOException {
         XMLEncoder encoder = new XMLEncoder(
                 new BufferedOutputStream(
-                        new FileOutputStream(FILE_NAME)));
+                        new FileOutputStream(m_getSettingFileName())));
         encoder.writeObject(this);
         encoder.close();
     }
-    static public CFSettings load() throws java.io.IOException {
-        XMLDecoder dec = new XMLDecoder(
-                new BufferedInputStream(
-                        new FileInputStream(FILE_NAME)));
-        CFSettings cs = (CFSettings)dec.readObject();
-        dec.close();
-        return cs;
-    }
 
-    public String getCascadeXmlPath()
-    {
-        if (featureTypeIndex == 0) {
-             return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_haar\\cascade.xml";
-        }
-        else {
-            return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_player\\cascade_lbp\\cascade.xml";
-        }
-    }
+    abstract public String getCascadeXmlPath();
 }
