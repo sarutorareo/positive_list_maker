@@ -1,12 +1,11 @@
-package application;
+package classifier_ui;
 
-import com.sun.xml.internal.txw2.output.XmlSerializer;
 import org.opencv.core.Size;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.*;
 
-public class ClassifierSettings implements Serializable {
+public class CFSettings implements Serializable {
     private static final String FILE_NAME = "classifier_settings.xml";
 
     public int featureTypeIndex = 0;
@@ -40,11 +39,11 @@ public class ClassifierSettings implements Serializable {
         encoder.writeObject(this);
         encoder.close();
     }
-    static public ClassifierSettings load() throws java.io.IOException {
+    static public CFSettings load() throws java.io.IOException {
         XMLDecoder dec = new XMLDecoder(
                 new BufferedInputStream(
                         new FileInputStream(FILE_NAME)));
-        ClassifierSettings cs = (ClassifierSettings)dec.readObject();
+        CFSettings cs = (CFSettings)dec.readObject();
         dec.close();
         return cs;
     }

@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.List;
 
-abstract public class ClassifyResult {
+abstract public class CFResult {
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
     private final ObservableList<Rectangle> m_fullRectangleList = FXCollections.observableArrayList();
 
@@ -26,11 +26,11 @@ abstract public class ClassifyResult {
         return m_fullRectangleList;
     }
 
-    public ClassifyResult(ArrayList<Rectangle> resultRects, ArrayList<Rectangle> resultFullRects) {
+    public CFResult(ArrayList<Rectangle> resultRects, ArrayList<Rectangle> resultFullRects) {
         m_rectangleList.addAll(resultRects);
         m_fullRectangleList.addAll(resultFullRects);
     }
-    public ClassifyResult() {
+    public CFResult() {
         this(new ArrayList<>(), new ArrayList<>());
     }
 

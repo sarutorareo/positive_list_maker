@@ -18,17 +18,23 @@ public class AutoCaptureThread extends Thread {
         m_loopCount = 0;
         while (m_loopFlag) {
             System.out.println("roop " + m_loopCount);
-
-            ClassifyResult cr = m_cvfController.captureImageAndClassify();
-            Platform.runLater(new Runnable() {
-                public void run() {
-                    m_cvfController.setResult(cr);
-                }
-            });
+            try {
+                CFResult cr = m_cvfController.captureImageAndClassify();
+                Platform.runLater(new Runnable() {
+                    public void run() {
+                                            m_cvfController.setResult(cr);
+                                                                          }
+                });
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+                ex.printStackTrace(System.out);
+                continue;
+            }
             try {
                 sleep(SLEEP_M_SEC);
             } catch (InterruptedException ex) {
                 System.out.println(ex.getMessage());
+                ex.printStackTrace(System.out);
             }
             m_loopCount++;
         }

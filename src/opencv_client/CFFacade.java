@@ -1,8 +1,11 @@
 package opencv_client;
 
+import classifier_ui.CFSettings;
+import classifier_ui.CFResult;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import org.opencv.core.*;
 import org.opencv.highgui.HighGui;
 import org.opencv.objdetect.CascadeClassifier;
@@ -15,12 +18,36 @@ import java.util.ArrayList;
 import static org.opencv.highgui.HighGui.WINDOW_AUTOSIZE;
 import static org.opencv.objdetect.Objdetect.CASCADE_SCALE_IMAGE;
 
-public class CascadeClassifierFacade {
+public class CFFacade {
     static{
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    public ArrayList<Rectangle> classify(javafx.scene.image.Image fxImage, String cascadeXmlPath,
+    protected CFResult m_createResult(ArrayList<Rectangle>rects, ArrayList<Rectangle>fullRects) throws Exception
+    {
+        throw new Exception("abstract method!!!!!!!!!!!!");
+    }
+
+    public CFResult classify(CFSettings cs, Image fxImage)  throws Exception {
+        String cascadeXmlPath = cs.getCascadeXmlPath();
+
+        // フルパワー
+        CFSettings full_cs = new CFSettings();
+
+        // 検出器を動かして検出結果をリストに追加
+        ArrayList<Rectangle> fullRects = m_doClassify(fxImage, cascadeXmlPath,
+                full_cs.minNeighbors, full_cs.scaleFactor,
+                full_cs.getMinSize(), full_cs.getMaxSize(), false);
+
+        // 本番
+        ArrayList<Rectangle> rects = m_doClassify(fxImage, cascadeXmlPath,
+                cs.minNeighbors, cs.scaleFactor,
+                cs.getMinSize(), cs.getMaxSize(), true);
+        System.out.println("size = " + rects.size());
+        return m_createResult(rects, fullRects);
+    }
+
+    private ArrayList<Rectangle> m_doClassify(javafx.scene.image.Image fxImage, String cascadeXmlPath,
                                          int minNeighbors, double scaleFactor,
                                          Size minSize, Size maxSize, boolean removeDuplicate) {
 

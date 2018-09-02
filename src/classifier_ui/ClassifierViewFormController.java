@@ -1,6 +1,5 @@
 package classifier_ui;
 
-import application.ClassifierSettings;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
@@ -18,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import javafx.embed.swing.SwingFXUtils;
+import opencv_client.CFFacadePlayer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -25,8 +25,7 @@ import java.io.*;
 import java.nio.file.Paths;
 
 public class ClassifierViewFormController {
-    private final ClassifierUI m_classifierUI = new ClassifierUI();
-    private ClassifyResultPlayer m_crPlayer = new ClassifyResultPlayer();
+    private CFResultPlayer m_crPlayer = new CFResultPlayer();
     private Scene m_scene = null;
     private AutoCaptureThread m_autoCaptureThread = null;
     public void setScene(Scene scene) {
@@ -73,20 +72,20 @@ public class ClassifierViewFormController {
 
     @FXML
     protected void onClick_capture_button(ActionEvent evt) throws Exception {
-        ClassifyResult cr = captureImageAndClassify();
+        CFResult cr = captureImageAndClassify();
         setResult(cr);
     }
 
-    public synchronized ClassifyResult captureImageAndClassify() {
+    public synchronized CFResult captureImageAndClassify() throws Exception {
         System.out.println("captureImageAndClassify");
         m_doCapture();
         return m_classify();
     }
 
-    public void setResult(ClassifyResult cr) {
+    public void setResult(CFResult cr) {
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
         m_crPlayer.clearRects(pane);
-        m_crPlayer = (ClassifyResultPlayer)cr;
+        m_crPlayer = (CFResultPlayer)cr;
         System.out.println(String.format("m_classifyUI.classify resultRecultSize = %d, fullResutSize = %d",
                 m_crPlayer.getRectangleList().size(), m_crPlayer.getFullRectangleList().size()));
         // 画像を取得
@@ -138,20 +137,20 @@ public class ClassifierViewFormController {
         m_autoCaptureThread = null;
     }
 
-    public ClassifyResult m_classify() {
+    private CFResult m_classify() throws Exception {
         // 画像を取得
         Image fxImage = m_getImage();
 
         // 検出器のパラメータを取得
-        ClassifierSettings cs = null;
+        CFSettings cs = null;
         try {
-            cs = ClassifierSettings.load();
+            cs = CFSettings.load();
         } catch(IOException ex) {
-            cs = new ClassifierSettings();
+            cs = new CFSettings();
         }
 
         // 検出
-        return m_classifierUI.classify(cs, fxImage);
+        return new CFFacadePlayer().classify(cs, fxImage);
     }
 
     private Image m_getImage() {

@@ -2,12 +2,23 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1f36e5a-220e-404e-92b7-73118e2a3be3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifyResultPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/classifier_ui/CFResultDealerButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/classifier_ui/Classifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifierDealerButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifierPlayer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/opencv_client/CFFacadeDealerButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/opencv_client/CFFacadePlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/classifier_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/classifier_settings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/application/ClassifierSettings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/CFSettings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifyResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifyResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifyResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/CFResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifyResultPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/CFResultPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classifier_ui/PositiveListMakerFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/PositiveListMakerFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/opencv_client/CFFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacadeTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/opencv_client/CFFacadeTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,141 +35,142 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="CascadeClassifierFacade.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacade.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClassifierUI.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="PositiveListMakerFormController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classifier_ui/PositiveListMakerFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="159">
-              <caret line="284" column="5" lean-forward="true" selection-start-line="284" selection-start-column="5" selection-end-line="284" selection-end-column="5" />
+            <state relative-caret-position="990">
+              <caret line="294" column="19" selection-start-line="294" selection-start-column="19" selection-end-line="294" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#6919#6920#0" expanded="true" />
-                <element signature="e#6994#6995#0" expanded="true" />
-                <element signature="e#7060#7061#0" expanded="true" />
-                <element signature="e#7094#7095#0" expanded="true" />
-                <element signature="e#7164#7165#0" expanded="true" />
-                <element signature="e#7202#7203#0" expanded="true" />
+                <element signature="e#2618#2619#0" expanded="true" />
+                <element signature="e#2669#2670#0" expanded="true" />
+                <element signature="e#7154#7155#0" expanded="true" />
+                <element signature="e#7229#7230#0" expanded="true" />
+                <element signature="e#7399#7400#0" expanded="true" />
+                <element signature="e#7437#7438#0" expanded="true" />
+                <element signature="e#12182#12183#0" expanded="true" />
+                <element signature="e#12269#12270#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClassifyResult.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifyResult.java">
+      <file leaf-file-name="CFResultDealerButton.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultDealerButton.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="28" column="69" selection-start-line="28" selection-start-column="69" selection-end-line="28" selection-end-column="69" />
+            <state relative-caret-position="356">
+              <caret line="29" column="29" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#441#442#0" expanded="true" />
-                <element signature="e#479#480#0" expanded="true" />
-                <element signature="e#537#538#0" expanded="true" />
-                <element signature="e#579#580#0" expanded="true" />
-                <element signature="e#824#825#0" expanded="true" />
-                <element signature="e#881#882#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ClassifyResultPlayer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifyResultPlayer.java">
+      <file leaf-file-name="Classifier.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/Classifier.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
+            <state relative-caret-position="154">
+              <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#491#492#0" expanded="true" />
-                <element signature="e#344#345#0" expanded="true" />
-                <element signature="e#378#379#0" expanded="true" />
-                <element signature="e#416#417#0" expanded="true" />
-                <element signature="e#450#451#0" expanded="true" />
-                <element signature="e#489#490#0" expanded="true" />
-                <element signature="e#521#522#0" expanded="true" />
-                <element signature="e#564#565#0" expanded="true" />
-                <element signature="e#597#598#0" expanded="true" />
+                <element signature="e#367#368#0" expanded="true" />
+                <element signature="e#415#416#0" expanded="true" />
+                <element signature="e#1188#1189#0" expanded="true" />
+                <element signature="e#1233#1234#0" expanded="true" />
+                <element signature="e#1297#1298#0" expanded="true" />
+                <element signature="e#1343#1344#0" expanded="true" />
+                <element signature="e#1387#1388#0" expanded="true" />
+                <element signature="e#1424#1425#0" expanded="true" />
+                <element signature="e#1477#1478#0" expanded="true" />
+                <element signature="e#1518#1519#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TableView.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/control/TableView.java">
+      <file leaf-file-name="FXMLLoader.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="1773" selection-start-line="1773" selection-end-line="1773" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CFResult.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResult.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="44">
+              <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Iterable.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/lang/Iterable.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="133">
+              <caret line="71" column="17" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassifierPlayer.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierPlayer.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="261">
+              <caret line="12" column="15" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#143#144#0" expanded="true" />
+                <element signature="e#195#196#0" expanded="true" />
+                <element signature="e#306#307#0" expanded="true" />
+                <element signature="e#355#356#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ClassifierDealerButton.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierDealerButton.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="220">
-              <caret line="842" column="22" selection-start-line="842" selection-start-column="22" selection-end-line="842" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClassifierViewForm.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewForm.fxml">
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="20" column="12" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ClassifierViewFormController.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="533">
-              <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3395#3396#0" expanded="true" />
-                <element signature="e#3433#3434#0" expanded="true" />
-                <element signature="e#3509#3510#0" expanded="true" />
-                <element signature="e#3546#3547#0" expanded="true" />
+                <element signature="e#210#211#0" expanded="true" />
+                <element signature="e#259#260#0" expanded="true" />
+                <element signature="e#322#323#0" expanded="true" />
+                <element signature="e#371#372#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AutoCaptureThread.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
+      <file leaf-file-name="CFSettings.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFSettings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
+            <state relative-caret-position="92">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
               <folding>
-                <element signature="e#769#770#0" expanded="true" />
-                <element signature="e#838#839#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PositiveListMakerForm.fxml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/PositiveListMakerForm.fxml">
-          <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="18" column="57" selection-start-line="18" selection-start-column="57" selection-end-line="18" selection-end-column="57" />
+      <file leaf-file-name="ClassifierViewFormController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="264">
+              <caret line="152" column="15" selection-start-line="152" selection-start-column="15" selection-end-line="152" selection-end-column="15" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -239,15 +251,23 @@
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierViewForm.fxml" />
         <option value="$PROJECT_DIR$/src/application/Main.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacadeTest.groovy" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacadeTest.java" />
-        <option value="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacade.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/PositiveListMakerForm.fxml" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifyResult.java" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifyResultPlayer.java" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/PositiveListMakerFormController.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifyResultDealerButton.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java" />
+        <option value="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacade.java" />
+        <option value="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacadePlayer.java" />
+        <option value="$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacadeDealerButton.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierDealearButton.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/CFSettings.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/PositiveListMakerFormController.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/Classifier.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierDealerButton.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierPlayer.java" />
       </list>
     </option>
   </component>
@@ -269,6 +289,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -304,7 +325,6 @@
         </subPane>
       </pane>
       <pane id="Scope" />
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -326,12 +346,14 @@
     <key name="CreateTestDialog.RecentsKey">
       <recent name="opencv_client" />
     </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="classifier_ui" />
+      <recent name="opencv_client" />
+      <recent name="application" />
+    </key>
     <key name="CreateTestDialog.Recents.Supers">
       <recent name="" />
       <recent name="groovy.util.GroovyTestCase" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="application" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\MyProgram\GitHub\positive_list_maker\src\ClassifierUI" />
@@ -357,7 +379,7 @@
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="application.*" />
+          <option name="PATTERN" value="classifier_ui.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -365,7 +387,7 @@
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
     </configuration>
-    <configuration name="CascadeClassifierFacadeTest.test_duplicatedRectangle" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CFFacadeTest.test_duplicatedRectangle" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
@@ -376,7 +398,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="opencv_client" />
-      <option name="MAIN_CLASS_NAME" value="opencv_client.CascadeClassifierFacadeTest" />
+      <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeTest" />
       <option name="METHOD_NAME" value="test_duplicatedRectangle" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -388,7 +410,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="CascadeClassifierFacadeTest.test_existsDuplicatedRectangle" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CFFacadeTest.test_existsDuplicatedRectangle" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
@@ -399,7 +421,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="opencv_client" />
-      <option name="MAIN_CLASS_NAME" value="opencv_client.CascadeClassifierFacadeTest" />
+      <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeTest" />
       <option name="METHOD_NAME" value="test_existsDuplicatedRectangle" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -411,7 +433,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="CascadeClassifierFacadeTest.test_isDuplicated" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CFFacadeTest.test_isDuplicated" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
@@ -422,7 +444,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="opencv_client" />
-      <option name="MAIN_CLASS_NAME" value="opencv_client.CascadeClassifierFacadeTest" />
+      <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeTest" />
       <option name="METHOD_NAME" value="test_isDuplicated" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -434,7 +456,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="CascadeClassifierFacadeTest.test_removeDuplicatedRectangles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CFFacadeTest.test_removeDuplicatedRectangles" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
@@ -445,7 +467,7 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="opencv_client" />
-      <option name="MAIN_CLASS_NAME" value="opencv_client.CascadeClassifierFacadeTest" />
+      <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeTest" />
       <option name="METHOD_NAME" value="test_removeDuplicatedRectangles" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
@@ -496,19 +518,19 @@
       <listeners />
     </configuration>
     <list>
-      <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_isDuplicated" />
-      <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_existsDuplicatedRectangle" />
-      <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_duplicatedRectangle" />
-      <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_removeDuplicatedRectangles" />
+      <item itemvalue="JUnit.CFFacadeTest.test_isDuplicated" />
+      <item itemvalue="JUnit.CFFacadeTest.test_existsDuplicatedRectangle" />
+      <item itemvalue="JUnit.CFFacadeTest.test_duplicatedRectangle" />
+      <item itemvalue="JUnit.CFFacadeTest.test_removeDuplicatedRectangles" />
       <item itemvalue="Application.Main" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_removeDuplicatedRectangles" />
-        <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_existsDuplicatedRectangle" />
-        <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_duplicatedRectangle" />
-        <item itemvalue="JUnit.CascadeClassifierFacadeTest.test_isDuplicated" />
+        <item itemvalue="JUnit.CFFacadeTest.test_removeDuplicatedRectangles" />
+        <item itemvalue="JUnit.CFFacadeTest.test_existsDuplicatedRectangle" />
+        <item itemvalue="JUnit.CFFacadeTest.test_duplicatedRectangle" />
+        <item itemvalue="JUnit.CFFacadeTest.test_isDuplicated" />
       </list>
     </recent_temporary>
   </component>
@@ -572,43 +594,43 @@
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49870577" weight="0.3298969" />
-      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.48410758" weight="0.32053423" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.4816626" weight="0.32053423" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.2607987" side_tool="true" visible="true" weight="0.32053423" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.26324368" side_tool="true" visible="true" weight="0.28046745" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.32925835" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7392013" weight="0.28046745" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49784297" weight="0.3298969" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7367563" visible="true" weight="0.28046745" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49870577" weight="0.3298969" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17522413" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29095355" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.4995925" weight="0.32387313" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24938875" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39899832" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39899832" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.32387313" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48793936" visible="true" weight="0.23829788" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.3298969" />
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2294969" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49870577" weight="0.3298969" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.3298969" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48793936" visible="true" weight="0.23829788" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -639,62 +661,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/paint/Paint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="35" column="22" selection-start-line="35" selection-start-column="22" selection-end-line="35" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/shape/Shape.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="367" column="33" selection-start-line="367" selection-start-column="33" selection-end-line="367" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/input/KeyEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="268" column="24" selection-start-line="268" selection-start-column="24" selection-end-line="268" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/beans/value/WritableObjectValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="58" column="9" selection-start-line="58" selection-start-column="9" selection-end-line="58" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/com/sun/javafx/scene/EventHandlerProperties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="118">
-          <caret line="166" column="12" selection-start-line="166" selection-start-column="12" selection-end-line="166" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../../sample/java/DraggablePanelsExample/DraggablePanelsExample/src/draggablepanelsexample/DraggablePanelsExample.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1408">
-          <caret line="134" column="3" selection-start-line="134" selection-start-column="3" selection-end-line="134" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/collections/ObservableList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="45" column="17" selection-start-line="45" selection-start-column="17" selection-end-line="45" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/lang/Math.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="715" column="23" selection-start-line="715" selection-start-column="23" selection-end-line="715" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/Node.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="28248">
@@ -881,20 +847,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6886">
           <caret line="373" column="23" selection-start-line="373" selection-start-column="23" selection-end-line="373" selection-end-column="23" />
-          <folding>
-            <element signature="e#14678#14679#0" expanded="true" />
-            <element signature="e#14737#14738#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/application/ClassifierSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="51" column="18" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -902,48 +854,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22">
           <caret line="86" selection-start-line="86" selection-end-line="86" />
-          <folding>
-            <element signature="e#11614#11615#0" expanded="true" />
-            <element signature="e#11668#11669#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/control/TableView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
+        <state relative-caret-position="16720">
           <caret line="842" column="22" selection-start-line="842" selection-start-column="22" selection-end-line="842" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacadeTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="173">
-          <caret line="109" column="25" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/opencv_client/CascadeClassifierFacade.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="23" column="32" selection-start-line="23" selection-start-column="32" selection-end-line="23" selection-end-column="32" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="24" column="36" selection-start-line="24" selection-start-column="36" selection-end-line="24" selection-end-column="36" />
-          <folding>
-            <element signature="e#769#770#0" expanded="true" />
-            <element signature="e#838#839#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -963,77 +880,188 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifyResult.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="28" column="69" selection-start-line="28" selection-start-column="69" selection-end-line="28" selection-end-column="69" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#441#442#0" expanded="true" />
-            <element signature="e#479#480#0" expanded="true" />
-            <element signature="e#537#538#0" expanded="true" />
-            <element signature="e#579#580#0" expanded="true" />
-            <element signature="e#824#825#0" expanded="true" />
-            <element signature="e#881#882#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifyResultPlayer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="15" column="34" selection-start-line="15" selection-start-column="34" selection-end-line="15" selection-end-column="34" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#491#492#0" expanded="true" />
-            <element signature="e#344#345#0" expanded="true" />
-            <element signature="e#378#379#0" expanded="true" />
-            <element signature="e#416#417#0" expanded="true" />
-            <element signature="e#450#451#0" expanded="true" />
-            <element signature="e#489#490#0" expanded="true" />
-            <element signature="e#521#522#0" expanded="true" />
-            <element signature="e#564#565#0" expanded="true" />
-            <element signature="e#597#598#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierUI.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="28" column="39" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
+        <state relative-caret-position="195">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadePlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="14" column="12" selection-start-line="14" selection-start-column="12" selection-end-line="14" selection-end-column="12" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacade.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeDealerButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="15" column="47" selection-start-line="15" selection-start-column="47" selection-end-line="15" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1768">
+          <caret line="109" column="25" selection-start-line="109" selection-start-column="25" selection-end-line="109" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#440#441#0" expanded="true" />
+            <element signature="e#463#464#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="38" column="16" selection-start-line="38" selection-start-column="16" selection-end-line="38" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/lang/Iterable.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="71" column="17" selection-start-line="71" selection-start-column="17" selection-end-line="71" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultDealerButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="29" column="29" selection-start-line="29" selection-start-column="29" selection-end-line="29" selection-end-column="29" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResult.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="13" column="18" selection-start-line="13" selection-start-column="18" selection-end-line="13" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/fxml/FXMLLoader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="133">
+          <caret line="1773" selection-start-line="1773" selection-end-line="1773" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/PositiveListMakerFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="159">
-          <caret line="284" column="5" lean-forward="true" selection-start-line="284" selection-start-column="5" selection-end-line="284" selection-end-column="5" />
+        <state relative-caret-position="990">
+          <caret line="294" column="19" selection-start-line="294" selection-start-column="19" selection-end-line="294" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#6919#6920#0" expanded="true" />
-            <element signature="e#6994#6995#0" expanded="true" />
-            <element signature="e#7060#7061#0" expanded="true" />
-            <element signature="e#7094#7095#0" expanded="true" />
-            <element signature="e#7164#7165#0" expanded="true" />
-            <element signature="e#7202#7203#0" expanded="true" />
+            <element signature="e#2618#2619#0" expanded="true" />
+            <element signature="e#2669#2670#0" expanded="true" />
+            <element signature="e#7154#7155#0" expanded="true" />
+            <element signature="e#7229#7230#0" expanded="true" />
+            <element signature="e#7399#7400#0" expanded="true" />
+            <element signature="e#7437#7438#0" expanded="true" />
+            <element signature="e#12182#12183#0" expanded="true" />
+            <element signature="e#12269#12270#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="533">
-          <caret line="29" column="32" selection-start-line="29" selection-start-column="32" selection-end-line="29" selection-end-column="32" />
+        <state relative-caret-position="264">
+          <caret line="152" column="15" selection-start-line="152" selection-start-column="15" selection-end-line="152" selection-end-column="15" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#3395#3396#0" expanded="true" />
-            <element signature="e#3433#3434#0" expanded="true" />
-            <element signature="e#3509#3510#0" expanded="true" />
-            <element signature="e#3546#3547#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierDealerButton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#210#211#0" expanded="true" />
+            <element signature="e#259#260#0" expanded="true" />
+            <element signature="e#322#323#0" expanded="true" />
+            <element signature="e#371#372#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="12" column="15" selection-start-line="12" selection-start-column="15" selection-end-line="12" selection-end-column="15" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#143#144#0" expanded="true" />
+            <element signature="e#195#196#0" expanded="true" />
+            <element signature="e#306#307#0" expanded="true" />
+            <element signature="e#355#356#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/Classifier.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="19" column="3" selection-start-line="19" selection-start-column="3" selection-end-line="19" selection-end-column="3" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#367#368#0" expanded="true" />
+            <element signature="e#415#416#0" expanded="true" />
+            <element signature="e#1188#1189#0" expanded="true" />
+            <element signature="e#1233#1234#0" expanded="true" />
+            <element signature="e#1297#1298#0" expanded="true" />
+            <element signature="e#1343#1344#0" expanded="true" />
+            <element signature="e#1387#1388#0" expanded="true" />
+            <element signature="e#1424#1425#0" expanded="true" />
+            <element signature="e#1477#1478#0" expanded="true" />
+            <element signature="e#1518#1519#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CascadeClassifierFacadeTest {
+class CFFacadeTest {
     @org.junit.jupiter.api.Test
     void test_isSamePosSize() {
-        CascadeClassifierFacade cc = new CascadeClassifierFacade();
+        CFFacade cc = new CFFacade();
         Rectangle rectA = new Rectangle(0, 0, 100, 100);
         Rectangle rectB = new Rectangle(0, 0, 100, 100);
         assertEquals(true, cc.isSamePosSize(rectA, rectB));
@@ -29,7 +29,7 @@ class CascadeClassifierFacadeTest {
 
     @org.junit.jupiter.api.Test
     void test_isDuplicated() {
-        CascadeClassifierFacade cc = new CascadeClassifierFacade();
+        CFFacade cc = new CFFacade();
         Rectangle rectA = new Rectangle(0, 0, 100, 100);
         Rectangle rectB = new Rectangle(0, 0, 100, 100);
         assertEquals(true, cc.isDuplicated(rectA, rectB));
@@ -58,7 +58,7 @@ class CascadeClassifierFacadeTest {
 
     @org.junit.jupiter.api.Test
     void test_duplicatedRectangle() {
-        CascadeClassifierFacade cc = new CascadeClassifierFacade();
+        CFFacade cc = new CFFacade();
         Rectangle rectA = new Rectangle(0, 0, 100, 100);
         Rectangle rectB = new Rectangle(0, 0, 100, 100);
         assertEquals(true, cc.isSamePosSize(rectA, cc.duplicatedRectangle(rectA, rectB)));
@@ -80,7 +80,7 @@ class CascadeClassifierFacadeTest {
 
     @org.junit.jupiter.api.Test
     void test_existsDuplicatedRectangle() {
-        CascadeClassifierFacade cc = new CascadeClassifierFacade();
+        CFFacade cc = new CFFacade();
         ArrayList<Rectangle> orgList = new ArrayList();
         assertEquals(false, cc.existsDuplicatedRectangle(orgList, new Rectangle(0,0, 100, 100)));
 
@@ -94,7 +94,7 @@ class CascadeClassifierFacadeTest {
 
     @org.junit.jupiter.api.Test
     void test_removeDuplicatedRectangles() {
-        CascadeClassifierFacade cc = new CascadeClassifierFacade();
+        CFFacade cc = new CFFacade();
         ArrayList<Rectangle> orgList = new ArrayList();
         orgList.add(new Rectangle(0,0, 100, 100));
         orgList.add(new Rectangle(0,0, 100, 100));
