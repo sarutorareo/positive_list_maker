@@ -19,7 +19,6 @@ import javafx.stage.WindowEvent;
 import javafx.scene.shape.Rectangle;
 
 import javafx.embed.swing.SwingFXUtils;
-import opencv_client.CFFacadePlayer;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -99,6 +98,8 @@ public class ClassifierViewFormController {
         System.out.println(String.format("m_classifyUI.classify resultRecultSize = %d, fullResutSize = %d",
                 m_cfPlayer.getRectangleList().size(), m_cfPlayer.getFullRectangleList().size()));
 
+        m_clearRectangles();
+
         // 画像を取得
         Image fxImage = m_getImage();
         m_cfPlayer.setResultToPane(fxImage, pane, true);
@@ -148,13 +149,17 @@ public class ClassifierViewFormController {
         m_autoCaptureThread = null;
     }
 
+    private void m_clearRectangles() {
+        Pane pane = (Pane) m_scene.lookup("#pnImageView");
+        m_cfPlayer.clearRectsFromPane(pane);
+    }
+
     private void m_classify() throws Exception {
         // 画像を取得
         Image fxImage = m_getImage();
 
         // 検出
         m_cfPlayer.classify(fxImage, this::m_dummySetEvents);
-
         m_cfDealerButton.classify(fxImage, this::m_dummySetEvents);
     }
     private void m_dummySetEvents(Rectangle rect)

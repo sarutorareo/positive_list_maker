@@ -299,7 +299,7 @@ public class PositiveListMakerFormController {
 
     private void m_clearRectangles() {
         Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
-        m_cfPlayer.clearRects(pane);
+        m_cfPlayer.clearRectsFromPane(pane);
         m_clearTableRows();
     }
 

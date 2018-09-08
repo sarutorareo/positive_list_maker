@@ -7,6 +7,8 @@ import opencv_client.CFFacade;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 abstract public class Classifier {
@@ -45,13 +47,26 @@ abstract public class Classifier {
     ObservableList<Rectangle> getRectangleList() {
         return m_cr.getRectangleList();
     }
-    public ObservableList<Rectangle> getFullRectangleList() {
+
+    @PackageScope
+    ObservableList<Rectangle> getFullRectangleList() {
         return m_cr.getFullRectangleList();
     }
     @PackageScope
-    void clearRects(Pane pane) {
-        m_cr.clearRects(pane);
+    void clearRectsFromPane(Pane pane) {
+        System.out.println("clearRectsFromPane ");
+        List<Rectangle> list = new ArrayList<Rectangle>();
+        pane.getChildren().forEach(node -> {
+            if (node instanceof Rectangle) {
+                list.add((Rectangle)node);
+            }
+        });
+
+        list.forEach(r -> {
+            pane.getChildren().remove(r);
+        });
     }
+
     @PackageScope
     void changeHideFullRect(boolean isHide) {
         m_cr.changeHideFullRect(isHide);

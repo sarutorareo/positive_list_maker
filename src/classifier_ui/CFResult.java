@@ -1,5 +1,6 @@
 package classifier_ui;
 
+import groovy.transform.PackageScope;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -38,23 +39,6 @@ abstract public class CFResult {
         getFullRectangleList().forEach(r -> {
             r.setVisible(!hide);
         });
-    }
-
-    public void clearRects(Pane pane) {
-        System.out.println("clearRects ");
-        List<Rectangle> list = new ArrayList();
-        pane.getChildren().forEach(node -> {
-            if (node instanceof Rectangle) {
-                list.add((Rectangle)node);
-            }
-        });
-
-        list.forEach(r -> {
-            pane.getChildren().remove(r);
-        });
-
-        getRectangleList().clear();
-        getFullRectangleList().clear();
     }
 
     public void getResultRectangles(Pane pane, Image img, ObservableList<Rectangle> rects, boolean isWithParams, boolean isFixed) {
