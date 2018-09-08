@@ -1,5 +1,6 @@
 package classifier_ui;
 
+import groovy.transform.PackageScope;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -15,7 +16,7 @@ abstract public class CFResult {
 
     abstract public int getRectWidth();
     abstract public int getRectHeight();
-    abstract protected Color m_getRectColor();
+    abstract public Color getRectColor();
     abstract protected Color m_getFullRectColor();
 
     public  ObservableList<Rectangle> getRectangleList() {
@@ -29,17 +30,21 @@ abstract public class CFResult {
         m_rectangleList.addAll(resultRects);
         m_fullRectangleList.addAll(resultFullRects);
     }
-    public CFResult() {
+
+    @PackageScope
+    CFResult() {
         this(new ArrayList<>(), new ArrayList<>());
     }
 
-    public void changeHideFullRect(boolean hide) {
+    @PackageScope
+    void changeHideFullRect(boolean hide) {
         getFullRectangleList().forEach(r -> {
             r.setVisible(!hide);
         });
     }
 
-    public void getResultRectangles(Pane pane, Image img, ObservableList<Rectangle> rects, boolean isWithParams, boolean isFixed) {
+    @PackageScope
+    void getResultRectangles(Pane pane, Image img, ObservableList<Rectangle> rects, boolean isWithParams, boolean isFixed) {
         rects.forEach(newRect -> {
             if (isWithParams) {
                 if (isFixed) {
@@ -48,7 +53,7 @@ abstract public class CFResult {
                     newRect.setX(Math.min(img.getWidth() - getRectWidth(), Math.max(0, newRect.getX())));
                     newRect.setY(Math.min(img.getHeight() - getRectHeight(), Math.max(0, newRect.getY())));
                 }
-                newRect.setStroke(m_getRectColor());
+                newRect.setStroke(getRectColor());
                 newRect.setStrokeWidth(3);
                 pane.getChildren().add(newRect);
             }
@@ -58,6 +63,13 @@ abstract public class CFResult {
                 newRect.setMouseTransparent(true);
                 pane.getChildren().add(newRect);
             }
+        });
+    }
+
+    @PackageScope
+    void setRectClickable(boolean clickable) {
+        getRectangleList().forEach(r -> {
+            r.setMouseTransparent(!clickable);
         });
     }
 }

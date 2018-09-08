@@ -31,12 +31,11 @@
       <ToolBar layoutX="8.0" layoutY="50.0" prefHeight="30.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
             <Button fx:id="btnPaste" mnemonicParsing="false" onAction="#onClick_paste_button" text="Paste" />
-            <Button mnemonicParsing="false" onAction="#onClick_undo_button" text="Undo" />
-            <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClick_clear_button" text="Clear" />
             <Button fx:id="btnSaveTxtImg" mnemonicParsing="false" onAction="#onClick_saveTextAndImage_button" text="SaveTxtImg" />
             <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" text="AutoSave" />
             <CheckBox fx:id="cbxFixedSize" mnemonicParsing="false" selected="true" text="FixedSize" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
+          <Button fx:id="btnDetect" mnemonicParsing="false" onAction="#onClick_detect_button" text="Detect" />
         </items>
       </ToolBar>
       <AnchorPane fx:id="paneBottom" layoutX="57.0" layoutY="272.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -58,8 +57,9 @@
             <Label text="Max" />
             <TextField fx:id="txtMaxSizeWidth" prefHeight="25.0" prefWidth="45.0" />
             <TextField fx:id="txtMaxSizeHeight" prefHeight="25.0" prefWidth="43.0" />
-          <Button fx:id="btnDetect" mnemonicParsing="false" onAction="#onClick_detect_button" text="Detect" />
             <Button fx:id="btnSave" mnemonicParsing="false" onAction="#onClick_save_button" text="Save" />
+            <Button mnemonicParsing="false" onAction="#onClick_undo_button" text="Undo" />
+            <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClick_clear_button" text="Clear" />
         </items>
       </ToolBar>
    </children>

@@ -23,7 +23,7 @@ public class CFResultPlayer extends CFResult {
     public int getRectHeight() {
         return RECT_HEIGHT;
     }
-    protected Color m_getRectColor() {
+    public Color getRectColor() {
         return Color.RED;
     }
     protected Color m_getFullRectColor() {

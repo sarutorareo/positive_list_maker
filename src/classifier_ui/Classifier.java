@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import opencv_client.CFFacade;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ abstract public class Classifier {
         return m_cr.getFullRectangleList();
     }
     @PackageScope
-    void clearRectsFromPane(Pane pane) {
+    static void clearRectsFromPane(Pane pane) {
         System.out.println("clearRectsFromPane ");
         List<Rectangle> list = new ArrayList<Rectangle>();
         pane.getChildren().forEach(node -> {
@@ -102,4 +103,32 @@ abstract public class Classifier {
 
     @PackageScope
     abstract String getDataDir();
+
+    @PackageScope
+    void clearResult(Pane pane) {
+        m_clearRectList(pane, m_cr.getRectangleList());
+        m_clearRectList(pane, m_cr.getFullRectangleList());
+    }
+
+    private void m_clearRectList(Pane pane, List<Rectangle>list) {
+        list.forEach( r -> {
+            pane.getChildren().remove(r);
+        });
+        list.clear();
+    }
+
+    @PackageScope
+    void clearRect(Pane pane, Rectangle rect) {
+        pane.getChildren().remove(rect);
+        getRectangleList().remove(rect);
+    }
+
+    @PackageScope
+    void setRectClickable(boolean clickable) {
+        m_cr.setRectClickable(clickable);
+    }
+    @PackageScope
+    Color getRectangleColor() {
+        return m_cr.getRectColor();
+    }
 }
