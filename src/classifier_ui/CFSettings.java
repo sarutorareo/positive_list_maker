@@ -27,6 +27,7 @@ abstract public class CFSettings implements Serializable {
         minSizeWidth = minSize.width;
         minSizeHeight = minSize.height;
     }
+
     public void setMaxSize(Size maxSize) {
         maxSizeWidth = maxSize.width;
         maxSizeHeight = maxSize.height;

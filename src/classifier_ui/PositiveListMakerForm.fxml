@@ -33,9 +33,8 @@
             <Button fx:id="btnPaste" mnemonicParsing="false" onAction="#onClick_paste_button" text="Paste" />
             <Button mnemonicParsing="false" onAction="#onClick_undo_button" text="Undo" />
             <Button fx:id="btnClear" mnemonicParsing="false" onAction="#onClick_clear_button" text="Clear" />
-            <TextField fx:id="txtPosDir" text="./train_player/pos" />
             <Button fx:id="btnSaveTxtImg" mnemonicParsing="false" onAction="#onClick_saveTextAndImage_button" text="SaveTxtImg" />
-            <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" selected="true" text="AutoSave" />
+            <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" text="AutoSave" />
             <CheckBox fx:id="cbxFixedSize" mnemonicParsing="false" selected="true" text="FixedSize" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
         </items>

@@ -1,6 +1,5 @@
 package classifier_ui;
 
-import groovy.transform.PackageScope;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
@@ -9,14 +8,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.List;
 
 abstract public class CFResult {
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
     private final ObservableList<Rectangle> m_fullRectangleList = FXCollections.observableArrayList();
 
-    abstract protected int m_getRectWidth();
-    abstract protected int m_getRectHeight();
+    abstract public int getRectWidth();
+    abstract public int getRectHeight();
     abstract protected Color m_getRectColor();
     abstract protected Color m_getFullRectColor();
 
@@ -45,10 +43,10 @@ abstract public class CFResult {
         rects.forEach(newRect -> {
             if (isWithParams) {
                 if (isFixed) {
-                    newRect.setWidth(m_getRectWidth());
-                    newRect.setHeight(m_getRectHeight());
-                    newRect.setX(Math.min(img.getWidth() - m_getRectWidth(), Math.max(0, newRect.getX())));
-                    newRect.setY(Math.min(img.getHeight() - m_getRectHeight(), Math.max(0, newRect.getY())));
+                    newRect.setWidth(getRectWidth());
+                    newRect.setHeight(getRectHeight());
+                    newRect.setX(Math.min(img.getWidth() - getRectWidth(), Math.max(0, newRect.getX())));
+                    newRect.setY(Math.min(img.getHeight() - getRectHeight(), Math.max(0, newRect.getY())));
                 }
                 newRect.setStroke(m_getRectColor());
                 newRect.setStrokeWidth(3);

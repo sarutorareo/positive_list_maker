@@ -71,4 +71,35 @@ abstract public class Classifier {
     void changeHideFullRect(boolean isHide) {
         m_cr.changeHideFullRect(isHide);
     }
+
+    @PackageScope
+    String getPosListStr(String picPath) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(picPath);
+        sb.append("\t");
+        sb.append(this.getRectangleList().size());
+        sb.append("\t");
+        this.getRectangleList().forEach(r -> {
+            sb.append(String.format("%d %d %d %d\t",
+                    Math.round(Math.ceil(r.getX())),
+                    Math.round(Math.ceil(r.getY())),
+                    Math.round(Math.ceil(r.getWidth())),
+                    Math.round(Math.ceil(r.getHeight()))));
+        });
+
+        return sb.toString();
+    }
+
+    @PackageScope
+    int getRectWidth() {
+        return  m_cr.getRectWidth();
+    }
+
+    @PackageScope
+    int getRectHeight() {
+        return  m_cr.getRectHeight();
+    }
+
+    @PackageScope
+    abstract String getDataDir();
 }

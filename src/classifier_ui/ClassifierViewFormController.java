@@ -57,8 +57,11 @@ public class ClassifierViewFormController {
                 public void handle(WindowEvent we)  {
                     System.out.println("Stage is closing");
                     try {
-                        File f = m_controller.saveImage();
-                        m_controller.saveText(f.getPath());
+                        if (m_controller.isAutoSave()) {
+                            Classifier cf = m_controller.getCurrentTargetClassifier();
+                            File f = m_controller.saveImage(cf.getDataDir());
+                            m_controller.saveText(cf, f.getPath());
+                        }
                     } catch (Exception e) {
                         System.out.println(e.toString());
                     }

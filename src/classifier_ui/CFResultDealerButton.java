@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class CFResultDealerButton extends CFResult {
 
-    final int RECT_WIDTH = 50;
-    final int RECT_HEIGHT = 50;
+    final int RECT_WIDTH = 30;
+    final int RECT_HEIGHT = 30;
 
     public CFResultDealerButton(ArrayList<Rectangle> resultRects, ArrayList<Rectangle> resultFullRects) {
         super(resultRects, resultFullRects);
@@ -17,10 +17,10 @@ public class CFResultDealerButton extends CFResult {
         super();
     }
 
-    protected int m_getRectWidth() {
+    public int getRectWidth() {
         return  RECT_WIDTH;
     }
-    protected int m_getRectHeight() {
+    public int getRectHeight() {
         return RECT_HEIGHT;
     }
     protected Color m_getRectColor() {
@@ -29,4 +29,5 @@ public class CFResultDealerButton extends CFResult {
     protected Color m_getFullRectColor() {
         return Color.DARKGREEN;
     }
+
 }

@@ -17,10 +17,10 @@ public class CFResultPlayer extends CFResult {
         super();
     }
 
-    protected int m_getRectWidth() {
+    public int getRectWidth() {
         return  RECT_WIDTH;
     }
-    protected int m_getRectHeight() {
+    public int getRectHeight() {
         return RECT_HEIGHT;
     }
     protected Color m_getRectColor() {
