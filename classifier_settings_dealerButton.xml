@@ -15,7 +15,7 @@
     <int>10</int>
    </void>
   </void>
-  <void id="Size0" property="minSize">
+  <void id="Size0" property="maxSize">
    <void class="org.opencv.core.Size" method="getField">
     <string>width</string>
     <void method="set">
@@ -31,8 +31,27 @@
     </void>
    </void>
   </void>
-  <void property="minSize">
+  <void property="maxSize">
    <object idref="Size0"/>
+  </void>
+  <void id="Size1" property="minSize">
+   <void class="org.opencv.core.Size" method="getField">
+    <string>width</string>
+    <void method="set">
+     <object idref="Size1"/>
+     <double>30.0</double>
+    </void>
+   </void>
+   <void class="org.opencv.core.Size" method="getField">
+    <string>height</string>
+    <void method="set">
+     <object idref="Size1"/>
+     <double>30.0</double>
+    </void>
+   </void>
+  </void>
+  <void property="minSize">
+   <object idref="Size1"/>
   </void>
  </object>
 </java>

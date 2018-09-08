@@ -1,25 +1,21 @@
 package classifier_ui;
 
+import groovy.transform.PackageScope;
+
 import java.beans.XMLDecoder;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 
 public class CFSettingsDealerButton extends CFSettings {
     private static final String FILE_NAME = "classifier_settings_dealerButton.xml";
-    @Override
-    protected String m_getSettingFileName() {
-        return FILE_NAME;
+
+    public CFSettingsDealerButton() {
+        super();
     }
 
     @Override
-    public String getCascadeXmlPath()
-    {
-        if (featureTypeIndex == 0) {
-             return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_dealerButton\\cascade_haar\\cascade.xml";
-        }
-        else {
-            return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_dealerButton\\cascade_lbp\\cascade.xml";
-        }
+    protected String m_getSettingFileName() {
+        return FILE_NAME;
     }
 
     static public CFSettings load() throws java.io.IOException {
@@ -30,4 +26,16 @@ public class CFSettingsDealerButton extends CFSettings {
         dec.close();
         return cs;
     }
+
+    @Override
+    public String getCascadeXmlPath()
+    {
+        if (featureTypeIndex == 0) {
+            return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_dealerButton\\cascade_haar\\cascade.xml";
+        }
+        else {
+            return "D:\\MyProgram\\GitHub\\positive_list_maker\\train_dealerButton\\cascade_lbp\\cascade.xml";
+        }
+    }
+
 }

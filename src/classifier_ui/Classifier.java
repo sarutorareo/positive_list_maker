@@ -131,4 +131,5 @@ abstract public class Classifier {
     Color getRectangleColor() {
         return m_cr.getRectColor();
     }
+
 }

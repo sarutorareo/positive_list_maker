@@ -20,4 +20,5 @@ public class ClassifierPlayer extends Classifier {
     String getDataDir() {
         return "./train_player/pos";
     }
+
 }

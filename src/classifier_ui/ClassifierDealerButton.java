@@ -19,4 +19,5 @@ public class ClassifierDealerButton extends Classifier {
     String getDataDir() {
         return "./train_dealerButton/pos";
     }
+
 }

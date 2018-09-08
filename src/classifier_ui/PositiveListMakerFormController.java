@@ -73,6 +73,11 @@ public class PositiveListMakerFormController {
             m_setImage(img);
         }
 
+        // グローバル設定をロード
+        GlobalSettings gs = GlobalSettings.load();
+        m_initGlobalSettings(gs);
+
+        // ターゲット毎の設定をロード
         m_chbTargetChanged(null);
     }
 
@@ -86,7 +91,6 @@ public class PositiveListMakerFormController {
         cmbListTarget.add("Player");
         cmbListTarget.add("Dealer");
         chbTarget.setItems(cmbListTarget);
-        chbTarget.getSelectionModel().select(0);
     }
 
     @PackageScope
@@ -654,6 +658,8 @@ public class PositiveListMakerFormController {
                     return;
             }
             cs.save();
+            GlobalSettings gs = m_createGlobalSettingsFromGUI();
+            gs.save();
         } catch (java.io.IOException ex) {
             System.out.println(ex.toString());
         }
@@ -780,6 +786,14 @@ public class PositiveListMakerFormController {
         return chbFeatureType.getSelectionModel().getSelectedIndex();
     }
 
+    private void m_initGlobalSettings(GlobalSettings gs) {
+        int targetIndex = gs.getSelectedTargetIndex();
+        ChoiceBox chbTarget = (ChoiceBox) m_scene.lookup("#chbTarget");
+        if (targetIndex < 0  || targetIndex >= chbTarget.getItems().size()) {
+            return;
+        }
+        chbTarget.getSelectionModel().select(targetIndex);
+    }
 
     private void m_initParameterSettings(CFSettings cs)
     {
@@ -843,6 +857,13 @@ public class PositiveListMakerFormController {
         cs.setMaxSize(new Size(Double.parseDouble(txtMaxSizeWidth.getText()), Double.parseDouble(txtMaxSizeHeight.getText())));
 
         return cs;
+    }
+
+    private GlobalSettings m_createGlobalSettingsFromGUI()
+    {
+        GlobalSettings gs = new GlobalSettings();
+        gs.setSelectedTargetIndex(getCurrentTarget().toInt());
+        return gs;
     }
 
 
