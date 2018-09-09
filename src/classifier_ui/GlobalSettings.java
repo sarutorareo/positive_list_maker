@@ -10,12 +10,20 @@ public class GlobalSettings implements Serializable {
     private static final String FILE_NAME = "global_settings.xml";
 
     private int m_selectedTargetIndex = 0;
+    private boolean m_isHideFullRect = true;
 
     public int getSelectedTargetIndex() {
         return m_selectedTargetIndex;
     }
     public void setSelectedTargetIndex(int val) {
         m_selectedTargetIndex = val;
+    }
+
+    public boolean getIsHideFullRect() {
+        return m_isHideFullRect;
+    }
+    public void setIsHideFullRect(boolean val) {
+        m_isHideFullRect = val;
     }
 
     static public GlobalSettings load() throws java.io.IOException {

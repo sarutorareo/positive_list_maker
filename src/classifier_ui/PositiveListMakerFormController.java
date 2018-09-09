@@ -54,21 +54,6 @@ public class PositiveListMakerFormController {
         m_initTableView();
         m_initChoiceBoxTarget();
 
-        /*
-        // パラメータツールバーを初期化
-        CFSettings cs = null;
-        try {
-            cs = CFSettingsPlayer.load();
-
-//            System.out.println("cs min" + cs.minNeighbors);
-        } catch (Exception ex) {
-            System.out.println("!!! " + ex.toString());
-            cs = new CFSettingsPlayer();
-        }
-
-        m_initParameterSettings(cs);
-        */
-
         if (img != null) {
             m_setImage(img);
         }
@@ -91,6 +76,7 @@ public class PositiveListMakerFormController {
         cmbListTarget.add("Player");
         cmbListTarget.add("Dealer");
         chbTarget.setItems(cmbListTarget);
+        chbTarget.getSelectionModel().select(0);
     }
 
     @PackageScope
@@ -793,6 +779,11 @@ public class PositiveListMakerFormController {
             return;
         }
         chbTarget.getSelectionModel().select(targetIndex);
+
+        boolean isHideFullRect = gs.getIsHideFullRect();
+        CheckBox chkHide = (CheckBox) m_scene.lookup("#cbxHideFullRect");
+        chkHide.setSelected(isHideFullRect);
+        m_changeHideFullRect();
     }
 
     private void m_initParameterSettings(CFSettings cs)
@@ -863,6 +854,10 @@ public class PositiveListMakerFormController {
     {
         GlobalSettings gs = new GlobalSettings();
         gs.setSelectedTargetIndex(getCurrentTarget().toInt());
+
+        CheckBox chkHide = (CheckBox) m_scene.lookup("#cbxHideFullRect");
+        gs.setIsHideFullRect(chkHide.isSelected());
+
         return gs;
     }
 
