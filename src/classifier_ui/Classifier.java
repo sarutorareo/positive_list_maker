@@ -2,6 +2,7 @@ package classifier_ui;
 
 import groovy.transform.PackageScope;
 import javafx.collections.ObservableList;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import opencv_client.CFFacade;
 import javafx.scene.image.Image;
@@ -53,6 +54,7 @@ abstract public class Classifier {
     ObservableList<Rectangle> getFullRectangleList() {
         return m_cr.getFullRectangleList();
     }
+
     @PackageScope
     static void clearRectsFromPane(Pane pane) {
         System.out.println("clearRectsFromPane ");
@@ -127,6 +129,7 @@ abstract public class Classifier {
     void setRectClickable(boolean clickable) {
         m_cr.setRectClickable(clickable);
     }
+
     @PackageScope
     Color getRectangleColor() {
         return m_cr.getRectColor();

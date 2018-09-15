@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -17,15 +18,21 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.paint.Color;
 
 import javafx.embed.swing.SwingFXUtils;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
+import net.sourceforge.tess4j.Word;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
+
+import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
+import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
+import static utils.ImageUtils.toBinaryFxImage;
 
 public class ClassifierViewFormController {
     private ClassifierPlayer m_cfPlayer = new ClassifierPlayer();
@@ -36,19 +43,60 @@ public class ClassifierViewFormController {
         m_scene = scene;
     }
 
+    private int m_getRIL() {
+        return RIL_WORD;
+        /*
+        TextField tf = (TextField) m_scene.lookup("#txtRIL");
+        int result = RIL_WORD;
+        try {
+            result = Integer.parseInt(tf.getText());
+        }
+        catch (Exception ex) {
+            ;
+        }
+        return result;
+        */
+    }
+
     @FXML
     protected void onClick_ocr_button(ActionEvent evt) throws Exception {
-//        /*
+        m_clearRectangles();
+
         ITesseract tesseract = new Tesseract();
         //数字と一部の四則演算記号のみ認識させる
-        tesseract.setTessVariable("tessedit_char_whitelist","0123456789");
+        tesseract.setTessVariable("tessedit_char_whitelist","0123456789,");
+        tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
+        tesseract.setTessVariable("load_system_dawg", "1");
+        tesseract.setTessVariable("user_words_suffix", "0");
+        Image fxBinImage = m_getBinImage();
 
-        Image fxImage = m_getImage();
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
 
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
-        String result = tesseract.doOCR(bImage);
-        System.out.print(result);
-//        */
+        tesseract.setPageSegMode(PSM_AUTO);
+        tesseract.setOcrEngineMode(0);
+        java.util.List<Word> word = tesseract.getWords(bImage, m_getRIL());
+
+        Pane pane = (Pane) m_scene.lookup("#pnImageView");
+        word.forEach(w -> {
+            if (isWord(w)) {
+                System.out.print(String.format("(%s)", w.getText()));
+                System.out.println(w.toString());
+
+                java.awt.Rectangle b = w.getBoundingBox();
+                Rectangle r = new Rectangle(b.x, b.y, b.width, b.height);
+                r.setFill(Color.TRANSPARENT);
+                r.setStroke(new Color(w.getConfidence() / 100, 0.8, 0.8, 1));
+                r.setStrokeWidth(4 * w.getConfidence() / 100 + 1);
+                pane.getChildren().add(r);
+            }
+        });
+    }
+
+    private boolean isWord(Word w) {
+        return ((w.getText().trim().length() > 0)
+                && (w.getConfidence() > 0)
+                && !w.getText().contains(" ")
+                && w.getText().matches(".*[0-9].*"));
     }
 
     @FXML
@@ -130,8 +178,24 @@ public class ClassifierViewFormController {
     }
 
     @FXML
+    private boolean m_getBinary() {
+        CheckBox cbx = (CheckBox) m_scene.lookup("#cbxBinary");
+        return cbx.isSelected();
+    }
+
+    @FXML
+    protected void onClick_binary(ActionEvent evt) {
+        boolean isBinary = m_getBinary();
+        ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
+        ImageView imgBinView = (ImageView) m_scene.lookup("#imvBinPic");
+        imgView.setVisible(!isBinary);
+        imgBinView.setVisible(isBinary);
+    }
+
+    @FXML
     protected void onClick_hideFullRect(ActionEvent evt) {
         m_cfPlayer.changeHideFullRect(m_isHideFullRect());
+        m_cfDealerButton.changeHideFullRect(m_isHideFullRect());
     }
 
     @FXML
@@ -171,7 +235,7 @@ public class ClassifierViewFormController {
 
     private void m_clearRectangles() {
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        m_cfPlayer.clearRectsFromPane(pane);
+        Classifier.clearRectsFromPane(pane);
     }
 
     private void m_classify() throws Exception {
@@ -193,6 +257,12 @@ public class ClassifierViewFormController {
         return imgView.getImage();
     }
 
+    private Image m_getBinImage() {
+        ImageView imgView = (ImageView) m_scene.lookup("#imvBinPic");
+        assert(imgView != null);
+        return imgView.getImage();
+    }
+
     private void m_doCapture() {
         try {
             // キャプチャの範囲 (starsの画面はwidth = 795, height = 579)
@@ -206,12 +276,18 @@ public class ClassifierViewFormController {
             ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
             imgView.setImage(fxImage);
 
+            Image fxBinImage = toBinaryFxImage(fxImage, 80);
+            ImageView imgBinView = (ImageView)m_scene.lookup("#imvBinPic");
+            imgBinView.setImage(fxBinImage);
+
             // 画面サイズを調整
             Pane pane = (Pane)imgView.getParent();
             pane.setMaxWidth(fxImage.getWidth());
             pane.setMaxHeight(fxImage.getHeight());
             imgView.setFitWidth(fxImage.getWidth());
             imgView.setFitHeight(fxImage.getHeight());
+            imgBinView.setFitWidth(fxImage.getWidth());
+            imgBinView.setFitHeight(fxImage.getHeight());
             javafx.stage.Window wnd = m_scene.getWindow();
             wnd.setWidth(fxImage.getWidth() + 30);
             wnd.setHeight(fxImage.getHeight() + 100);

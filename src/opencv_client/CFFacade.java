@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import static org.opencv.highgui.HighGui.WINDOW_AUTOSIZE;
 import static org.opencv.objdetect.Objdetect.CASCADE_SCALE_IMAGE;
+import static utils.ImageUtils.fxImageToMat;
 
 public class CFFacade {
     static{
@@ -81,51 +82,6 @@ public class CFFacade {
             la = removeDuplicatedRects(la);
         }
         return la;
-    }
-
-    /**
-     * BufferedImage型（TYPE_3BYTE_RGB）をMat型（CV_8UC3）に変換します
-//     * @param image 変換したいBufferedImage型
-     * @return 変換したMat型
-    */
-    public static Mat bufferedImageToMat(BufferedImage image) {
-        byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-        Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
-        mat.put(0, 0, data);
-        return mat;
-    }
-
-    public static BufferedImage toBufferedImageOfType(BufferedImage original, int type) {
-        if (original == null) {
-            throw new IllegalArgumentException("original == null");
-        }
-
-        // Don't convert if it already has correct type
-        if (original.getType() == type) {
-            return original;
-        }
-
-        // Create a buffered image
-        BufferedImage image = new BufferedImage(original.getWidth(), original.getHeight(), type);
-
-        // Draw the image onto the new buffer
-        Graphics2D g = image.createGraphics();
-        try {
-            g.setComposite(AlphaComposite.Src);
-            g.drawImage(original, 0, 0, null);
-        }
-        finally {
-            g.dispose();
-        }
-
-        return image;
-    }
-
-    public static Mat fxImageToMat( javafx.scene.image.Image image) {
-        BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
-        bImage = toBufferedImageOfType(bImage, BufferedImage.TYPE_3BYTE_BGR);
-
-        return bufferedImageToMat( bImage);
     }
 
     public boolean isDuplicated(Rectangle rectA, Rectangle rectB) {
