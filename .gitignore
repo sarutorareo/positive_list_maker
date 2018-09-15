@@ -1,6 +1,11 @@
 ﻿#train フォルダは入れない
 train_player/
 train_dealerButton/
+
+#tesscode, tessdata フォルダは入れない
+tesscode/
+tessdata/
+#out フォルダは入れない
 #out フォルダは入れない
 out/
 #vimのバックアップファイルは入れない

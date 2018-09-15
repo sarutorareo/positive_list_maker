@@ -19,6 +19,8 @@ import javafx.stage.WindowEvent;
 import javafx.scene.shape.Rectangle;
 
 import javafx.embed.swing.SwingFXUtils;
+import net.sourceforge.tess4j.ITesseract;
+import net.sourceforge.tess4j.Tesseract;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -32,6 +34,21 @@ public class ClassifierViewFormController {
     private AutoCaptureThread m_autoCaptureThread = null;
     public void setScene(Scene scene) {
         m_scene = scene;
+    }
+
+    @FXML
+    protected void onClick_ocr_button(ActionEvent evt) throws Exception {
+//        /*
+        ITesseract tesseract = new Tesseract();
+        //数字と一部の四則演算記号のみ認識させる
+        tesseract.setTessVariable("tessedit_char_whitelist","0123456789");
+
+        Image fxImage = m_getImage();
+
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+        String result = tesseract.doOCR(bImage);
+        System.out.print(result);
+//        */
     }
 
     @FXML
