@@ -2,6 +2,9 @@ package utils;
 
 import classifier_ui.CFResult;
 import classifier_ui.CFSettings;
+import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriter;
+import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriterSpi;
+import com.github.jaiimageio.plugins.tiff.TIFFImageWriteParam;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
@@ -10,10 +13,20 @@ import org.opencv.core.*;
 import org.opencv.highgui.HighGui;
 import org.opencv.objdetect.CascadeClassifier;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.spi.ImageWriterSpi;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import static org.opencv.highgui.HighGui.WINDOW_AUTOSIZE;
 import static org.opencv.objdetect.Objdetect.CASCADE_SCALE_IMAGE;
@@ -107,4 +120,32 @@ public class ImageUtils {
 
         return bufferedImageToMat( bImage);
     }
+
+    static public void saveTiff(BufferedImage bImage) {
+        try {
+            ImageWriterSpi tiffspi = new TIFFImageWriterSpi();
+            TIFFImageWriter writer = (TIFFImageWriter) tiffspi.createWriterInstance();
+
+            // TIFFImageWriteParam param = (TIFFImageWriteParam) writer.getDefaultWriteParam();
+            TIFFImageWriteParam param = new TIFFImageWriteParam(Locale.US);
+
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionType("LZW");
+
+            File fOutputFile = new File("d:\\temp\\out.tiff");
+            OutputStream fos = new BufferedOutputStream(new FileOutputStream(fOutputFile));
+            ImageOutputStream ios = ImageIO.createImageOutputStream(fos);
+
+            writer.setOutput(ios);
+            writer.write(null, new IIOImage(bImage, null, null), param);
+
+            ios.flush();
+            writer.dispose();
+            ios.close();
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
 }

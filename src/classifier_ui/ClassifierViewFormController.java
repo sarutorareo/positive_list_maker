@@ -1,5 +1,8 @@
 package classifier_ui;
 
+import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriter;
+import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriterSpi;
+import com.github.jaiimageio.plugins.tiff.TIFFImageWriteParam;
 import groovy.transform.PackageScope;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -10,7 +13,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
@@ -25,13 +27,20 @@ import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.spi.ImageWriterSpi;
+import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.Locale;
 
 import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
 import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
+import static utils.ImageUtils.saveTiff;
 import static utils.ImageUtils.toBinaryFxImage;
 
 public class ClassifierViewFormController {
@@ -58,6 +67,7 @@ public class ClassifierViewFormController {
         */
     }
 
+
     @FXML
     protected void onClick_ocr_button(ActionEvent evt) throws Exception {
         m_clearRectangles();
@@ -71,6 +81,7 @@ public class ClassifierViewFormController {
         Image fxBinImage = m_getBinImage();
 
         BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
+        saveTiff(bImage);
 
         tesseract.setPageSegMode(PSM_AUTO);
         tesseract.setOcrEngineMode(0);
@@ -97,6 +108,13 @@ public class ClassifierViewFormController {
                 && (w.getConfidence() > 0)
                 && !w.getText().contains(" ")
                 && w.getText().matches(".*[0-9].*"));
+    }
+
+    @FXML
+    protected void onClick_addTessBox_button(ActionEvent evt) throws Exception {
+        System.out.println("positive_list_button");
+        Stage parent = (Stage) ((Node) evt.getTarget()).getScene().getWindow();
+        ;
     }
 
     @FXML

@@ -18,6 +18,7 @@
       <ToolBar prefHeight="40.0" prefWidth="600.0">
          <items>
             <Button mnemonicParsing="false" onAction="#onClick_positive_list_button" text="AddPosList" />
+            <Button fx:id="btnAddTessBox" mnemonicParsing="false" onAction="#onClick_addTessBox_button" text="AddTessBox" />
             <Button mnemonicParsing="false" onAction="#onClick_capture_button" text="Capture" />
             <ToggleButton fx:id="tglAutoCapture" mnemonicParsing="false" onAction="#onClick_autoCapture_button" text="AutoCapture" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
