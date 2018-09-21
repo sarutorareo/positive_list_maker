@@ -1,10 +1,13 @@
 ﻿#train フォルダは入れない
 train_player/
 train_dealerButton/
+train_tess4j/
 
 #tesscode, tessdata フォルダは入れない
 tesscode/
+tesscode_*/
 tessdata/
+tessdata_*/
 #out フォルダは入れない
 #out フォルダは入れない
 out/

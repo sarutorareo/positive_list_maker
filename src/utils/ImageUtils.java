@@ -121,7 +121,7 @@ public class ImageUtils {
         return bufferedImageToMat( bImage);
     }
 
-    static public void saveTiff(BufferedImage bImage) {
+    static public void saveTiff(String path, BufferedImage bImage) {
         try {
             ImageWriterSpi tiffspi = new TIFFImageWriterSpi();
             TIFFImageWriter writer = (TIFFImageWriter) tiffspi.createWriterInstance();
@@ -132,7 +132,7 @@ public class ImageUtils {
             param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
             param.setCompressionType("LZW");
 
-            File fOutputFile = new File("d:\\temp\\out.tiff");
+            File fOutputFile = new File(path);
             OutputStream fos = new BufferedOutputStream(new FileOutputStream(fOutputFile));
             ImageOutputStream ios = ImageIO.createImageOutputStream(fos);
 

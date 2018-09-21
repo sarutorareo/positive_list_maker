@@ -19,15 +19,19 @@ public class CFResultDealerButton extends CFResult {
         super();
     }
 
-    public int getRectWidth() {
+    @Override
+    public int getRectFixedWidth() {
         return  RECT_WIDTH;
     }
-    public int getRectHeight() {
+    @Override
+    public int getRectFixedHeight() {
         return RECT_HEIGHT;
     }
+    @Override
     public Color getRectColor() {
         return Color.HOTPINK;
     }
+    @Override
     protected Color m_getFullRectColor() {
         return Color.DEEPPINK;
     }

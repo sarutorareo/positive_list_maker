@@ -1,8 +1,5 @@
 package classifier_ui;
 
-import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriter;
-import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriterSpi;
-import com.github.jaiimageio.plugins.tiff.TIFFImageWriteParam;
 import groovy.transform.PackageScope;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -27,16 +24,10 @@ import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Locale;
 
 import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
 import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
@@ -72,24 +63,27 @@ public class ClassifierViewFormController {
     protected void onClick_ocr_button(ActionEvent evt) throws Exception {
         m_clearRectangles();
 
+        Image fxBinImage = m_getBinImage();
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
+
         ITesseract tesseract = new Tesseract();
+        tesseract.setLanguage("osd");
+        /*
         //数字と一部の四則演算記号のみ認識させる
         tesseract.setTessVariable("tessedit_char_whitelist","0123456789,");
         tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
-        tesseract.setTessVariable("load_system_dawg", "1");
+        tesseract.setTessVariable("load_system_dawg", "0");
         tesseract.setTessVariable("user_words_suffix", "0");
-        Image fxBinImage = m_getBinImage();
-
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
-        saveTiff(bImage);
-
         tesseract.setPageSegMode(PSM_AUTO);
+        tesseract.setDatapath("D:\\MyProgram\\GitHub\\positive_list_maker\\tessdata");
         tesseract.setOcrEngineMode(0);
+        */
         java.util.List<Word> word = tesseract.getWords(bImage, m_getRIL());
+        System.out.print(String.format("wrod num (%d)", word.size()));
 
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
         word.forEach(w -> {
-            if (isWord(w)) {
+//            if (isWord(w)) {
                 System.out.print(String.format("(%s)", w.getText()));
                 System.out.println(w.toString());
 
@@ -99,7 +93,7 @@ public class ClassifierViewFormController {
                 r.setStroke(new Color(w.getConfidence() / 100, 0.8, 0.8, 1));
                 r.setStrokeWidth(4 * w.getConfidence() / 100 + 1);
                 pane.getChildren().add(r);
-            }
+ //           }
         });
     }
 
@@ -114,7 +108,29 @@ public class ClassifierViewFormController {
     protected void onClick_addTessBox_button(ActionEvent evt) throws Exception {
         System.out.println("positive_list_button");
         Stage parent = (Stage) ((Node) evt.getTarget()).getScene().getWindow();
-        ;
+        try {
+            Stage stage = new Stage();
+            stage.initOwner(parent);
+            stage.setTitle("addTessBox");
+            FXMLLoader loader = new FXMLLoader(Paths.get("src\\classifier_ui\\BoxMakerFormTess.fxml").toUri().toURL());
+            Scene scene = new Scene(loader.load());
+            stage.setScene(scene);
+
+            //　コントローラにデータを渡しておく
+            BoxMakerFormControllerTess m_controller = loader.getController();
+            m_controller.setScene(scene);
+
+            stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+                public void handle(WindowEvent we)  {
+                    System.out.println("Stage is closing");
+                }
+            });
+
+            stage.show();
+            m_controller.onShow(m_getImage());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -125,15 +141,12 @@ public class ClassifierViewFormController {
             Stage stage = new Stage();
             stage.initOwner(parent);
             stage.setTitle("new window example");
-            FXMLLoader loader = new FXMLLoader(Paths.get("src\\classifier_ui\\PositiveListMakerForm.fxml").toUri().toURL());
+            FXMLLoader loader = new FXMLLoader(Paths.get("src\\classifier_ui\\BoxMakerFormPositivePic.fxml").toUri().toURL());
             Scene scene = new Scene(loader.load());
             stage.setScene(scene);
 
             //　コントローラにデータを渡しておく
-            Label lbl = (Label)scene.lookup("#lblStatus");
-            assert(lbl != null);
-            PositiveListMakerFormController m_controller = loader.getController();
-            m_controller.setLabel(lbl);
+            BoxMakerFormControllerPositivePic m_controller = loader.getController();
             m_controller.setScene(scene);
 
             stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
@@ -142,8 +155,12 @@ public class ClassifierViewFormController {
                     try {
                         if (m_controller.isAutoSave()) {
                             Classifier cf = m_controller.getCurrentTargetClassifier();
-                            File f = m_controller.saveImage(cf.getDataDir());
-                            m_controller.saveText(cf, f.getPath());
+                            m_controller.saveTextAndImage(cf.getDataDir(), cf::getPosListStr);
+                            /*
+                            Classifier cf = m_controller.getCurrentTargetClassifier();
+                            File f = m_controller.m_saveImage(cf.getDataDir());
+                            m_controller.m_saveText(cf, f.getPath());
+                            */
                         }
                     } catch (Exception e) {
                         System.out.println(e.toString());

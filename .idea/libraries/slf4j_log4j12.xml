@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="slf4j-log4j12">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/tesscode/slf4j-log4j12.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

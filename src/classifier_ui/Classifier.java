@@ -2,7 +2,6 @@ package classifier_ui;
 
 import groovy.transform.PackageScope;
 import javafx.collections.ObservableList;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import opencv_client.CFFacade;
 import javafx.scene.image.Image;
@@ -94,13 +93,13 @@ abstract public class Classifier {
     }
 
     @PackageScope
-    int getRectWidth() {
-        return  m_cr.getRectWidth();
+    int getRectFixedWidth() {
+        return  m_cr.getRectFixedWidth();
     }
 
     @PackageScope
-    int getRectHeight() {
-        return  m_cr.getRectHeight();
+    int getRectFixedHeight() {
+        return  m_cr.getRectFixedHeight();
     }
 
     @PackageScope

@@ -14,8 +14,8 @@ abstract public class CFResult {
     private final ObservableList<Rectangle> m_rectangleList = FXCollections.observableArrayList();
     private final ObservableList<Rectangle> m_fullRectangleList = FXCollections.observableArrayList();
 
-    abstract public int getRectWidth();
-    abstract public int getRectHeight();
+    abstract public int getRectFixedWidth();
+    abstract public int getRectFixedHeight();
     abstract public Color getRectColor();
     abstract protected Color m_getFullRectColor();
 
@@ -48,10 +48,10 @@ abstract public class CFResult {
         rects.forEach(newRect -> {
             if (isWithParams) {
                 if (isFixed) {
-                    newRect.setWidth(getRectWidth());
-                    newRect.setHeight(getRectHeight());
-                    newRect.setX(Math.min(img.getWidth() - getRectWidth(), Math.max(0, newRect.getX())));
-                    newRect.setY(Math.min(img.getHeight() - getRectHeight(), Math.max(0, newRect.getY())));
+                    newRect.setWidth(getRectFixedWidth());
+                    newRect.setHeight(getRectFixedHeight());
+                    newRect.setX(Math.min(img.getWidth() - getRectFixedWidth(), Math.max(0, newRect.getX())));
+                    newRect.setY(Math.min(img.getHeight() - getRectFixedHeight(), Math.max(0, newRect.getY())));
                 }
                 newRect.setStroke(getRectColor());
                 newRect.setStrokeWidth(3);
