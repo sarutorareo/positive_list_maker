@@ -18,15 +18,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.util.converter.DoubleStringConverter;
-import utils.ImageUtils;
+import tess4j_client.StrRectangle;
 
 import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.function.Function;
 
-import static utils.eventUtil.getAxisStrFromEvent;
+import static utils.EventUtil.getAxisStrFromEvent;
 
 abstract public class BoxMakerFormControllerBase {
     protected Scene m_scene = null;
@@ -182,6 +182,10 @@ abstract public class BoxMakerFormControllerBase {
         });
     }
 
+    protected Rectangle newRectangle(double x, double y, double width, double height)
+    {
+       return new Rectangle(x, y, width, height);
+    }
 
     private Rectangle m_initRectangle(MouseEvent evt, boolean isFixedSize) {
         double x;
@@ -202,7 +206,7 @@ abstract public class BoxMakerFormControllerBase {
             height = Math.min(img.getHeight() - 1 - Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY())), Math.abs(m_mousePressEvent.getY() - evt.getY()));
         }
 
-        Rectangle newRect = new Rectangle(x, y, width, height);
+        Rectangle newRect = newRectangle(x, y, width, height);
         newRect.setFill(Color.TRANSPARENT);
         newRect.setStroke(Color.AQUA);
         // マウスイベントを透過させる
@@ -333,16 +337,27 @@ abstract public class BoxMakerFormControllerBase {
         }
     }
 
-    protected void m_setColumnEditable(TableColumn col, String mName) {
+    protected void m_setColumnEditable(TableColumn col, String mName, boolean isDouble) {
         col.setEditable(true);
-        col.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        if (isDouble) {
+            col.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+        }
+        else {
+            col.setCellFactory(TextFieldTableCell.forTableColumn());
+        }
         col.setOnEditCommit(new EventHandler<TableColumn.CellEditEvent>() {
             @Override
             public void handle(TableColumn.CellEditEvent event) {
-                Double newVal = (Double) event.getNewValue();
+                Object newVal = event.getNewValue();
                 Rectangle rowRect = (Rectangle) event.getRowValue();
                 try {
-                    Method m = Rectangle.class.getMethod(mName, double.class);
+                    Method m;
+                    if (isDouble) {
+                         m = Rectangle.class.getMethod(mName, double.class);
+                    }
+                    else {
+                         m = StrRectangle.class.getMethod(mName, String.class);
+                    }
                     m.invoke(rowRect, newVal);
                     rowRect.setStroke(Color.RED);
                 } catch (ReflectiveOperationException e) {
@@ -357,31 +372,34 @@ abstract public class BoxMakerFormControllerBase {
         table.setItems(items);
     }
 
-    protected void m_saveText(Function<String, String> fncMakeOneLineStr, Scene scene, String dir, String optStr) throws IOException {
-        final String POS_LIST_FILE_NAME = "pos_list.txt";
-        StringBuilder sb = new StringBuilder();
-        File txtFile = new File(dir, POS_LIST_FILE_NAME);
+    protected void m_saveText(List<String> appendLines, String dir, String fileName) throws IOException {
+        StringBuilder sbOrg = new StringBuilder();
+        StringBuilder sbNew = new StringBuilder();
+        File txtFile = new File(dir, fileName);
         // 読む
         try (BufferedReader br = new BufferedReader(new FileReader(txtFile))) {
             String str;
             while((str = br.readLine()) != null){
-                sb.append(String.format("%s\n", str));
+                sbOrg.append(String.format("%s\n", str));
             }
         }catch(FileNotFoundException e) {
             System.out.println(e);
         }
+        // 新しい行
+        for (String appendLine : appendLines) {
+            sbNew.append(String.format("%s\n", appendLine));
+        }
 
         // 書く
         try (FileWriter filewriter = new FileWriter(txtFile, false)) {
-            filewriter.write(String.format("%s\n", fncMakeOneLineStr.apply(optStr)));
-            filewriter.write(sb.toString());
+            filewriter.write(sbNew.toString());
+            filewriter.write(sbOrg.toString());
         }
     }
 
-    private String m_getNewPicFileName(Scene scene, String dir) throws Exception {
-        String fileNameFmt = "positive_%d.png";
-        for (int i = 1; i < 10000; i++) {
-            File f = new File(dir, String.format(fileNameFmt, i));
+    protected String m_getNewPicFileName(Scene scene, String dir, String fmtFileName) throws Exception {
+        for (int i = 0; i < 10000; i++) {
+            File f = new File(dir, String.format(fmtFileName, i));
             if (!f.exists()) {
                 System.out.println("save file " + f.getAbsolutePath());
                 return f.getPath();
@@ -399,7 +417,7 @@ abstract public class BoxMakerFormControllerBase {
     protected File m_saveImage(String dir) throws Exception {
         Image img = m_getImage();
         if (img == null) return null;
-        String picPath = m_getNewPicFileName(m_scene, dir);
+        String picPath = m_getNewPicFileName(m_scene, dir, "positive_%d.png");
         File f = null;
         try {
             // 画像を保存
@@ -412,16 +430,19 @@ abstract public class BoxMakerFormControllerBase {
         return f;
     }
 
-    public void saveTextAndImage(String dataDir, Function<String, String>fncMakeOneLineStr) throws Exception {
+    abstract protected String m_getTextFileName(String imgFileName);
+
+    @PackageScope
+    void saveTextAndImage(String dataDir, Function<String, List<String>>makeAppendLines) throws Exception {
         if (m_getCurrentRectangleList().size() == 0) {
             System.out.println("!!! no rectangle");
             return;
         }
-        File f = m_saveImage(dataDir);
+        File imgFile = m_saveImage(dataDir);
 
         // テキストリストを保存
-        File imgFile = new File(f.getPath());
-        m_saveText(fncMakeOneLineStr, m_scene, imgFile.getParent(), imgFile.getName());
+        List<String>appendLine = makeAppendLines.apply(imgFile.getName());
+        m_saveText(appendLine, imgFile.getParent(), m_getTextFileName(imgFile.getName()));
     }
 
 }

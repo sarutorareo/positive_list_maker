@@ -10,10 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.shape.Rectangle;
@@ -28,11 +30,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Paths;
+import java.util.List;
 
 import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
 import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
 import static utils.ImageUtils.saveTiff;
 import static utils.ImageUtils.toBinaryFxImage;
+import static utils.ImageUtils.toGrayScaleFxImage;
 
 public class ClassifierViewFormController {
     private ClassifierPlayer m_cfPlayer = new ClassifierPlayer();
@@ -58,6 +62,16 @@ public class ClassifierViewFormController {
         */
     }
 
+    private String m_getLanguage() {
+        TextField txtLang = (TextField) m_scene.lookup("#txtLang");
+        return txtLang.getText();
+    }
+
+    private double m_getConfidence() {
+        TextField txtConfidence = (TextField) m_scene.lookup("#txtConfidence");
+
+        return Double.parseDouble(txtConfidence.getText());
+    }
 
     @FXML
     protected void onClick_ocr_button(ActionEvent evt) throws Exception {
@@ -66,9 +80,41 @@ public class ClassifierViewFormController {
         Image fxBinImage = m_getBinImage();
         BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
 
+        List<Word> word = m_getWords(bImage);
+
+        Pane pane = (Pane) m_scene.lookup("#pnImageView");
+        word.forEach(w -> {
+            if (isWord(w)) {
+                System.out.print(String.format("(%s)", w.getText()));
+                System.out.println(w.toString());
+
+                m_wordToRect(pane, w);
+                m_wordToNum(pane, w);
+           }
+        });
+    }
+
+    private void m_wordToRect(Pane pane, Word w) {
+        java.awt.Rectangle b = w.getBoundingBox();
+        Rectangle r = new Rectangle(b.x, b.y, b.width, b.height);
+        r.setFill(Color.TRANSPARENT);
+        r.setStroke(new Color(w.getConfidence() / 100, 0.8, 0.8, 1));
+        r.setStrokeWidth(4 * w.getConfidence() / 100 + 1);
+        pane.getChildren().add(r);
+    }
+
+    private void m_wordToNum(Pane pane, Word w) {
+        java.awt.Rectangle b = w.getBoundingBox();
+
+        Text t = new javafx.scene.text.Text(b.x + b.width + 3, b.y + 3, w.getText());
+        t.setFill(Color.RED);
+        pane.getChildren().add(t);
+    }
+
+    private List<Word> m_getWords(BufferedImage bImage) {
         ITesseract tesseract = new Tesseract();
-        tesseract.setLanguage("osd");
-        /*
+        String lang = m_getLanguage();
+        tesseract.setLanguage(lang);
         //数字と一部の四則演算記号のみ認識させる
         tesseract.setTessVariable("tessedit_char_whitelist","0123456789,");
         tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
@@ -77,29 +123,16 @@ public class ClassifierViewFormController {
         tesseract.setPageSegMode(PSM_AUTO);
         tesseract.setDatapath("D:\\MyProgram\\GitHub\\positive_list_maker\\tessdata");
         tesseract.setOcrEngineMode(0);
-        */
-        java.util.List<Word> word = tesseract.getWords(bImage, m_getRIL());
-        System.out.print(String.format("wrod num (%d)", word.size()));
 
-        Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        word.forEach(w -> {
-//            if (isWord(w)) {
-                System.out.print(String.format("(%s)", w.getText()));
-                System.out.println(w.toString());
-
-                java.awt.Rectangle b = w.getBoundingBox();
-                Rectangle r = new Rectangle(b.x, b.y, b.width, b.height);
-                r.setFill(Color.TRANSPARENT);
-                r.setStroke(new Color(w.getConfidence() / 100, 0.8, 0.8, 1));
-                r.setStrokeWidth(4 * w.getConfidence() / 100 + 1);
-                pane.getChildren().add(r);
- //           }
-        });
+        List<Word> word = tesseract.getWords(bImage, m_getRIL());
+        System.out.println(String.format("wrod num (%d)", word.size()));
+        return word;
     }
 
     private boolean isWord(Word w) {
+        double minConfidence = m_getConfidence();
         return ((w.getText().trim().length() > 0)
-                && (w.getConfidence() > 0)
+                && (w.getConfidence() > minConfidence)
                 && !w.getText().contains(" ")
                 && w.getText().matches(".*[0-9].*"));
     }
@@ -271,6 +304,7 @@ public class ClassifierViewFormController {
     private void m_clearRectangles() {
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
         Classifier.clearRectsFromPane(pane);
+        Classifier.clearTextsFromPane(pane);
     }
 
     private void m_classify() throws Exception {
@@ -311,9 +345,9 @@ public class ClassifierViewFormController {
             ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
             imgView.setImage(fxImage);
 
-            Image fxBinImage = toBinaryFxImage(fxImage, 80);
-            ImageView imgBinView = (ImageView)m_scene.lookup("#imvBinPic");
-            imgBinView.setImage(fxBinImage);
+            Image fxGrayImage = toGrayScaleFxImage(fxImage);
+            ImageView imgGrayView = (ImageView)m_scene.lookup("#imvBinPic");
+            imgGrayView.setImage(fxGrayImage);
 
             // 画面サイズを調整
             Pane pane = (Pane)imgView.getParent();
@@ -321,8 +355,8 @@ public class ClassifierViewFormController {
             pane.setMaxHeight(fxImage.getHeight());
             imgView.setFitWidth(fxImage.getWidth());
             imgView.setFitHeight(fxImage.getHeight());
-            imgBinView.setFitWidth(fxImage.getWidth());
-            imgBinView.setFitHeight(fxImage.getHeight());
+            imgGrayView.setFitWidth(fxImage.getWidth());
+            imgGrayView.setFitHeight(fxImage.getHeight());
             javafx.stage.Window wnd = m_scene.getWindow();
             wnd.setWidth(fxImage.getWidth() + 30);
             wnd.setHeight(fxImage.getHeight() + 100);

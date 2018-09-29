@@ -122,7 +122,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tesscode/tess4j-4.0.0.jar!/" />
+          <root url="jar://$MODULE_DIR$/tesscode/tess4j-3.4.8.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -131,7 +131,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/tesscode/lept4j-1.9.3.jar!/" />
+          <root url="jar://$MODULE_DIR$/tesscode/lept4j-1.6.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

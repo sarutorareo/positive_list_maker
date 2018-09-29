@@ -9,12 +9,19 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import tess4j_client.StrRectangle;
+import java.nio.file.Path;
+
+import utils.FileUtil;
 import utils.ImageUtils;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
     private final int RECT_FIXED_WIDTH = 40;
@@ -56,13 +63,29 @@ public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
         m_onKeyPressed_paneMain(evt);
     }
 
-    private String m_dummyStr(String optStr) {
-        return optStr + ":dummyStr";
+    @Override
+    protected Rectangle newRectangle(double x, double y, double width, double height)
+    {
+        return new StrRectangle("a", x, y, width, height);
+    }
+
+    private List<String> m_makeAppendLines(String optStr) {
+        List<String> lines = new ArrayList<>();
+        
+        TableView table = (TableView) m_scene.lookup("#tblRectangles");
+        Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
+        for (Object o : table.getItems()) {
+            StrRectangle rect = (StrRectangle)o;
+            lines.add(rect.toBoxString((int)pane.getHeight()));
+        }
+        
+        return lines;
     }
 
     @FXML
     protected void onClick_saveTextAndImage_button(ActionEvent evt) throws IOException, Exception {
-        saveTextAndImage("d:\\temp\\saveTest", this::m_dummyStr);
+        saveTextAndImage("D:\\MyProgram\\GitHub\\positive_list_maker\\train_tess4j\\saveTest",
+                this::m_makeAppendLines);
     }
 
     private void m_initTableView() {
@@ -70,16 +93,16 @@ public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
 
         table.setEditable(true);
 
-        TableColumn colChar = new TableColumn("Char");
-        m_setColumnEditable(colChar, "setChar");
+        TableColumn<Rectangle, String> colChar = new TableColumn("Char");
+        m_setColumnEditable(colChar, "setChar", false);
         TableColumn colX = new TableColumn("X");
-        m_setColumnEditable(colX, "setX");
+        m_setColumnEditable(colX, "setX", true);
         TableColumn colY = new TableColumn("Y");
-        m_setColumnEditable(colY, "setY");
+        m_setColumnEditable(colY, "setY", true);
         TableColumn colWidth = new TableColumn("Width");
-        m_setColumnEditable(colWidth, "setWidth");
+        m_setColumnEditable(colWidth, "setWidth", true);
         TableColumn colHeight = new TableColumn("Height");
-        m_setColumnEditable(colHeight, "setHeight");
+        m_setColumnEditable(colHeight, "setHeight", true);
 
         ObservableList columns =
                 FXCollections.observableArrayList();
@@ -124,12 +147,22 @@ public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
 
     @Override
     protected File m_saveImage(String dir) throws Exception {
-        File result = super.m_saveImage(dir);
+        // File result = super.m_saveImage(dir);
         Image fxImage = m_getImage();
-        Image fxBinImage = ImageUtils.toBinaryFxImage(fxImage, 80);
+        // Image fxBinImage = ImageUtils.toBinaryFxImage(fxImage, 80);
+        Image fxGrayImage = ImageUtils.toGrayScaleFxImage(fxImage);
 
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
-        ImageUtils.saveTiff("d:\\temp\\saveTest\\test.tiff", bImage);
-        return result;
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxGrayImage, null);
+
+        String fontName = "active_player_stack";
+        String fileName = m_getNewPicFileName(m_scene, dir, "pkr." + fontName + ".exp%d.tif");
+        ImageUtils.saveTiff(fileName, bImage);
+
+        return new File(fileName);
+    }
+
+    protected String m_getTextFileName(String imgFileName) {
+        String withOutExtention = FileUtil.getWithoutExtention(imgFileName);
+        return withOutExtention + ".box";
     }
 }

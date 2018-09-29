@@ -22,9 +22,10 @@
             <Button mnemonicParsing="false" onAction="#onClick_capture_button" text="Capture" />
             <ToggleButton fx:id="tglAutoCapture" mnemonicParsing="false" onAction="#onClick_autoCapture_button" text="AutoCapture" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
+            <TextField fx:id="txtLang" prefHeight="25.0" prefWidth="53.0" text="eng" />
+            <TextField fx:id="txtConfidence" prefHeight="25.0" prefWidth="53.0" text="50" />
             <Button fx:id="btnOCR" mnemonicParsing="false" onAction="#onClick_ocr_button" text="OCR" />
             <CheckBox fx:id="cbxBinary" mnemonicParsing="false" onAction="#onClick_binary" text="Binary" />
-            <TextField fx:id="txtRIL" />
          </items>
       </ToolBar>
    </children>

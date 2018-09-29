@@ -6,6 +6,7 @@ import javafx.scene.layout.Pane;
 import opencv_client.CFFacade;
 import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
@@ -70,12 +71,27 @@ abstract public class Classifier {
     }
 
     @PackageScope
+    static void clearTextsFromPane(Pane pane) {
+        System.out.println("clearRectsFromPane ");
+        List<Text> list = new ArrayList<Text>();
+        pane.getChildren().forEach(node -> {
+            if (node instanceof Text) {
+                list.add((Text)node);
+            }
+        });
+
+        list.forEach(r -> {
+            pane.getChildren().remove(r);
+        });
+    }
+
+    @PackageScope
     void changeHideFullRect(boolean isHide) {
         m_cr.changeHideFullRect(isHide);
     }
 
     @PackageScope
-    String getPosListStr(String picPath) {
+    List<String> getPosListStr(String picPath) {
         StringBuilder sb = new StringBuilder();
         sb.append(picPath);
         sb.append("\t");
@@ -89,7 +105,9 @@ abstract public class Classifier {
                     Math.round(Math.ceil(r.getHeight()))));
         });
 
-        return sb.toString();
+        List<String> result = new ArrayList();
+        result.add(sb.toString());
+        return result;
     }
 
     @PackageScope

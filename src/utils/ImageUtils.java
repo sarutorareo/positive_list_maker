@@ -1,17 +1,12 @@
 package utils;
 
-import classifier_ui.CFResult;
-import classifier_ui.CFSettings;
 import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriter;
 import com.github.jaiimageio.impl.plugins.tiff.TIFFImageWriterSpi;
 import com.github.jaiimageio.plugins.tiff.TIFFImageWriteParam;
+import groovy.transform.PackageScope;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import org.opencv.core.*;
-import org.opencv.highgui.HighGui;
-import org.opencv.objdetect.CascadeClassifier;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -25,23 +20,19 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Locale;
 
-import static org.opencv.highgui.HighGui.WINDOW_AUTOSIZE;
-import static org.opencv.objdetect.Objdetect.CASCADE_SCALE_IMAGE;
-
 public class ImageUtils {
-    public static int a(int c){
+    private static int a(int c) {
         return c>>>24;
     }
-    public static int r(int c){
+    private static int r(int c) {
         return c>>16&0xff;
     }
-    public static int g(int c){
+    private static int g(int c) {
         return c>>8&0xff;
     }
-    public static int b(int c){
+    private static int b(int c){
         return c&0xff;
     }
 
@@ -56,7 +47,16 @@ public class ImageUtils {
         return bufferedImageToFxImage(binImage);
     }
 
-    static public BufferedImage toBinImage(BufferedImage readImage, int threshold) {
+    static public Image toGrayScaleFxImage(Image fxImage)
+    {
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+        BufferedImage binImage = toGrayScaleImage(bImage);
+        return bufferedImageToFxImage(binImage);
+    }
+
+
+    @PackageScope
+    static BufferedImage toBinImage(BufferedImage readImage, int threshold) {
         int w = readImage.getWidth();
         int h = readImage.getHeight();
 
@@ -76,19 +76,41 @@ public class ImageUtils {
         }
         return write;
     }
+
+    @PackageScope
+    static BufferedImage toGrayScaleImage(BufferedImage readImage) {
+        int w = readImage.getWidth();
+        int h = readImage.getHeight();
+
+        BufferedImage write = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_GRAY);
+
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+                float r = new java.awt.Color(readImage.getRGB(x, y)).getRed();
+                float g = new java.awt.Color(readImage.getRGB(x, y)).getGreen();
+                float b = new java.awt.Color(readImage.getRGB(x, y)).getBlue();
+                int grayScaled = (int)Math.min(255, ((r+g+b) * 1.3)/3);
+                write.setRGB(x, y, new java.awt.Color(grayScaled, grayScaled, grayScaled).getRGB());
+            }
+        }
+        return write;
+    }
+
     /**
      * BufferedImage型（TYPE_3BYTE_RGB）をMat型（CV_8UC3）に変換します
 //     * @param image 変換したいBufferedImage型
      * @return 変換したMat型
     */
-    public static Mat bufferedImageToMat(BufferedImage image) {
+    @PackageScope
+    static Mat bufferedImageToMat(BufferedImage image) {
         byte[] data = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
         Mat mat = new Mat(image.getHeight(), image.getWidth(), CvType.CV_8UC3);
         mat.put(0, 0, data);
         return mat;
     }
 
-    public static BufferedImage toBufferedImageOfType(BufferedImage original, int type) {
+    @PackageScope
+    static BufferedImage toBufferedImageOfType(BufferedImage original, int type) {
         if (original == null) {
             throw new IllegalArgumentException("original == null");
         }
@@ -141,6 +163,7 @@ public class ImageUtils {
 
             ios.flush();
             writer.dispose();
+            fos.close();
             ios.close();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

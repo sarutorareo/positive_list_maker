@@ -205,8 +205,6 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         m_chbTargetChanged(null);
     }
 
-
-
     private void m_clearRectangles() {
         Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
         m_cfPlayer.clearRectsFromPane(pane);
@@ -269,13 +267,13 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         table.setEditable(true);
 
         TableColumn colX = new TableColumn("X");
-        m_setColumnEditable(colX, "setX");
+        m_setColumnEditable(colX, "setX", true);
         TableColumn colY = new TableColumn("Y");
-        m_setColumnEditable(colY, "setY");
+        m_setColumnEditable(colY, "setY", true);
         TableColumn colWidth = new TableColumn("Width");
-        m_setColumnEditable(colWidth, "setWidth");
+        m_setColumnEditable(colWidth, "setWidth", true);
         TableColumn colHeight = new TableColumn("Height");
-        m_setColumnEditable(colHeight, "setHeight");
+        m_setColumnEditable(colHeight, "setHeight", true);
 
         ObservableList columns =
                 FXCollections.observableArrayList();
@@ -528,6 +526,11 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         gs.setIsHideFullRect(chkHide.isSelected());
 
         return gs;
+    }
+
+    protected String m_getTextFileName(String imgFileName) {
+        final String POS_LIST_FILE_NAME = "pos_list.txt";
+        return POS_LIST_FILE_NAME;
     }
 
 }
