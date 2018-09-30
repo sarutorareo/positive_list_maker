@@ -149,8 +149,7 @@ public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
     protected File m_saveImage(String dir) throws Exception {
         // File result = super.m_saveImage(dir);
         Image fxImage = m_getImage();
-        // Image fxBinImage = ImageUtils.toBinaryFxImage(fxImage, 80);
-        Image fxGrayImage = ImageUtils.toGrayScaleFxImage(fxImage);
+        Image fxGrayImage = ImageUtils.toReverceBinaryFxImage(fxImage);
 
         BufferedImage bImage = SwingFXUtils.fromFXImage(fxGrayImage, null);
 

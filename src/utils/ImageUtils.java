@@ -40,10 +40,15 @@ public class ImageUtils {
         return SwingFXUtils.toFXImage(bImage,null);
     }
 
-    static public Image toBinaryFxImage(Image fxImage, int threshold)
+    static public Image toReverceBinaryFxImage(Image fxImage)
+    {
+        return toBinaryFxImage(fxImage, 80, true);
+    }
+
+    static public Image toBinaryFxImage(Image fxImage, int threshold, boolean fgReverce)
     {
         BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
-        BufferedImage binImage = toBinImage(bImage, threshold);
+        BufferedImage binImage = toBinImage(bImage, threshold, fgReverce);
         return bufferedImageToFxImage(binImage);
     }
 
@@ -56,7 +61,7 @@ public class ImageUtils {
 
 
     @PackageScope
-    static BufferedImage toBinImage(BufferedImage readImage, int threshold) {
+    static BufferedImage toBinImage(BufferedImage readImage, int threshold, boolean fgReverce) {
         int w = readImage.getWidth();
         int h = readImage.getHeight();
 
@@ -67,10 +72,19 @@ public class ImageUtils {
                 int c = readImage.getRGB(x, y);
                 int mono = (int) (0.299 * r(c) + 0.587 * g(c) + 0.114 * b(c));
 
-                if (mono > threshold) {
-                    write.setRGB(x, y, 0xFFFFFF);
-                } else {
-                    write.setRGB(x, y, 0x000000);
+                if (fgReverce) {
+                    if (mono > threshold) {
+                        write.setRGB(x, y, 0x000000);
+                    } else {
+                        write.setRGB(x, y, 0xFFFFFF);
+                    }
+                }
+                else {
+                    if (mono > threshold) {
+                        write.setRGB(x, y, 0xFFFFFF);
+                    } else {
+                        write.setRGB(x, y, 0x000000);
+                    }
                 }
             }
         }
@@ -89,7 +103,9 @@ public class ImageUtils {
                 float r = new java.awt.Color(readImage.getRGB(x, y)).getRed();
                 float g = new java.awt.Color(readImage.getRGB(x, y)).getGreen();
                 float b = new java.awt.Color(readImage.getRGB(x, y)).getBlue();
-                int grayScaled = (int)Math.min(255, ((r+g+b) * 1.3)/3);
+                int grayScaled = 255 - (int)Math.min(255, ((r+g+b) * 2.0)/3);
+//                int grayScaled = 255 - (int)Math.min(255, ((r+g+b) * 1.0)/3);
+                grayScaled = (grayScaled >= 128)? 255: grayScaled;
                 write.setRGB(x, y, new java.awt.Color(grayScaled, grayScaled, grayScaled).getRGB());
             }
         }
@@ -171,4 +187,7 @@ public class ImageUtils {
         }
     }
 
+    static public BufferedImage getRectSubImage(BufferedImage orgImage, javafx.scene.shape.Rectangle rect) {
+        return orgImage.getSubimage((int)rect.getX(), (int)rect.getY(), (int)rect.getWidth(), (int)rect.getHeight());
+    }
 }

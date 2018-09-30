@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -25,6 +24,7 @@ import javafx.embed.swing.SwingFXUtils;
 import net.sourceforge.tess4j.ITesseract;
 import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
+import utils.ImageUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -34,9 +34,7 @@ import java.util.List;
 
 import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
 import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
-import static utils.ImageUtils.saveTiff;
-import static utils.ImageUtils.toBinaryFxImage;
-import static utils.ImageUtils.toGrayScaleFxImage;
+import static utils.ImageUtils.*;
 
 public class ClassifierViewFormController {
     private ClassifierPlayer m_cfPlayer = new ClassifierPlayer();
@@ -80,33 +78,39 @@ public class ClassifierViewFormController {
         Image fxBinImage = m_getBinImage();
         BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
 
-        List<Word> word = m_getWords(bImage);
-
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        word.forEach(w -> {
-            if (isWord(w)) {
-                System.out.print(String.format("(%s)", w.getText()));
-                System.out.println(w.toString());
+        m_cfPlayer.getRectangleList().forEach(pr -> {
+            Rectangle subRect = new Rectangle(pr.getX(),
+                    pr.getY() + pr.getHeight()/2,
+                    pr.getWidth(),
+                    pr.getHeight() / 2);
+            BufferedImage bSubImage = getRectSubImage(bImage, subRect);
+            ImageUtils.saveTiff(String.format("d:\\temp\\partImages\\player_%d-%d.tif", (int)pr.getX(), (int)pr.getY()), bSubImage);
+            List<Word> word = m_getWords(bSubImage);
+            word.forEach(w -> {
+                if (isWord(w)) {
+                    System.out.print(String.format("(%s)", w.getText()));
+                    System.out.println(w.toString());
 
-                m_wordToRect(pane, w);
-                m_wordToNum(pane, w);
-           }
+                    java.awt.Rectangle b = w.getBoundingBox();
+                    Rectangle r = new Rectangle(subRect.getX() + b.x, subRect.getY() + b.y, b.width, b.height);
+                    m_wordToRect(pane, w, r);
+                    m_wordToNum(pane, w, r);
+               }
+            });
         });
     }
 
-    private void m_wordToRect(Pane pane, Word w) {
+    private void m_wordToRect(Pane pane, Word w, Rectangle r) {
         java.awt.Rectangle b = w.getBoundingBox();
-        Rectangle r = new Rectangle(b.x, b.y, b.width, b.height);
         r.setFill(Color.TRANSPARENT);
         r.setStroke(new Color(w.getConfidence() / 100, 0.8, 0.8, 1));
         r.setStrokeWidth(4 * w.getConfidence() / 100 + 1);
         pane.getChildren().add(r);
     }
 
-    private void m_wordToNum(Pane pane, Word w) {
-        java.awt.Rectangle b = w.getBoundingBox();
-
-        Text t = new javafx.scene.text.Text(b.x + b.width + 3, b.y + 3, w.getText());
+    private void m_wordToNum(Pane pane, Word w, Rectangle r) {
+        Text t = new javafx.scene.text.Text(r.getX() + r.getWidth() + 3, r.getY() + 3, w.getText());
         t.setFill(Color.RED);
         pane.getChildren().add(t);
     }
@@ -345,7 +349,9 @@ public class ClassifierViewFormController {
             ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
             imgView.setImage(fxImage);
 
-            Image fxGrayImage = toGrayScaleFxImage(fxImage);
+//            Image fxGrayImage = toGrayScaleFxImage(fxImage);
+            // Image fxGrayImage = toBinaryFxImage(fxImage,80 );
+            Image fxGrayImage = toReverceBinaryFxImage(fxImage);
             ImageView imgGrayView = (ImageView)m_scene.lookup("#imvBinPic");
             imgGrayView.setImage(fxGrayImage);
 

@@ -383,7 +383,7 @@ abstract public class BoxMakerFormControllerBase {
                 sbOrg.append(String.format("%s\n", str));
             }
         }catch(FileNotFoundException e) {
-            System.out.println(e);
+            // System.out.println(e);
         }
         // 新しい行
         for (String appendLine : appendLines) {
