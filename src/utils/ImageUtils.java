@@ -43,6 +43,7 @@ public class ImageUtils {
     static public Image toReverceBinaryFxImage(Image fxImage)
     {
         return toBinaryFxImage(fxImage, 80, true);
+        //return toGrayScaleFxImage(fxImage);
     }
 
     static public Image toBinaryFxImage(Image fxImage, int threshold, boolean fgReverce)
@@ -103,9 +104,9 @@ public class ImageUtils {
                 float r = new java.awt.Color(readImage.getRGB(x, y)).getRed();
                 float g = new java.awt.Color(readImage.getRGB(x, y)).getGreen();
                 float b = new java.awt.Color(readImage.getRGB(x, y)).getBlue();
-                int grayScaled = 255 - (int)Math.min(255, ((r+g+b) * 2.0)/3);
-//                int grayScaled = 255 - (int)Math.min(255, ((r+g+b) * 1.0)/3);
-                grayScaled = (grayScaled >= 128)? 255: grayScaled;
+//                int grayScaled = 255 - (int)Math.min(255, ((r+g+b) * 2.0)/3);
+                int grayScaled = 255 - (int)Math.min(255, ((r+g+b) * 1.0)/3);
+//                grayScaled = (grayScaled >= 128)? 255: grayScaled;
                 write.setRGB(x, y, new java.awt.Color(grayScaled, grayScaled, grayScaled).getRGB());
             }
         }
@@ -159,7 +160,7 @@ public class ImageUtils {
         return bufferedImageToMat( bImage);
     }
 
-    static public void saveTiff(String path, BufferedImage bImage) {
+    static public void saveTiff(BufferedImage bImage, String path) {
         try {
             ImageWriterSpi tiffspi = new TIFFImageWriterSpi();
             TIFFImageWriter writer = (TIFFImageWriter) tiffspi.createWriterInstance();
@@ -187,7 +188,18 @@ public class ImageUtils {
         }
     }
 
+    static public File savePng(BufferedImage img, String path) throws java.io.IOException {
+        return m_doSaveImg(img, path, "png");
+    }
+
+    static private File m_doSaveImg(BufferedImage img, String path, String fmt) throws java.io.IOException {
+        File f = new File(path);
+        ImageIO.write(img, fmt, f);
+        return f;
+    }
+
     static public BufferedImage getRectSubImage(BufferedImage orgImage, javafx.scene.shape.Rectangle rect) {
         return orgImage.getSubimage((int)rect.getX(), (int)rect.getY(), (int)rect.getWidth(), (int)rect.getHeight());
     }
+
 }

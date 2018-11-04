@@ -13,6 +13,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.Clipboard;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -26,14 +27,18 @@ import net.sourceforge.tess4j.Tesseract;
 import net.sourceforge.tess4j.Word;
 import utils.ImageUtils;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.Buffer;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 
 import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
 import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
+import static utils.DateTimeUtil.toNumStr;
 import static utils.ImageUtils.*;
 
 public class ClassifierViewFormController {
@@ -75,29 +80,84 @@ public class ClassifierViewFormController {
     protected void onClick_ocr_button(ActionEvent evt) throws Exception {
         m_clearRectangles();
 
-        Image fxBinImage = m_getBinImage();
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxBinImage, null);
+        Pane pane = (Pane) m_scene.lookup("#pnImageView");
+        m_doOCR(pane);
+    }
+
+    @FXML
+    protected void onClick_simpleOcr_button(ActionEvent evt) throws Exception {
+        m_clearRectangles();
 
         Pane pane = (Pane) m_scene.lookup("#pnImageView");
-        m_cfPlayer.getRectangleList().forEach(pr -> {
-            Rectangle subRect = new Rectangle(pr.getX(),
-                    pr.getY() + pr.getHeight()/2,
-                    pr.getWidth(),
-                    pr.getHeight() / 2);
-            BufferedImage bSubImage = getRectSubImage(bImage, subRect);
-            ImageUtils.saveTiff(String.format("d:\\temp\\partImages\\player_%d-%d.tif", (int)pr.getX(), (int)pr.getY()), bSubImage);
-            List<Word> word = m_getWords(bSubImage);
-            word.forEach(w -> {
-                if (isWord(w)) {
-                    System.out.print(String.format("(%s)", w.getText()));
-                    System.out.println(w.toString());
+        m_doSimpleOCR(pane);
+    }
 
-                    java.awt.Rectangle b = w.getBoundingBox();
-                    Rectangle r = new Rectangle(subRect.getX() + b.x, subRect.getY() + b.y, b.width, b.height);
-                    m_wordToRect(pane, w, r);
-                    m_wordToNum(pane, w, r);
-               }
-            });
+    private void m_doOCR(Pane pane) {
+        Image fxBinImage = m_getBinImage();
+        BufferedImage bBinImage = SwingFXUtils.fromFXImage(fxBinImage, null);
+
+        m_cfPlayer.getRectangleList().forEach(pr -> {
+            Rectangle ocrRect = m_getOcrRectanble(pr);
+            BufferedImage bSubBinImage = getRectSubImage(bBinImage, ocrRect);
+            // m_debugSavePng(pr, ocrRect);
+            m_ocrPartImage(bSubBinImage, pane, ocrRect);
+        });
+    }
+
+    private Rectangle m_getOcrRectanble(Rectangle pr) {
+        return new Rectangle(pr.getX(),
+                        pr.getY() + pr.getHeight()/2,
+                        pr.getWidth(),
+                        pr.getHeight() / 2);
+    }
+
+    private void m_doSimpleOCR(Pane pane) {
+        Image fxImage = m_getImage();
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+        Rectangle pr = new Rectangle(0, 0, bImage.getWidth(), bImage.getHeight());
+        m_ocrPartImage(bImage, pane, pr);
+    }
+
+    private void m_debugSavePng(Rectangle pr, Rectangle subRect) {
+        Image fxImage = m_getImage();
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
+        BufferedImage bSubImage = getRectSubImage(bImage, subRect);
+        String strDate = toNumStr(new Date());
+        String filePathWithoutExt = String.format("D:\\MyProgram\\GitHub\\positive_list_maker\\temp_pic\\player_%s_%d-%d", strDate, (int)pr.getX(), (int)pr.getY());
+        try {
+            ImageUtils.savePng(bSubImage, filePathWithoutExt + ".png");
+        }
+        catch (IOException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+
+    private void m_ocrPartImage(BufferedImage bSubImage, Pane pane, Rectangle subRect)
+    {
+        BufferedImage cleanedImage = (new ImageCleaner()).cleaning(bSubImage);
+        // debug用に画像を保存
+        try {
+            String strDate = toNumStr(new Date());
+            String filePathWithoutExt = String.format("D:\\MyProgram\\GitHub\\positive_list_maker\\temp_pic\\player_%s_%d-%d", strDate, (int) subRect.getX(), (int) subRect.getY());
+            ImageUtils.saveTiff(cleanedImage, filePathWithoutExt + ".tif");
+            ImageUtils.savePng(cleanedImage, filePathWithoutExt + ".png");
+        } catch(IOException ex) {
+            System.out.println(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+        List<Word> word = m_getWords(cleanedImage);
+        word.forEach(w -> {
+            if (isWord(w)) {
+                System.out.print(String.format("(%s)", w.getText()));
+                System.out.println(w.toString());
+
+                java.awt.Rectangle b = w.getBoundingBox();
+                Rectangle r = new Rectangle(subRect.getX() + b.x, subRect.getY() + b.y, b.width, b.height);
+                m_wordToRect(pane, w, r);
+                m_wordToNum(pane, w, r);
+           }
         });
     }
 
@@ -121,15 +181,14 @@ public class ClassifierViewFormController {
         tesseract.setLanguage(lang);
         //数字と一部の四則演算記号のみ認識させる
         tesseract.setTessVariable("tessedit_char_whitelist","0123456789,");
-        tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
+//        tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
         tesseract.setTessVariable("load_system_dawg", "0");
         tesseract.setTessVariable("user_words_suffix", "0");
         tesseract.setPageSegMode(PSM_AUTO);
         tesseract.setDatapath("D:\\MyProgram\\GitHub\\positive_list_maker\\tessdata");
-        tesseract.setOcrEngineMode(0);
-
+        tesseract.setOcrEngineMode(1);
         List<Word> word = tesseract.getWords(bImage, m_getRIL());
-        System.out.println(String.format("wrod num (%d)", word.size()));
+        System.out.println(String.format("word num (%d)", word.size()));
         return word;
     }
 
@@ -218,10 +277,24 @@ public class ClassifierViewFormController {
         setResult();
     }
 
+    @FXML
+    protected void onClick_paste_button(ActionEvent evt) throws Exception {
+        pasteImageAndClassify();
+        setResult();
+    }
+
+
     @PackageScope
     synchronized void captureImageAndClassify() throws Exception {
         System.out.println("captureImageAndClassify");
         m_doCapture();
+        m_classify();
+    }
+
+    @PackageScope
+    synchronized void pasteImageAndClassify() throws Exception {
+        System.out.println("pasteImageAndClassify");
+        m_doPaste();
         m_classify();
     }
 
@@ -344,30 +417,41 @@ public class ClassifierViewFormController {
             // これで画面キャプチャ
             Robot robot = new Robot();
             BufferedImage image = robot.createScreenCapture(bounds);
-            WritableImage fxImage = SwingFXUtils.toFXImage(image, null);
-
-            ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
-            imgView.setImage(fxImage);
-
-//            Image fxGrayImage = toGrayScaleFxImage(fxImage);
-            // Image fxGrayImage = toBinaryFxImage(fxImage,80 );
-            Image fxGrayImage = toReverceBinaryFxImage(fxImage);
-            ImageView imgGrayView = (ImageView)m_scene.lookup("#imvBinPic");
-            imgGrayView.setImage(fxGrayImage);
-
-            // 画面サイズを調整
-            Pane pane = (Pane)imgView.getParent();
-            pane.setMaxWidth(fxImage.getWidth());
-            pane.setMaxHeight(fxImage.getHeight());
-            imgView.setFitWidth(fxImage.getWidth());
-            imgView.setFitHeight(fxImage.getHeight());
-            imgGrayView.setFitWidth(fxImage.getWidth());
-            imgGrayView.setFitHeight(fxImage.getHeight());
-            javafx.stage.Window wnd = m_scene.getWindow();
-            wnd.setWidth(fxImage.getWidth() + 30);
-            wnd.setHeight(fxImage.getHeight() + 100);
+            Image fxImage = SwingFXUtils.toFXImage(image, null);
+            m_initImageView(fxImage);
         } catch (AWTException e) {
             e.printStackTrace();
         }
+    }
+
+    private void m_initImageView(Image fxImage) {
+        ImageView imgView = (ImageView)m_scene.lookup("#imvPic");
+        imgView.setImage(fxImage);
+
+//            Image fxGrayImage = toGrayScaleFxImage(fxImage);
+        // Image fxGrayImage = toBinaryFxImage(fxImage,80 );
+        Image fxGrayImage = toReverceBinaryFxImage(fxImage);
+        ImageView imgGrayView = (ImageView)m_scene.lookup("#imvBinPic");
+        imgGrayView.setImage(fxGrayImage);
+
+        // 画面サイズを調整
+        Pane pane = (Pane)imgView.getParent();
+        pane.setMaxWidth(fxImage.getWidth());
+        pane.setMaxHeight(fxImage.getHeight());
+        imgView.setFitWidth(fxImage.getWidth());
+        imgView.setFitHeight(fxImage.getHeight());
+        imgGrayView.setFitWidth(fxImage.getWidth());
+        imgGrayView.setFitHeight(fxImage.getHeight());
+        javafx.stage.Window wnd = m_scene.getWindow();
+        wnd.setWidth(fxImage.getWidth() + 30);
+        wnd.setHeight(fxImage.getHeight() + 100);
+    }
+
+    protected void m_doPaste() throws Exception {
+        // クリップボードの画像を取得
+        Clipboard cb = Clipboard.getSystemClipboard();
+        System.out.println(cb.getContentTypes());
+        Image newImage = cb.getImage();
+        m_initImageView(newImage);
     }
 }

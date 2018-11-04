@@ -151,11 +151,15 @@ public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
         Image fxImage = m_getImage();
         Image fxGrayImage = ImageUtils.toReverceBinaryFxImage(fxImage);
 
-        BufferedImage bImage = SwingFXUtils.fromFXImage(fxGrayImage, null);
+        BufferedImage bGrayImage = SwingFXUtils.fromFXImage(fxGrayImage, null);
+        BufferedImage bImage = SwingFXUtils.fromFXImage(fxImage, null);
 
+        String fontNameGray = "active_player_stack_gray";
         String fontName = "active_player_stack";
-        String fileName = m_getNewPicFileName(m_scene, dir, "pkr." + fontName + ".exp%d.tif");
-        ImageUtils.saveTiff(fileName, bImage);
+        String fileNameGray = m_getNewPicFileName(m_scene, dir, "eng." + fontNameGray + ".exp%d.tif");
+        String fileName = m_getNewPicFileName(m_scene, dir, "eng." + fontName + ".exp%d.tif");
+        ImageUtils.saveTiff(bGrayImage, fileNameGray);
+        ImageUtils.saveTiff(bImage, fileName);
 
         return new File(fileName);
     }

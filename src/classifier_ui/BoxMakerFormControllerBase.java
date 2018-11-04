@@ -408,7 +408,7 @@ abstract public class BoxMakerFormControllerBase {
         throw new Exception("can't make new pic filename");
     }
 
-    private File m_doSaveImg(Scene scene, Image img, String path, String fmt) throws java.io.IOException {
+    private File m_doSaveImg(Image img, String path, String fmt) throws java.io.IOException {
         File f = new File(path);
         ImageIO.write(SwingFXUtils.fromFXImage(img, null), fmt, f);
         return f;
@@ -421,7 +421,7 @@ abstract public class BoxMakerFormControllerBase {
         File f = null;
         try {
             // 画像を保存
-            f = m_doSaveImg(m_scene, img, picPath, "png");
+            f = m_doSaveImg(img, picPath, "png");
         } catch (IOException ex) {
             System.out.println("!!! IOException at m_saveImage " + ex.getMessage());
         } catch (Exception ex) {

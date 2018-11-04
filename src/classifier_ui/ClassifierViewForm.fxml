@@ -20,11 +20,13 @@
             <Button mnemonicParsing="false" onAction="#onClick_positive_list_button" text="AddPosList" />
             <Button fx:id="btnAddTessBox" mnemonicParsing="false" onAction="#onClick_addTessBox_button" text="AddTessBox" />
             <Button mnemonicParsing="false" onAction="#onClick_capture_button" text="Capture" />
+            <Button mnemonicParsing="false" onAction="#onClick_paste_button" text="Paste" />
             <ToggleButton fx:id="tglAutoCapture" mnemonicParsing="false" onAction="#onClick_autoCapture_button" text="AutoCapture" />
             <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
-            <TextField fx:id="txtLang" prefHeight="25.0" prefWidth="53.0" text="pkr" />
+            <TextField fx:id="txtLang" prefHeight="25.0" prefWidth="53.0" text="eng" />
             <TextField fx:id="txtConfidence" prefHeight="25.0" prefWidth="53.0" text="50" />
             <Button fx:id="btnOCR" mnemonicParsing="false" onAction="#onClick_ocr_button" text="OCR" />
+            <Button fx:id="btnSimpleOCR" mnemonicParsing="false" onAction="#onClick_simpleOcr_button" text="SimpleOCR" />
             <CheckBox fx:id="cbxBinary" mnemonicParsing="false" onAction="#onClick_binary" text="Binary" />
          </items>
       </ToolBar>
