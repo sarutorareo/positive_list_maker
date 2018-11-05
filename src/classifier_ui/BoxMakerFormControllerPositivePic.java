@@ -4,11 +4,9 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.*;
@@ -19,10 +17,10 @@ import javafx.scene.shape.Rectangle;
 import org.opencv.core.Size;
 
 import javax.annotation.Resources;
-import javax.imageio.ImageIO;
 import java.io.*;
 import java.net.URL;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.List;
 
 public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBase {
     /*
@@ -31,6 +29,8 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
     */
     private ClassifierPlayer m_cfPlayer = new ClassifierPlayer();
     private ClassifierDealerButton m_cfDealerButton = new ClassifierDealerButton();
+    private ClassifierChip m_cfChip = new ClassifierChip();
+    private List<Classifier> m_lstClassifier = Arrays.asList(m_cfPlayer, m_cfDealerButton, m_cfChip);
     // private CFResultPlayer m_crPlayer = new CFResultPlayer();
     // private CFResultDealerButton m_crDealerButton = new CFResultDealerButton();
 
@@ -90,6 +90,7 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         final ObservableList<String> cmbListTarget = FXCollections.observableArrayList();
         cmbListTarget.add("Player");
         cmbListTarget.add("Dealer");
+        cmbListTarget.add("Chip");
         chbTarget.setItems(cmbListTarget);
         chbTarget.getSelectionModel().select(0);
     }
@@ -125,6 +126,9 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
             case DealerButton:
                 System.out.println("m_getCurrentTargetItems  = " + m_cfDealerButton.getRectangleList().size());
                 return m_cfDealerButton.getRectangleList();
+            case Chip:
+                System.out.println("m_getCurrentTargetItems  = " + m_cfChip.getRectangleList().size());
+                return m_cfChip.getRectangleList();
             default:
                 return null;
         }
@@ -187,6 +191,13 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
             m_cfDealerButton.setResultToPane(fxImage, pane, m_isFixedSize());
         }
 
+        // Chip
+        {
+            // 検出
+            m_cfChip.classify(fxImage, this::m_setRectangleEvents);
+            m_cfChip.setResultToPane(fxImage, pane, m_isFixedSize());
+        }
+
         // フルパワーの表示on/off
         m_changeHideFullRect();
         // テーブルに結果をセット
@@ -207,15 +218,14 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
     private void m_clearRectangles() {
         Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
-        m_cfPlayer.clearRectsFromPane(pane);
+        m_lstClassifier.forEach(c -> c.clearRectsFromPane(pane));
         m_clearTableRows();
     }
 
     private void m_changeHideFullRect() {
         CheckBox chkHide = (CheckBox) m_scene.lookup("#cbxHideFullRect");
         boolean isHide = chkHide.isSelected();
-        m_cfPlayer.changeHideFullRect(isHide);
-        m_cfDealerButton.changeHideFullRect(isHide);
+        m_lstClassifier.forEach(c -> c.changeHideFullRect(isHide));
     }
 
     @Override
@@ -333,10 +343,13 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
             CFSettings cs;
             switch (getCurrentTarget()) {
                 case Player:
-                    cs = m_createClassifierSettingsFromGUI_player();
+                    cs = m_createClassifierSettingsFromGUI(new CFSettingsPlayer());
                     break;
                 case DealerButton:
-                    cs = m_createClassifierSettingsFromGUI_dealerButton();
+                    cs = m_createClassifierSettingsFromGUI(new CFSettingsDealerButton());
+                    break;
+                case Chip:
+                    cs = m_createClassifierSettingsFromGUI(new CFSettingsChip());
                     break;
                 default:
                     assert (false);
@@ -362,6 +375,8 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
                 return m_cfPlayer;
             case DealerButton:
                 return m_cfDealerButton;
+            case Chip:
+                return m_cfChip;
             default:
                assert(false);
                return null;
@@ -395,19 +410,18 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
     {
         System.out.println(" in m_chbTargetChanged");
         CFSettings cs = new CFSettingsPlayer();
-        Classifier cf = null;
-        Classifier otherCf = null;
+        final Classifier cf = getCurrentTargetClassifier();
+
         try {
             switch (getCurrentTarget()) {
                 case Player:
                     cs = CFSettingsPlayer.load();
-                    cf = m_cfPlayer;
-                    otherCf = m_cfDealerButton;
                     break;
                 case DealerButton:
                     cs = CFSettingsDealerButton.load();
-                    cf = m_cfDealerButton;
-                    otherCf = m_cfPlayer;
+                    break;
+                case Chip:
+                    cs = CFSettingsChip.load();
                     break;
                 default:
                     assert (false);
@@ -426,7 +440,11 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
         // 矩形をクリック可能か否かを変える
         cf.setRectClickable(true);
-        otherCf.setRectClickable(false);
+        m_lstClassifier.forEach(c -> {
+                if (c != cf) {
+                    c.setRectClickable(false);
+                }
+        } );
 
         // イメージビューに対するイベントを設定
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
@@ -479,7 +497,7 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         txtMaxSizeHeight.setText(String.valueOf(cs.getMaxSize().height));
     }
 
-    private CFSettings m_createClassifierSettingsFromGUI_player()
+    private CFSettings m_createClassifierSettingsFromGUI(CFSettings cs)
     {
         TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
         TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
@@ -488,7 +506,6 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         TextField txtMaxSizeWidth = (TextField)m_scene.lookup("#txtMaxSizeWidth");
         TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
 
-        CFSettingsPlayer cs = new CFSettingsPlayer();
         cs.featureTypeIndex = m_getCurrentFeatureTypeIndex();
         cs.minNeighbors = Integer.parseInt(txtMinNeighbors.getText());
         cs.scaleFactor = Double.parseDouble(txtScaleFactor.getText());
@@ -498,6 +515,7 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         return cs;
     }
 
+/*
     private CFSettings m_createClassifierSettingsFromGUI_dealerButton()
     {
         TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
@@ -516,6 +534,26 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
         return cs;
     }
+
+    private CFSettings m_createClassifierSettingsFromGUI_chip()
+    {
+        TextField txtMinNeighbors = (TextField)m_scene.lookup("#txtMinNeighbors");
+        TextField txtScaleFactor = (TextField)m_scene.lookup("#txtScaleFactor");
+        TextField txtMinSizeWidth = (TextField)m_scene.lookup("#txtMinSizeWidth");
+        TextField txtMinSizeHeight = (TextField)m_scene.lookup("#txtMinSizeHeight");
+        TextField txtMaxSizeWidth = (TextField)m_scene.lookup("#txtMaxSizeWidth");
+        TextField txtMaxSizeHeight = (TextField)m_scene.lookup("#txtMaxSizeHeight");
+
+        CFSettingsChip cs = new CFSettingsChip();
+        cs.featureTypeIndex = m_getCurrentFeatureTypeIndex();
+        cs.minNeighbors = Integer.parseInt(txtMinNeighbors.getText());
+        cs.scaleFactor = Double.parseDouble(txtScaleFactor.getText());
+        cs.setMinSize(new Size(Double.parseDouble(txtMinSizeWidth.getText()), Double.parseDouble(txtMinSizeHeight.getText())));
+        cs.setMaxSize(new Size(Double.parseDouble(txtMaxSizeWidth.getText()), Double.parseDouble(txtMaxSizeHeight.getText())));
+
+        return cs;
+    }
+*/
 
     private GlobalSettings m_createGlobalSettingsFromGUI()
     {

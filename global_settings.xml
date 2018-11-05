@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <java version="1.8.0_172" class="java.beans.XMLDecoder">
- <object class="classifier_ui.GlobalSettings"/>
+ <object class="classifier_ui.GlobalSettings">
+  <void property="isHideFullRect">
+   <boolean>false</boolean>
+  </void>
+  <void property="selectedTargetIndex">
+   <int>2</int>
+  </void>
+ </object>
 </java>

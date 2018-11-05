@@ -2,13 +2,16 @@ package classifier_ui;
 
 public enum EnTarget {
     Player,
-    DealerButton;
+    DealerButton,
+    Chip;
     public int toInt() {
         switch (this) {
             case Player:
                 return 0;
             case DealerButton:
                 return 1;
+            case Chip:
+                return 2;
             default:
                 assert(false);
                 return -1;
@@ -20,6 +23,8 @@ public enum EnTarget {
                 return Player;
             case 1:
                 return DealerButton;
+            case 2:
+                return Chip;
             default:
                 assert(false);
                 return null;

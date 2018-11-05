@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import tess4j_client.StrRectangle;
-import java.nio.file.Path;
 
 import utils.FileUtil;
 import utils.ImageUtils;
