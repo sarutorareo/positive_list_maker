@@ -3,6 +3,7 @@ package classifier_ui;
 import groovy.transform.PackageScope;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.Cursor;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
@@ -70,6 +71,13 @@ abstract public class CFResult {
     void setRectClickable(boolean clickable) {
         getRectangleList().forEach(r -> {
             r.setMouseTransparent(!clickable);
+        });
+    }
+
+    @PackageScope
+    void setMouseCursor(Cursor csr) {
+        getRectangleList().forEach(r -> {
+            r.setCursor(csr);
         });
     }
 }

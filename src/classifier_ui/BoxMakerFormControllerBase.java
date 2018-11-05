@@ -5,10 +5,12 @@ import groovy.transform.PackageScope;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.image.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -19,8 +21,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.Window;
 import javafx.util.converter.DoubleStringConverter;
 import tess4j_client.StrRectangle;
+import utils.ResizableRectangle;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.lang.reflect.Method;
 import java.util.List;
@@ -31,6 +36,7 @@ import static utils.EventUtil.getAxisStrFromEvent;
 abstract public class BoxMakerFormControllerBase {
     protected Scene m_scene = null;
     protected MouseEvent m_mousePressEvent = null;
+    // マウスダウンしたときのRect左上からの相対座標
     protected RectPos m_mousePressPos = null;
     protected Rectangle m_rect = null;
 
@@ -61,6 +67,7 @@ abstract public class BoxMakerFormControllerBase {
 
     private void m_initImageView(Image img) {
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
+        ImageView imvBigPicture = (ImageView) m_scene.lookup("#imvBigPicture");
         Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
         assert (pane != null);
 
@@ -69,14 +76,13 @@ abstract public class BoxMakerFormControllerBase {
             imgView = new ImageView();
             imgView.setId("imvPic");
             // イメージビューに対するイベントを設定
-            m_initImageViewEvent(imgView);
+            m_initImageViewEvent(imgView, imvBigPicture);
 
             //Paneにimageviewを載せる
             pane.getChildren().add(imgView);
         }
 
         // 両脇に黒い領域を追加する
-        // WritableImage newImg = m_expandImage(img);
         Image newImg = img;
         imgView.setImage(newImg);
         imgView.setVisible(true);
@@ -129,20 +135,71 @@ abstract public class BoxMakerFormControllerBase {
         if (m_mousePressPos == null) return;
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
 
-        rect.setX(Math.min(imgView.getImage().getWidth() - m_getRectFixedWidth(), Math.max(0, evt.getX() + m_mousePressPos.x)));
-        rect.setY(Math.min(imgView.getImage().getHeight() - m_getRectFixedHeight(), Math.max(0, evt.getY() + m_mousePressPos.y)));
+        rect.setX(Math.min(imgView.getImage().getWidth() - m_getRectFixedWidth(), Math.max(0, evt.getX() - m_mousePressPos.x)));
+        rect.setY(Math.min(imgView.getImage().getHeight() - m_getRectFixedHeight(), Math.max(0, evt.getY() - m_mousePressPos.y)));
+    }
+
+    private void m_setRectPosAndSize_resizeRect(MouseEvent evt, ResizableRectangle rect) {
+        ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
+        double parentWidth = imgView.getImage().getWidth();
+        double parentHeight = imgView.getImage().getHeight();
+        /*
+        System.out.println(String.format("evt.getX() = %d, m_mousePressPos.x = %d, rect.getX() = %d, rect.getWidth() = %d",
+                (int)evt.getX(), (int)m_mousePressPos.x, (int)rect.getX(), (int)rect.getWidth()));
+        */
+
+        double newX;
+        double newY;
+        switch (rect.getDraggingCorner()){
+            case NW:
+                newX = Math.min(parentWidth, Math.max(0, evt.getX()));
+                newY = Math.min(parentHeight, Math.max(0, evt.getY()));
+                rect.setWidth(rect.getWidth() + rect.getX() - newX);
+                rect.setHeight(rect.getHeight() + rect.getY() - newY);
+                rect.setX(newX);
+                rect.setY(newY);
+                break;
+            case NE:
+                rect.setWidth(evt.getX() - rect.getX());
+                newY = Math.min(parentHeight, Math.max(0, evt.getY()));
+                rect.setHeight(rect.getHeight() + rect.getY() - newY);
+                rect.setY(newY);
+                break;
+            case SW:
+                rect.setHeight(evt.getY() - rect.getY());
+                newX = Math.min(parentWidth, Math.max(0, evt.getX()));
+                rect.setWidth(rect.getWidth() + rect.getX() - newX);
+                rect.setX(newX);
+                break;
+            case SE:
+                rect.setWidth(evt.getX() - rect.getX());
+                rect.setHeight(evt.getY() - rect.getY());
+                break;
+        }
     }
 
     protected void m_setRectangleEvents(Rectangle newRect) {
+        ImageView imvBigPicture = (ImageView) m_scene.lookup("#imvBigPicture");
         // マウスダウン
         newRect.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
                 assert (m_mousePressPos == null);
                 System.out.println("mouse press rect start" + getAxisStrFromEvent(evt));
-                m_mousePressPos = new RectPos(newRect.getX() - evt.getX(), newRect.getY() - evt.getY());
+                m_mousePressPos = new RectPos( evt.getX() - newRect.getX(), evt.getY() - newRect.getY());
                 m_setAllRectangleStroke(true);
                 newRect.setStroke(Color.AQUA);
+                EnCorner c = ((ResizableRectangle)newRect).getCorner((int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()));
+                ((ResizableRectangle)newRect).setDraggingCorner(c);
+            }
+        });
+
+        // マウスアップ
+        newRect.setOnMouseReleased(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent evt) {
+                m_mousePressPos = null;
+                ((ResizableRectangle)newRect).setDraggingCorner(EnCorner.NONE);
             }
         });
 
@@ -162,7 +219,15 @@ abstract public class BoxMakerFormControllerBase {
                 if (m_mousePressPos == null) return;
 
                 System.out.println("dragging rect " + getAxisStrFromEvent(evt));
-                m_setRectPosAndSize_moveRect(evt, newRect);
+                EnCorner c = ((ResizableRectangle)newRect).getDraggingCorner();
+                if (c == EnCorner.NONE) {
+                    m_setRectPosAndSize_moveRect(evt, newRect);
+                }
+                else {
+                    m_setRectPosAndSize_resizeRect(evt, (ResizableRectangle)newRect);
+                }
+
+                m_showBigPicture(imvBigPicture, (int)evt.getX(), (int)evt.getY());
             }
         });
 
@@ -173,18 +238,28 @@ abstract public class BoxMakerFormControllerBase {
                 if (m_mousePressPos == null) return;
 
                 System.out.println("drag End rect" + getAxisStrFromEvent(evt));
-                m_setRectPosAndSize_moveRect(evt, newRect);
+               // m_setRectPosAndSize_moveRect(evt, newRect);
                 newRect.setStroke(m_getDefaultRectColor());
                 m_mousePressPos = null;
                 TableView table = (TableView) m_scene.lookup("#tblRectangles");
                 table.getItems().set(table.getItems().indexOf(newRect), newRect);
             }
         });
+
+        // マウスムーブ
+        newRect.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent evt) {
+                m_showBigPicture(imvBigPicture, (int)evt.getX(), (int)evt.getY());
+                ((ResizableRectangle)newRect).setCursorByPoint( (int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()));
+            }
+        });
     }
 
-    protected Rectangle newRectangle(double x, double y, double width, double height)
+
+    protected ResizableRectangle newRectangle(double x, double y, double width, double height)
     {
-       return new Rectangle(x, y, width, height);
+       return new ResizableRectangle(x, y, width, height);
     }
 
     private Rectangle m_initRectangle(MouseEvent evt, boolean isFixedSize) {
@@ -206,7 +281,7 @@ abstract public class BoxMakerFormControllerBase {
             height = Math.min(img.getHeight() - 1 - Math.max(0, Math.min(m_mousePressEvent.getY(), evt.getY())), Math.abs(m_mousePressEvent.getY() - evt.getY()));
         }
 
-        Rectangle newRect = newRectangle(x, y, width, height);
+        ResizableRectangle newRect = newRectangle(x, y, width, height);
         newRect.setFill(Color.TRANSPARENT);
         newRect.setStroke(Color.AQUA);
         // マウスイベントを透過させる
@@ -219,7 +294,7 @@ abstract public class BoxMakerFormControllerBase {
 
     abstract protected ObservableList<Rectangle> m_getCurrentRectangleList();
 
-    protected void m_initImageViewEvent(ImageView imgView) {
+    protected void m_initImageViewEvent(ImageView imgView, ImageView imvBigPicture) {
         if (imgView == null) {
             return;
         }
@@ -258,6 +333,7 @@ abstract public class BoxMakerFormControllerBase {
 
                 System.out.println("dragging" + getAxisStrFromEvent(evt));
                 m_setRectPosAndSize(evt, m_isFixedSize());
+                m_showBigPicture(imvBigPicture, (int)evt.getX(), (int)evt.getY());
             }
         });
 
@@ -276,8 +352,15 @@ abstract public class BoxMakerFormControllerBase {
                 m_rect = null;
             }
         });
-    }
 
+        // マウスムーブ
+        imgView.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent evt) {
+                m_showBigPicture(imvBigPicture, (int)evt.getX(), (int)evt.getY());
+            }
+        });
+    }
 
     protected void m_setImage(Image image) throws Exception {
         // 前処理
@@ -325,8 +408,6 @@ abstract public class BoxMakerFormControllerBase {
     }
 
     protected void m_onKeyPressed_paneMain(KeyEvent evt) throws Exception {
-        System.out.println("キー isControl " + evt.isControlDown());
-        System.out.println("キー  text " + evt.getText());
         if (evt.isControlDown() && (evt.getCode() == KeyCode.Z)) {
             Scene scene = ((Pane) evt.getSource()).getScene();
             m_undo();
@@ -443,6 +524,46 @@ abstract public class BoxMakerFormControllerBase {
         // テキストリストを保存
         List<String>appendLine = makeAppendLines.apply(imgFile.getName());
         m_saveText(appendLine, imgFile.getParent(), m_getTextFileName(imgFile.getName()));
+    }
+
+    private void m_showBigPicture(ImageView v, int x, int y) {
+        if (v == null) return;
+        Image img = m_getImage();
+        if (img == null) return;
+
+        int width = 50;
+        int height = 50;
+        int partX = (int)Math.min(img.getWidth() - width, Math.max(0, x - width/2));
+        int partY = (int)Math.min(img.getHeight() - height, Math.max(0, y - height/2));
+        WritableImage subImage;
+        /*
+        subImage = new WritableImage(img.getPixelReader(),
+                partX, partY, width, height);
+        */
+
+        ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
+        javafx.geometry.Point2D screen = imgView.localToScreen(partX, partY);
+
+        try {
+            // キャプチャの範囲 (starsの画面はwidth = 795, height = 579)
+            java.awt.Rectangle bounds = new java.awt.Rectangle((int)screen.getX(), (int)screen.getY(), width, height);
+
+            // これで画面キャプチャ
+            Robot robot = new Robot();
+            BufferedImage image = robot.createScreenCapture(bounds);
+            subImage = SwingFXUtils.toFXImage(image, null);
+        } catch( java.awt.AWTException ex) {
+            System.out.println("!!! IOException at m_saveImage " + ex.getMessage());
+            ex.printStackTrace();
+            return;
+        }
+
+        v.setImage(subImage);
+        /*
+        System.out.println(String.format("x=%d, y=%d, width=%d, height=%d", x, y, width, height ));
+        v.setScaleX(4.0);
+        v.setScaleY(4.0);
+        */
     }
 
 }

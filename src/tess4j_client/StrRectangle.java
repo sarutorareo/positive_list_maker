@@ -1,6 +1,8 @@
 package tess4j_client;
 
-public class StrRectangle extends javafx.scene.shape.Rectangle {
+import utils.ResizableRectangle;
+
+public class StrRectangle extends ResizableRectangle {
     public String m_char;
 
     public String getChar() {

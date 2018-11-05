@@ -12,7 +12,6 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.Clipboard;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;

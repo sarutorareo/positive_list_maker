@@ -11,7 +11,7 @@
 
 <AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classifier_ui.BoxMakerFormControllerTess">
    <children>
-       <SplitPane fx:id="spImageTable" dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="71.0" prefHeight="301.0" prefWidth="715.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0">
+       <SplitPane fx:id="spImageTable" dividerPositions="0.6191222570532915" layoutX="3.0" layoutY="71.0" prefHeight="301.0" prefWidth="715.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0">
            <items>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="256.0" prefWidth="396.0">
                    <ScrollPane fx:id="paneImage" layoutX="14.0" layoutY="40.0" prefHeight="332.0" prefWidth="313.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -21,7 +21,7 @@
                </AnchorPane>
                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <TableView fx:id="tblRectangles" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                       <TableView fx:id="tblRectangles" layoutX="-26.0" layoutY="99.0" prefHeight="299.0" prefWidth="226.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
                </AnchorPane>
            </items>
@@ -33,7 +33,7 @@
             <CheckBox fx:id="cbxFixedSize" mnemonicParsing="false" selected="true" text="FixedSize" />
         </items>
       </ToolBar>
-      <AnchorPane fx:id="paneBottom" layoutX="57.0" layoutY="272.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <AnchorPane fx:id="paneBottom" layoutX="21.0" layoutY="371.0" prefHeight="31.0" prefWidth="200.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="21.0" AnchorPane.rightAnchor="-21.0">
          <children>
             <Label fx:id="lblStatus" layoutX="14.0" layoutY="6.0" text="Label" />
          </children>

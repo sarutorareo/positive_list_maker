@@ -1,10 +1,5 @@
 package utils;
 
-import javafx.scene.shape.Rectangle;
-import opencv_client.CFFacade;
-
-import java.util.ArrayList;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class FileUtilTest {

@@ -9,9 +9,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classifier_ui.BoxMakerFormControllerPositivePic">
+<AnchorPane fx:id="paneMain" onKeyPressed="#onKeyPressed_paneMain" onKeyReleased="#onKeyReleased_paneMain" prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="classifier_ui.BoxMakerFormControllerPositivePic">
    <children>
        <SplitPane fx:id="spImageTable" dividerPositions="0.6818181818181818" layoutX="3.0" layoutY="71.0" prefHeight="301.0" prefWidth="715.0" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="71.0">
            <items>
@@ -21,11 +22,15 @@
                            <AnchorPane fx:id="paneAnchorImage" prefHeight="258.0" prefWidth="340.0" />
                        </content></ScrollPane>
                </AnchorPane>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <TableView fx:id="tblRectangles" layoutY="65.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-               </children>
-               </AnchorPane>
+               <SplitPane fx:id="spTableBigPicture" dividerPositions="0.5" minHeight="0.0" minWidth="0.0" orientation="VERTICAL" prefHeight="171.0" prefWidth="224.0">
+                   <items>
+                       <TableView fx:id="tblRectangles" layoutY="65.0" prefHeight="209.0" prefWidth="224.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="100.0">
+                     <children>
+                        <ImageView fx:id="imvBigPicture" fitHeight="200.0" fitWidth="200.0" layoutX="-56.0" layoutY="-24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children></AnchorPane>
+                   </items>
+               </SplitPane>
            </items>
        </SplitPane>
       <ToolBar layoutX="8.0" layoutY="50.0" prefHeight="30.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

@@ -2,17 +2,14 @@ package opencv_client;
 
 import classifier_ui.CFSettings;
 import classifier_ui.CFResult;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import org.opencv.core.*;
 import org.opencv.highgui.HighGui;
 import org.opencv.objdetect.CascadeClassifier;
+import utils.ResizableRectangle;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
 import java.util.ArrayList;
 
 import static org.opencv.highgui.HighGui.WINDOW_AUTOSIZE;
@@ -136,8 +133,8 @@ public class CFFacade {
         return newList;
     }
 
-    private Rectangle m_rectToRectanble(Rect r) {
-        Rectangle result = new Rectangle(r.x, r.y, r.width, r.height);
+    private ResizableRectangle m_rectToRectanble(Rect r) {
+        ResizableRectangle result = new ResizableRectangle(r.x, r.y, r.width, r.height);
         result.setFill(Color.TRANSPARENT);
         return result;
     }

@@ -193,9 +193,11 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
         // Chip
         {
+            /*
             // 検出
             m_cfChip.classify(fxImage, this::m_setRectangleEvents);
             m_cfChip.setResultToPane(fxImage, pane, m_isFixedSize());
+            */
         }
 
         // フルパワーの表示on/off
@@ -240,7 +242,12 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
     @FXML
     protected void onKeyPressed_paneMain(KeyEvent evt) throws Exception {
-        m_onKeyPressed_paneMain(evt);
+        ;
+    }
+
+    @FXML
+    protected void onKeyReleased_paneMain(KeyEvent evt) throws Exception {
+        ;
     }
 
     private WritableImage m_expandImage(Image img) {
@@ -448,7 +455,8 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
         // イメージビューに対するイベントを設定
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
-        m_initImageViewEvent(imgView);
+        ImageView imgBigPictureView = (ImageView) m_scene.lookup("#imvBigPicture");
+        m_initImageViewEvent(imgView, imgBigPictureView);
     }
 
     private int m_getCurrentFeatureTypeIndex()

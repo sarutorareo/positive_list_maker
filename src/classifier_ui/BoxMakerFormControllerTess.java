@@ -16,6 +16,7 @@ import tess4j_client.StrRectangle;
 
 import utils.FileUtil;
 import utils.ImageUtils;
+import utils.ResizableRectangle;
 
 import java.awt.image.BufferedImage;
 import java.io.*;
@@ -63,7 +64,7 @@ public class BoxMakerFormControllerTess extends BoxMakerFormControllerBase {
     }
 
     @Override
-    protected Rectangle newRectangle(double x, double y, double width, double height)
+    protected ResizableRectangle newRectangle(double x, double y, double width, double height)
     {
         return new StrRectangle("a", x, y, width, height);
     }
