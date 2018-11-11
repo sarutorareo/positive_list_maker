@@ -27,7 +27,7 @@
                        <TableView fx:id="tblRectangles" layoutY="65.0" prefHeight="209.0" prefWidth="224.0" AnchorPane.bottomAnchor="39.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="100.0">
                      <children>
-                        <ImageView fx:id="imvBigPicture" fitHeight="200.0" fitWidth="200.0" layoutX="-56.0" layoutY="-24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <ImageView fx:id="imvBigPicture" fitHeight="320.0" fitWidth="320.0" layoutX="-56.0" layoutY="-24.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children></AnchorPane>
                    </items>
                </SplitPane>
@@ -39,7 +39,7 @@
             <Button fx:id="btnSaveTxtImg" mnemonicParsing="false" onAction="#onClick_saveTextAndImage_button" text="SaveTxtImg" />
             <CheckBox fx:id="cbxAutoSave" mnemonicParsing="false" onAction="#onClick_autoSave" text="AutoSave" />
             <CheckBox fx:id="cbxFixedSize" mnemonicParsing="false" selected="true" text="FixedSize" />
-            <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" text="HideFull" />
+            <CheckBox fx:id="cbxHideFullRect" mnemonicParsing="false" onAction="#onClick_hideFullRect" selected="true" text="HideFull" />
           <Button fx:id="btnDetect" mnemonicParsing="false" onAction="#onClick_detect_button" text="Detect" />
         </items>
       </ToolBar>

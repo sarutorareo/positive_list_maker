@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class CFResultChip extends CFResult {
 
     final int RECT_WIDTH = 40;
-    final int RECT_HEIGHT = 20;
+    final int RECT_HEIGHT = 12;
 
     public CFResultChip(ArrayList<Rectangle> resultRects, ArrayList<Rectangle> resultFullRects) {
         super(resultRects, resultFullRects);

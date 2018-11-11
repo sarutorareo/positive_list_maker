@@ -1,15 +1,15 @@
 package utils;
 
-import classifier_ui.EnCorner;
+import classifier_ui.EnEdge;
 import javafx.scene.Cursor;
 import javafx.scene.shape.Rectangle;
 
 public class ResizableRectangle extends Rectangle {
-    EnCorner m_draggingCorner = EnCorner.NONE;
-    public EnCorner getDraggingCorner() {
+    EnEdge m_draggingCorner = EnEdge.NONE;
+    public EnEdge getDraggingCorner() {
         return m_draggingCorner;
     }
-    public void setDraggingCorner(EnCorner c) {
+    public void setDraggingCorner(EnEdge c) {
         m_draggingCorner = c;
     }
 
@@ -17,31 +17,65 @@ public class ResizableRectangle extends Rectangle {
         super(x, y, width, height);
     }
 
-    public EnCorner getCorner(int x, int y)
+    public EnEdge getEdge(int x, int y, boolean isCorner)
     {
         int CORNER_SIZE = 5;
+
         if (x < 0 || y < 0 || x > this.getWidth() || y > this.getHeight()) {
-            return EnCorner.NONE;
+            return EnEdge.NONE;
         }
 
-        if ((x < CORNER_SIZE) && (y < CORNER_SIZE)) {
-            return EnCorner.NW;
+        if (isCorner) {
+            if ((x < CORNER_SIZE) && (y < CORNER_SIZE)) {
+                return EnEdge.NW;
+            }
+            if ((x >= this.getWidth() - CORNER_SIZE) && (y < CORNER_SIZE)) {
+                return EnEdge.NE;
+            }
+            if ((x >= this.getWidth() - CORNER_SIZE) && (y >= this.getHeight() - CORNER_SIZE)) {
+                return EnEdge.SE;
+            }
+            if ((x < CORNER_SIZE) && (y >= this.getHeight() - CORNER_SIZE)) {
+                return EnEdge.SW;
+            }
+            if (x < (this.getWidth() / 2)) {
+                if (y < (this.getHeight() / 2)) {
+                    return EnEdge.NW;
+                }
+                else {
+                    return EnEdge.SW;
+                }
+            }
+            else {
+                if (y < (this.getHeight() / 2)) {
+                    return EnEdge.NE;
+                }
+                else {
+                    return EnEdge.SE;
+                }
+            }
         }
-        if ((x >= this.getWidth() - CORNER_SIZE) && (y < CORNER_SIZE)) {
-            return EnCorner.NE;
-        }
-        if ((x >= this.getWidth() - CORNER_SIZE) && (y >= this.getHeight() - CORNER_SIZE)) {
-            return EnCorner.SE;
-        }
-        if ((x < CORNER_SIZE) && (y >= this.getHeight() - CORNER_SIZE)) {
-            return EnCorner.SW;
+        else {
+            // Rectangleが横長である事を前提として、横優先
+            if (x < CORNER_SIZE) {
+                return EnEdge.W;
+            }
+            if (x >= (this.getWidth() - CORNER_SIZE)) {
+                return EnEdge.E;
+            }
+            if (y < CORNER_SIZE) {
+                return EnEdge.N;
+            }
+            if (y >= (this.getHeight() - CORNER_SIZE)) {
+                return EnEdge.S;
+            }
         }
 
-        return EnCorner.NONE;
+        return EnEdge.NONE;
     }
 
-    public void setCursorByPoint(int x, int y) {
-        EnCorner c = getCorner(x, y);
+    public void setCursorByPoint(int x, int y, boolean isCorner) {
+        EnEdge c = getEdge(x, y, isCorner);
         Cursor csr;
         switch(c) {
             case NW:
@@ -55,6 +89,18 @@ public class ResizableRectangle extends Rectangle {
                 break;
             case SW:
                 csr = Cursor.SW_RESIZE;
+                break;
+            case N:
+                csr = Cursor.N_RESIZE;
+                break;
+            case W:
+                csr = Cursor.W_RESIZE;
+                break;
+            case S:
+                csr = Cursor.S_RESIZE;
+                break;
+            case E:
+                csr = Cursor.E_RESIZE;
                 break;
             case NONE:
             default:

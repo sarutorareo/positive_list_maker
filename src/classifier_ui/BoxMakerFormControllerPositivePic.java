@@ -242,12 +242,12 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
     @FXML
     protected void onKeyPressed_paneMain(KeyEvent evt) throws Exception {
-        ;
+        super.m_onKeyPressed_paneMain(evt);
     }
 
     @FXML
     protected void onKeyReleased_paneMain(KeyEvent evt) throws Exception {
-        ;
+        super.m_onKeyReleased_paneMain(evt);
     }
 
     private WritableImage m_expandImage(Image img) {

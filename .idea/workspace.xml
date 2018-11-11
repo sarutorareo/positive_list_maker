@@ -2,21 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1f36e5a-220e-404e-92b7-73118e2a3be3" name="Default" comment="jk">
-      <change afterPath="$PROJECT_DIR$/src/classifier_ui/EnCorner.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/ResizableRectangle.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/ResizableRectangleTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/global_settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/global_settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerTess.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerTess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormTess.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormTess.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/CFResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/CFResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/Classifier.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/Classifier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/opencv_client/CFFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/opencv_client/CFFacade.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/tess4j_client/StrRectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tess4j_client/StrRectangle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/utils/FileUtilTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/FileUtilTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/CFResultChip.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/CFResultChip.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/EnCorner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/EnEdge.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ResizableRectangle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ResizableRectangle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ResizableRectangleTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ResizableRectangleTest.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,46 +27,36 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="BoxMakerFormControllerTess.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerTess.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="68" column="19" selection-start-line="68" selection-start-column="19" selection-end-line="68" selection-end-column="19" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StrRectangle.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/tess4j_client/StrRectangle.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="4" column="53" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="BoxMakerFormControllerBase.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="BoxMakerFormControllerBase.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="184" column="8" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="8" />
+            <state relative-caret-position="176">
+              <caret line="166" column="18" selection-start-line="166" selection-start-column="18" selection-end-line="166" selection-end-column="18" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#14340#14341#0" expanded="true" />
-                <element signature="e#14437#14438#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RectPos.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/application/RectPos.java">
+      <file leaf-file-name="KeyEvent.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/input/KeyEvent.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="44">
-              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+            <state relative-caret-position="126">
+              <caret line="330" column="25" selection-start-line="330" selection-start-column="25" selection-end-line="330" selection-end-column="25" />
+              <folding>
+                <element signature="e#13687#13688#0" expanded="true" />
+                <element signature="e#13721#13722#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AutoCaptureThread.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-351">
+              <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -80,76 +64,56 @@
       <file leaf-file-name="BoxMakerFormControllerPositivePic.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="182" column="66" selection-start-line="182" selection-start-column="66" selection-end-line="182" selection-end-column="66" />
+            <state relative-caret-position="176">
+              <caret line="475" column="36" selection-start-line="475" selection-start-column="36" selection-end-line="475" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#9018#9019#0" expanded="true" />
-                <element signature="e#9089#9090#0" expanded="true" />
-                <element signature="e#11034#11035#0" expanded="true" />
-                <element signature="e#11105#11106#0" expanded="true" />
-                <element signature="e#11162#11163#0" expanded="true" />
-                <element signature="e#11234#11235#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Node.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/Node.java">
+      <file leaf-file-name="GlobalSettings.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/GlobalSettings.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="342">
-              <caret line="2863" column="16" selection-start-line="2863" selection-start-column="16" selection-end-line="2863" selection-end-column="16" />
+            <state relative-caret-position="-154">
+              <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
               <folding>
-                <element signature="e#182076#182077#0" expanded="true" />
-                <element signature="e#182133#182134#0" expanded="true" />
+                <element signature="e#572#573#0" expanded="true" />
+                <element signature="e#611#612#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Classifier.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/Classifier.java">
+      <file leaf-file-name="CFResultChip.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultChip.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="28" column="43" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1560#1561#0" expanded="true" />
-                <element signature="e#1606#1607#0" expanded="true" />
-                <element signature="e#4188#4189#0" expanded="true" />
-                <element signature="e#4236#4237#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="132">
+              <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CFResult.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResult.java">
+      <file leaf-file-name="BoxMakerFormPositivePic.fxml" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
-              <folding>
-                <element signature="e#817#818#0" expanded="true" />
-                <element signature="e#855#856#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="132">
+              <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
             </state>
           </provider>
+          <provider editor-type-id="JavaFX-Scene-Builder" />
         </entry>
       </file>
       <file leaf-file-name="ResizableRectangle.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangle.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="66" selection-start-line="66" selection-end-line="66" />
+            <state relative-caret-position="116">
+              <caret line="77" column="19" selection-start-line="77" selection-start-column="19" selection-end-line="77" selection-end-column="19" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#224#225#0" expanded="true" />
-                <element signature="e#262#263#0" expanded="true" />
-                <element signature="e#311#312#0" expanded="true" />
-                <element signature="e#344#345#0" expanded="true" />
-                <element signature="e#429#430#0" expanded="true" />
-                <element signature="e#471#472#0" expanded="true" />
+                <element signature="e#339#340#0" expanded="true" />
+                <element signature="e#375#376#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -158,11 +122,20 @@
       <file leaf-file-name="ResizableRectangleTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangleTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-132">
-              <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
+            <state relative-caret-position="116">
+              <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="EnEdge.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/EnEdge.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="154">
+              <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -254,21 +227,21 @@
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierChip.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/EnTarget.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierViewForm.fxml" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/CFResultChip.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormTess.fxml" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml" />
         <option value="$PROJECT_DIR$/src/classifier_ui/CFResult.java" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/EnCorner.java" />
         <option value="$PROJECT_DIR$/src/utils/FileUtilTest.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CFFacade.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/Classifier.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerTess.java" />
         <option value="$PROJECT_DIR$/src/tess4j_client/StrRectangle.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/CFResultChip.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/EnCorner.java" />
         <option value="$PROJECT_DIR$/src/utils/ResizableRectangleTest.java" />
         <option value="$PROJECT_DIR$/src/utils/ResizableRectangle.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml" />
       </list>
     </option>
   </component>
@@ -279,8 +252,7 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="68" />
-    <option name="y" value="12" />
+    <option name="x" value="-10" />
     <option name="width" value="1285" />
     <option name="height" value="768" />
   </component>
@@ -290,6 +262,7 @@
     </navigator>
     <panes>
       <pane id="AndroidView" />
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -337,7 +310,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -566,34 +538,34 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DateTimeUtilTest_test_toNum - 2018.11.04 at 11h 45m 56s.xml">
-      <configuration name="DateTimeUtilTest.test_toNum" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DateTimeUtilTest_test_toNum - 2018.11.04 at 11h 46m 47s.xml">
-      <configuration name="DateTimeUtilTest.test_toNum" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DateTimeUtilTest_test_toNum - 2018.11.04 at 11h 48m 42s.xml">
-      <configuration name="DateTimeUtilTest.test_toNum" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DateTimeUtilTest_test_toNum - 2018.11.04 at 11h 49m 57s.xml">
-      <configuration name="DateTimeUtilTest.test_toNum" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.05 at 21h 45m 30s.xml">
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 11m 28s.xml">
       <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.05 at 21h 46m 12s.xml">
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 12m 55s.xml">
       <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.05 at 21h 47m 20s.xml">
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 13m 15s.xml">
       <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.05 at 21h 48m 08s.xml">
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 14m 25s.xml">
       <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.05 at 21h 48m 51s.xml">
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 14m 48s.xml">
       <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.05 at 21h 50m 42s.xml">
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 15m 21s.xml">
+      <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 15m 40s.xml">
+      <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 16m 19s.xml">
+      <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 16m 49s.xml">
+      <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="ResizableRectangleTest_test_getCorner - 2018.11.11 at 11h 17m 20s.xml">
       <configuration name="ResizableRectangleTest.test_getCorner" configurationId="JUnit" />
     </history-entry>
   </component>
@@ -607,29 +579,29 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="68" y="12" width="1285" height="768" extended-state="0" />
+    <frame x="-10" y="0" width="1285" height="768" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49870577" weight="0.32943144" />
-      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.44508672" weight="0.31166667" />
+      <window_info anchor="bottom" id="Messages" order="7" sideWeight="0.4426094" weight="0.31166667" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.3170933" side_tool="true" visible="true" weight="0.305" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.32039636" side_tool="true" visible="true" weight="0.305" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.32925835" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.6829067" visible="true" weight="0.305" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.67960364" visible="true" weight="0.305" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49784297" weight="0.32943144" />
       <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49697784" weight="0.32866043" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3236994" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.53757226" weight="0.31833333" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3311313" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.5367465" weight="0.31833333" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24938875" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.57729006" weight="0.3877551" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5763832" weight="0.38666666" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Coverage" order="4" side_tool="true" weight="0.32925835" />
@@ -640,17 +612,17 @@
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49697784" weight="0.32866043" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.32943144" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7152451" visible="true" weight="0.23364486" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.46406984" weight="0.317757" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.34251174" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24938875" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49870577" weight="0.32943144" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7152451" visible="true" weight="0.23364486" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
@@ -660,10 +632,10 @@
       <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32925835" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.28475487" side_tool="true" visible="true" weight="0.23364486" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.32943144" />
       <window_info id="Capture Tool" order="5" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49697784" weight="0.32866043" />
+      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.46406984" weight="0.317757" />
       <window_info anchor="right" id="Maven Projects" order="7" weight="0.32925835" />
       <window_info id="Favorites" order="6" side_tool="true" />
     </layout-to-restore>
@@ -673,7 +645,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="54" />
+      <option name="time" value="58" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -732,20 +704,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/control/cell/CellUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="102" lean-forward="true" selection-start-line="102" selection-end-line="102" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/shape/Rectangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2156">
-          <caret line="140" column="30" selection-start-line="140" selection-start-column="30" selection-end-line="140" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/utils/tmp_fileUtilTest.java" />
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/image/ImageView.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -779,9 +737,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="174">
           <caret line="14" column="21" lean-forward="true" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -789,9 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="110">
           <caret line="7" selection-start-line="7" selection-end-line="7" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -869,14 +821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
           <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
-          <folding>
-            <element signature="e#236#237#0" expanded="true" />
-            <element signature="e#279#280#0" expanded="true" />
-            <element signature="e#345#346#0" expanded="true" />
-            <element signature="e#388#389#0" expanded="true" />
-            <element signature="e#447#448#0" expanded="true" />
-            <element signature="e#490#491#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -943,31 +887,10 @@
       </provider>
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierChip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultChip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="27" column="12" selection-start-line="27" selection-start-column="12" selection-end-line="27" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/control/TableView.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
           <caret line="842" column="22" selection-start-line="842" selection-start-column="22" selection-end-line="842" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="24" column="33" selection-start-line="24" selection-start-column="33" selection-end-line="24" selection-end-column="33" />
         </state>
       </provider>
     </entry>
@@ -986,14 +909,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="178">
@@ -1001,13 +916,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/EnCorner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" column="7" selection-start-line="7" selection-start-column="7" selection-end-line="7" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -1053,7 +961,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResult.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
+        <state relative-caret-position="286">
           <caret line="22" column="38" selection-start-line="22" selection-start-column="38" selection-end-line="22" selection-end-column="38" />
           <folding>
             <element signature="e#817#818#0" expanded="true" />
@@ -1064,54 +972,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/Classifier.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
+        <state relative-caret-position="308">
           <caret line="28" column="43" selection-start-line="28" selection-start-column="43" selection-end-line="28" selection-end-column="43" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1560#1561#0" expanded="true" />
-            <element signature="e#1606#1607#0" expanded="true" />
-            <element signature="e#4188#4189#0" expanded="true" />
-            <element signature="e#4236#4237#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="182" column="66" selection-start-line="182" selection-start-column="66" selection-end-line="182" selection-end-column="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#9018#9019#0" expanded="true" />
-            <element signature="e#9089#9090#0" expanded="true" />
-            <element signature="e#11034#11035#0" expanded="true" />
-            <element signature="e#11105#11106#0" expanded="true" />
-            <element signature="e#11162#11163#0" expanded="true" />
-            <element signature="e#11234#11235#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/tess4j_client/StrRectangle.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
+        <state relative-caret-position="88">
           <caret line="4" column="53" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangleTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-132">
-          <caret line="6" column="27" selection-start-line="6" selection-start-column="27" selection-end-line="6" selection-end-column="27" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerTess.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
+        <state relative-caret-position="814">
           <caret line="68" column="19" selection-start-line="68" selection-start-column="19" selection-end-line="68" selection-end-column="19" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1121,27 +999,11 @@
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/Node.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
+        <state relative-caret-position="55418">
           <caret line="2863" column="16" selection-start-line="2863" selection-start-column="16" selection-end-line="2863" selection-end-column="16" />
           <folding>
             <element signature="e#182076#182077#0" expanded="true" />
             <element signature="e#182133#182134#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#224#225#0" expanded="true" />
-            <element signature="e#262#263#0" expanded="true" />
-            <element signature="e#311#312#0" expanded="true" />
-            <element signature="e#344#345#0" expanded="true" />
-            <element signature="e#429#430#0" expanded="true" />
-            <element signature="e#471#472#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1153,17 +1015,105 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java">
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierChip.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="184" column="8" selection-start-line="184" selection-start-column="8" selection-end-line="184" selection-end-column="8" />
+        <state relative-caret-position="286">
+          <caret line="20" column="23" selection-start-line="20" selection-start-column="23" selection-end-line="20" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultChip.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/EnEdge.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="5" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangleTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#14340#14341#0" expanded="true" />
-            <element signature="e#14437#14438#0" expanded="true" />
           </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-351">
+          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/input/KeyEvent.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="330" column="25" selection-start-line="330" selection-start-column="25" selection-end-line="330" selection-end-column="25" />
+          <folding>
+            <element signature="e#13687#13688#0" expanded="true" />
+            <element signature="e#13721#13722#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangle.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="77" column="19" selection-start-line="77" selection-start-column="19" selection-end-line="77" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#339#340#0" expanded="true" />
+            <element signature="e#375#376#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="166" column="18" selection-start-line="166" selection-start-column="18" selection-end-line="166" selection-end-column="18" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/GlobalSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-154">
+          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
+          <folding>
+            <element signature="e#572#573#0" expanded="true" />
+            <element signature="e#611#612#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="475" column="36" selection-start-line="475" selection-start-column="36" selection-end-line="475" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormPositivePic.fxml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="39" column="48" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
+        </state>
+      </provider>
+      <provider editor-type-id="JavaFX-Scene-Builder" />
     </entry>
   </component>
   <component name="masterDetails">

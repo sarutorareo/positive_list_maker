@@ -5,7 +5,6 @@ import groovy.transform.PackageScope;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -39,6 +38,7 @@ abstract public class BoxMakerFormControllerBase {
     // マウスダウンしたときのRect左上からの相対座標
     protected RectPos m_mousePressPos = null;
     protected Rectangle m_rect = null;
+    protected boolean m_isShiftDown = false;
 
     public void setScene(Scene scene) {
         m_scene = scene;
@@ -90,7 +90,7 @@ abstract public class BoxMakerFormControllerBase {
         pane.setMaxWidth(newImg.getWidth());
         pane.setMaxHeight(newImg.getHeight());
         Window wnd = m_scene.getWindow();
-        final int TABLE_WIDTH = 240;
+        final int TABLE_WIDTH = 240 + 120;
         wnd.setWidth(newImg.getWidth() + TABLE_WIDTH);
         wnd.setHeight(newImg.getHeight() + 145);
         SplitPane sp = (SplitPane) m_scene.lookup("#spImageTable");
@@ -151,6 +151,22 @@ abstract public class BoxMakerFormControllerBase {
         double newX;
         double newY;
         switch (rect.getDraggingCorner()){
+            case N:
+                newY = Math.min(parentHeight, Math.max(0, evt.getY()));
+                rect.setHeight(rect.getHeight() + rect.getY() - newY);
+                rect.setY(newY);
+                break;
+            case W:
+                newX = Math.min(parentWidth, Math.max(0, evt.getX()));
+                rect.setWidth(rect.getWidth() + rect.getX() - newX);
+                rect.setX(newX);
+                break;
+            case E:
+                rect.setWidth(evt.getX() - rect.getX());
+                break;
+            case S:
+                rect.setHeight(evt.getY() - rect.getY());
+                break;
             case NW:
                 newX = Math.min(parentWidth, Math.max(0, evt.getX()));
                 newY = Math.min(parentHeight, Math.max(0, evt.getY()));
@@ -189,7 +205,8 @@ abstract public class BoxMakerFormControllerBase {
                 m_mousePressPos = new RectPos( evt.getX() - newRect.getX(), evt.getY() - newRect.getY());
                 m_setAllRectangleStroke(true);
                 newRect.setStroke(Color.AQUA);
-                EnCorner c = ((ResizableRectangle)newRect).getCorner((int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()));
+                boolean isCorner = m_isShiftDown;
+                EnEdge c = ((ResizableRectangle)newRect).getEdge((int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()), isCorner);
                 ((ResizableRectangle)newRect).setDraggingCorner(c);
             }
         });
@@ -199,7 +216,7 @@ abstract public class BoxMakerFormControllerBase {
             @Override
             public void handle(MouseEvent evt) {
                 m_mousePressPos = null;
-                ((ResizableRectangle)newRect).setDraggingCorner(EnCorner.NONE);
+                ((ResizableRectangle)newRect).setDraggingCorner(EnEdge.NONE);
             }
         });
 
@@ -219,8 +236,8 @@ abstract public class BoxMakerFormControllerBase {
                 if (m_mousePressPos == null) return;
 
                 System.out.println("dragging rect " + getAxisStrFromEvent(evt));
-                EnCorner c = ((ResizableRectangle)newRect).getDraggingCorner();
-                if (c == EnCorner.NONE) {
+                EnEdge c = ((ResizableRectangle)newRect).getDraggingCorner();
+                if (c == EnEdge.NONE) {
                     m_setRectPosAndSize_moveRect(evt, newRect);
                 }
                 else {
@@ -238,7 +255,7 @@ abstract public class BoxMakerFormControllerBase {
                 if (m_mousePressPos == null) return;
 
                 System.out.println("drag End rect" + getAxisStrFromEvent(evt));
-               // m_setRectPosAndSize_moveRect(evt, newRect);
+               // m_setRectPosAndSiz
                 newRect.setStroke(m_getDefaultRectColor());
                 m_mousePressPos = null;
                 TableView table = (TableView) m_scene.lookup("#tblRectangles");
@@ -250,8 +267,9 @@ abstract public class BoxMakerFormControllerBase {
         newRect.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent evt) {
+                boolean isCorner = m_isShiftDown;
                 m_showBigPicture(imvBigPicture, (int)evt.getX(), (int)evt.getY());
-                ((ResizableRectangle)newRect).setCursorByPoint( (int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()));
+                ((ResizableRectangle)newRect).setCursorByPoint( (int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()), isCorner);
             }
         });
     }
@@ -416,6 +434,10 @@ abstract public class BoxMakerFormControllerBase {
         if (evt.isControlDown() && (evt.getCode() == KeyCode.V)) {
             m_doPaste(m_getImage());
         }
+        m_isShiftDown = evt.isShiftDown();
+    }
+    protected void m_onKeyReleased_paneMain(KeyEvent evt) throws Exception {
+        m_isShiftDown = evt.isShiftDown();
     }
 
     protected void m_setColumnEditable(TableColumn col, String mName, boolean isDouble) {
@@ -531,8 +553,8 @@ abstract public class BoxMakerFormControllerBase {
         Image img = m_getImage();
         if (img == null) return;
 
-        int width = 50;
-        int height = 50;
+        int width = 80;
+        int height = 80;
         int partX = (int)Math.min(img.getWidth() - width, Math.max(0, x - width/2));
         int partY = (int)Math.min(img.getHeight() - height, Math.max(0, y - height/2));
         WritableImage subImage;
