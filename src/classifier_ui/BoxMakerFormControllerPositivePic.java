@@ -582,4 +582,10 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         TableView table = (TableView) m_scene.lookup("#tblRectangles");
         return table.getSelectionModel().getSelectedItems();
     }
+
+    @Override
+    protected void m_setSelectedRectangle(Rectangle rect) {
+        TableView table = (TableView) m_scene.lookup("#tblRectangles");
+        table.getSelectionModel().select(rect);
+    }
 }

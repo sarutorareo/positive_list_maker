@@ -23,8 +23,8 @@
       <file leaf-file-name="BoxMakerFormControllerPositivePic.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="440">
-              <caret line="455" column="41" selection-start-line="455" selection-start-column="41" selection-end-line="455" selection-end-column="41" />
+            <state relative-caret-position="1914">
+              <caret line="583" column="4" selection-start-line="583" selection-start-column="4" selection-end-line="583" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -48,8 +48,8 @@
       <file leaf-file-name="BoxMakerFormControllerBase.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="530" column="19" selection-start-line="530" selection-start-column="19" selection-end-line="530" selection-end-column="19" />
+            <state relative-caret-position="242">
+              <caret line="393" column="44" selection-start-line="393" selection-start-column="44" selection-end-line="393" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2465#2466#0" expanded="true" />
@@ -58,6 +58,8 @@
                 <element signature="e#11138#11139#0" expanded="true" />
                 <element signature="e#19866#19867#0" expanded="true" />
                 <element signature="e#19893#19894#0" expanded="true" />
+                <element signature="e#20983#20984#0" expanded="true" />
+                <element signature="e#20999#21000#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -586,12 +588,12 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.32535094" side_tool="true" visible="true" weight="0.305" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.32925835" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.67464906" visible="true" weight="0.305" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.67464906" visible="true" weight="0.305" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.32943144" />
       <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49697784" weight="0.32866043" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.33856317" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.33856317" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.5408753" weight="0.31833333" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24938875" />
@@ -644,19 +646,19 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java</url>
-          <line>471</line>
+          <line>473</line>
           <properties />
           <option name="timeStamp" value="58" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java</url>
-          <line>461</line>
+          <line>463</line>
           <properties />
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java</url>
-          <line>452</line>
+          <line>454</line>
           <properties />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
@@ -1113,8 +1115,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerPositivePic.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="440">
-          <caret line="455" column="41" selection-start-line="455" selection-start-column="41" selection-end-line="455" selection-end-column="41" />
+        <state relative-caret-position="1914">
+          <caret line="583" column="4" selection-start-line="583" selection-start-column="4" selection-end-line="583" selection-end-column="4" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1123,8 +1125,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/BoxMakerFormControllerBase.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="530" column="19" selection-start-line="530" selection-start-column="19" selection-end-line="530" selection-end-column="19" />
+        <state relative-caret-position="242">
+          <caret line="393" column="44" selection-start-line="393" selection-start-column="44" selection-end-line="393" selection-end-column="44" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2465#2466#0" expanded="true" />
@@ -1133,6 +1135,8 @@
             <element signature="e#11138#11139#0" expanded="true" />
             <element signature="e#19866#19867#0" expanded="true" />
             <element signature="e#19893#19894#0" expanded="true" />
+            <element signature="e#20983#20984#0" expanded="true" />
+            <element signature="e#20999#21000#0" expanded="true" />
           </folding>
         </state>
       </provider>

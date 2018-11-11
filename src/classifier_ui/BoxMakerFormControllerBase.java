@@ -229,6 +229,7 @@ abstract public class BoxMakerFormControllerBase {
                 boolean isCorner = m_isShiftDown;
                 EnEdge c = ((ResizableRectangle)newRect).getEdge((int)(evt.getX() - newRect.getX()), (int)(evt.getY() - newRect.getY()), isCorner);
                 ((ResizableRectangle)newRect).setDraggingCorner(c);
+                m_setSelectedRectangle(newRect);
             }
         });
 
@@ -391,6 +392,7 @@ abstract public class BoxMakerFormControllerBase {
                 m_mousePressEvent = null;
                 m_rect.setStroke(m_getDefaultRectColor());
                 m_getCurrentRectangleList().add(m_rect);
+                m_setSelectedRectangle(m_rect);
                 m_rect = null;
             }
         });
@@ -554,6 +556,9 @@ abstract public class BoxMakerFormControllerBase {
     protected ObservableList<Rectangle> m_getSelectedRectangle()
     {
         return null;
+    }
+    protected void m_setSelectedRectangle(Rectangle rect) {
+        ;
     }
 
     protected void m_setColumnEditable(TableColumn col, String mName, boolean isDouble) {
