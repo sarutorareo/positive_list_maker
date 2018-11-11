@@ -2,7 +2,6 @@ package classifier_ui;
 
 import groovy.transform.PackageScope;
 import javafx.collections.ObservableList;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import opencv_client.CFFacade;
 import javafx.scene.image.Image;

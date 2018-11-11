@@ -193,11 +193,9 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
         // Chip
         {
-            /*
             // 検出
             m_cfChip.classify(fxImage, this::m_setRectangleEvents);
             m_cfChip.setResultToPane(fxImage, pane, m_isFixedSize());
-            */
         }
 
         // フルパワーの表示on/off
