@@ -453,7 +453,7 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
 
         // イメージビューに対するイベントを設定
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
-        ImageView imgBigPictureView = (ImageView) m_scene.lookup("#imvBigPicture");
+        ImageView imgBigPictureView = m_getBigPictureView();
         m_initImageViewEvent(imgView, imgBigPictureView);
     }
 
@@ -577,4 +577,9 @@ public class BoxMakerFormControllerPositivePic extends BoxMakerFormControllerBas
         return POS_LIST_FILE_NAME;
     }
 
+    @Override
+    protected ObservableList<Rectangle> m_getSelectedRectangle() {
+        TableView table = (TableView) m_scene.lookup("#tblRectangles");
+        return table.getSelectionModel().getSelectedItems();
+    }
 }

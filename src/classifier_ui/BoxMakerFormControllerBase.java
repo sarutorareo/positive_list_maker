@@ -2,9 +2,13 @@ package classifier_ui;
 
 import application.RectPos;
 import groovy.transform.PackageScope;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -18,6 +22,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 import javafx.stage.Window;
+import javafx.util.Duration;
 import javafx.util.converter.DoubleStringConverter;
 import tess4j_client.StrRectangle;
 import utils.ResizableRectangle;
@@ -39,6 +44,7 @@ abstract public class BoxMakerFormControllerBase {
     protected RectPos m_mousePressPos = null;
     protected Rectangle m_rect = null;
     protected boolean m_isShiftDown = false;
+    protected Point2D m_bigPicturePoint = new Point2D(0, 0);
 
     public void setScene(Scene scene) {
         m_scene = scene;
@@ -63,11 +69,26 @@ abstract public class BoxMakerFormControllerBase {
         }
 
         m_afterSetImageOnShow();
+
+        m_setTimer();
+    }
+
+    private void m_setTimer() {
+        ImageView bigPictureView = m_getBigPictureView();
+        // BigPicture再描画用のイベント
+        Timeline timer = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                m_showBigPicture(bigPictureView);
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
     }
 
     private void m_initImageView(Image img) {
         ImageView imgView = (ImageView) m_scene.lookup("#imvPic");
-        ImageView imvBigPicture = (ImageView) m_scene.lookup("#imvBigPicture");
+        ImageView imvBigPicture = m_getBigPictureView();
         Pane pane = (Pane) m_scene.lookup("#paneAnchorImage");
         assert (pane != null);
 
@@ -195,7 +216,7 @@ abstract public class BoxMakerFormControllerBase {
     }
 
     protected void m_setRectangleEvents(Rectangle newRect) {
-        ImageView imvBigPicture = (ImageView) m_scene.lookup("#imvBigPicture");
+        ImageView imvBigPicture = m_getBigPictureView();
         // マウスダウン
         newRect.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
@@ -274,6 +295,9 @@ abstract public class BoxMakerFormControllerBase {
         });
     }
 
+    protected ImageView m_getBigPictureView() {
+        return (ImageView) m_scene.lookup("#imvBigPicture");
+    }
 
     protected ResizableRectangle newRectangle(double x, double y, double width, double height)
     {
@@ -435,9 +459,101 @@ abstract public class BoxMakerFormControllerBase {
             m_doPaste(m_getImage());
         }
         m_isShiftDown = evt.isShiftDown();
+        if (m_isMoveKey(evt.getCode())) {
+            m_cursorKeyPressed(evt.getCode(), evt.isShiftDown());
+        }
+
     }
+
     protected void m_onKeyReleased_paneMain(KeyEvent evt) throws Exception {
         m_isShiftDown = evt.isShiftDown();
+    }
+    private void m_cursorKeyPressed(KeyCode key, boolean isShiftDown) {
+        ObservableList<Rectangle> rectList = m_getSelectedRectangle();
+        Image img = m_getImage();
+
+        if (rectList == null) return;
+
+        rectList.forEach(rect -> {
+            if (isShiftDown) {
+                m_resizeRect(key, rect, img);
+            }
+            else {
+                m_moveRect(key, rect, img);
+            }
+        });
+    }
+
+    private boolean m_isMoveKey(KeyCode key) {
+        return ((key == KeyCode.LEFT) ||
+                (key == KeyCode.RIGHT) ||
+                (key == KeyCode.UP) ||
+                (key == KeyCode.DOWN) ||
+                (key == KeyCode.W) ||
+                (key == KeyCode.A) ||
+                (key == KeyCode.S) ||
+                (key == KeyCode.D) );
+    }
+
+    private void m_moveRect(KeyCode key, Rectangle rect, Image img) {
+        double newX = rect.getX();
+        double newY = rect.getY();
+        switch (key) {
+            case W:
+            case UP:
+                newY = (rect.getY() - 1);
+                break;
+            case A:
+            case LEFT:
+                newX = (rect.getX() - 1);
+                break;
+            case S:
+            case DOWN:
+                newY = (rect.getY() + 1);
+                break;
+            case D:
+            case RIGHT:
+                newX = (rect.getX() + 1);
+                break;
+        }
+        newX = Math.min(Math.max(0, newX), img.getWidth() - rect.getWidth());
+        newY = Math.min(Math.max(0, newY), img.getHeight() - rect.getHeight());
+        rect.setX(newX);
+        rect.setY(newY);
+        m_showBigPicture(m_getBigPictureView());
+    }
+
+    private void m_resizeRect(KeyCode key, Rectangle rect, Image img) {
+        double newWidth = rect.getWidth();
+        double newHeight = rect.getHeight();
+        switch (key) {
+            case W:
+            case UP:
+                newHeight = (rect.getHeight() - 1);
+                break;
+            case A:
+            case LEFT:
+                newWidth = (rect.getWidth() - 1);
+                break;
+            case S:
+            case DOWN:
+                newHeight = (rect.getHeight() + 1);
+                break;
+            case D:
+            case RIGHT:
+                newWidth = (rect.getWidth() + 1);
+                break;
+        }
+        newWidth = Math.min(Math.max(1, newWidth), img.getWidth() - rect.getX());
+        newHeight = Math.min(Math.max(1, newHeight), img.getHeight() - rect.getY());
+        rect.setWidth(newWidth);
+        rect.setHeight(newHeight);
+        m_showBigPicture(m_getBigPictureView());
+    }
+
+    protected ObservableList<Rectangle> m_getSelectedRectangle()
+    {
+        return null;
     }
 
     protected void m_setColumnEditable(TableColumn col, String mName, boolean isDouble) {
@@ -581,11 +697,12 @@ abstract public class BoxMakerFormControllerBase {
         }
 
         v.setImage(subImage);
-        /*
-        System.out.println(String.format("x=%d, y=%d, width=%d, height=%d", x, y, width, height ));
-        v.setScaleX(4.0);
-        v.setScaleY(4.0);
-        */
+
+        // 前回の座標を記憶
+        m_bigPicturePoint = new Point2D(x, y);
     }
 
+    private void m_showBigPicture(ImageView v) {
+        m_showBigPicture(v, (int)m_bigPicturePoint.getX(), (int)m_bigPicturePoint.getY());
+    }
 }
