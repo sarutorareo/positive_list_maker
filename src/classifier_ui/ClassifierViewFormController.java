@@ -43,6 +43,7 @@ import static utils.ImageUtils.*;
 public class ClassifierViewFormController {
     private ClassifierPlayer m_cfPlayer = new ClassifierPlayer();
     private ClassifierDealerButton m_cfDealerButton = new ClassifierDealerButton();
+    private ClassifierChip m_cfChip = new ClassifierChip();
     private Scene m_scene = null;
     private AutoCaptureThread m_autoCaptureThread = null;
     public void setScene(Scene scene) {
@@ -302,6 +303,7 @@ public class ClassifierViewFormController {
         boolean isHide = chkHide.isSelected();
         m_cfPlayer.changeHideFullRect(isHide);
         m_cfDealerButton.changeHideFullRect(isHide);
+        m_cfChip.changeHideFullRect(isHide);
     }
 
     @PackageScope
@@ -316,6 +318,7 @@ public class ClassifierViewFormController {
         Image fxImage = m_getImage();
         m_cfPlayer.setResultToPane(fxImage, pane, true);
         m_cfDealerButton.setResultToPane(fxImage, pane, true);
+        m_cfChip.setResultToPane(fxImage, pane, false);
 
         // 結果の表示
         m_changeHideFullRect();
@@ -340,6 +343,7 @@ public class ClassifierViewFormController {
     protected void onClick_hideFullRect(ActionEvent evt) {
         m_cfPlayer.changeHideFullRect(m_isHideFullRect());
         m_cfDealerButton.changeHideFullRect(m_isHideFullRect());
+        m_cfChip.changeHideFullRect(m_isHideFullRect());
     }
 
     @FXML
@@ -390,6 +394,7 @@ public class ClassifierViewFormController {
         // 検出
         m_cfPlayer.classify(fxImage, this::m_dummySetEvents);
         m_cfDealerButton.classify(fxImage, this::m_dummySetEvents);
+        m_cfChip.classify(fxImage, this::m_dummySetEvents);
     }
     private void m_dummySetEvents(Rectangle rect)
     {

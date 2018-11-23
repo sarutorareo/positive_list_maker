@@ -27,7 +27,7 @@
     <string>height</string>
     <void method="set">
      <object idref="Size0"/>
-     <double>30.0</double>
+     <double>20.0</double>
     </void>
    </void>
   </void>
@@ -39,14 +39,14 @@
     <string>width</string>
     <void method="set">
      <object idref="Size1"/>
-     <double>20.0</double>
+     <double>10.0</double>
     </void>
    </void>
    <void class="org.opencv.core.Size" method="getField">
     <string>height</string>
     <void method="set">
      <object idref="Size1"/>
-     <double>20.0</double>
+     <double>10.0</double>
     </void>
    </void>
   </void>
