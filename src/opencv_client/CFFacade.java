@@ -54,6 +54,8 @@ public class CFFacade {
     private ArrayList<Rectangle> m_doClassify(javafx.scene.image.Image fxImage, String cascadeXmlPath,
                                          int minNeighbors, double scaleFactor,
                                          Size minSize, Size maxSize, boolean removeDuplicate) {
+        System.out.println(String.format("in m_doClassify cascadeXmlPath = %s, minNeighbors = %d, scaleFactor=%f, minSize=(%f, %f), maxSize=(%f, %f), removeDuplicate=%d",
+                cascadeXmlPath, minNeighbors, scaleFactor, minSize.width, minSize.height, maxSize.width, maxSize.height, removeDuplicate? 1:0));
 
         Mat mat_src = fxImageToMat(fxImage);
         HighGui.namedWindow("wnd_in", WINDOW_AUTOSIZE);
@@ -63,7 +65,7 @@ public class CFFacade {
 
         MatOfRect detects = new MatOfRect();
         face_cascade.detectMultiScale(mat_src, detects, scaleFactor, minNeighbors, CASCADE_SCALE_IMAGE, minSize, maxSize);
-        System.out.println("faces.size = " + detects.size().toString());
+        System.out.println("detects.size = " + detects.size().toString());
 
         HighGui.destroyAllWindows();
 
@@ -72,6 +74,7 @@ public class CFFacade {
         for(int i = 0; i < rects.length; i++) {
             Rect r = rects[i];
             la.add(m_rectToRectanble(r));
+            System.out.println(String.format("r = %s, %f", r.toString(), (double)r.width / r.height));
         }
 
         // 重複している領域は削除
