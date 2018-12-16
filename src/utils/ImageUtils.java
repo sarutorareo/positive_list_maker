@@ -6,6 +6,7 @@ import com.github.jaiimageio.plugins.tiff.TIFFImageWriteParam;
 import groovy.transform.PackageScope;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import org.opencv.core.*;
 
 import javax.imageio.IIOImage;
@@ -16,10 +17,7 @@ import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.Locale;
 
 public class ImageUtils {
@@ -191,6 +189,10 @@ public class ImageUtils {
     static public File savePng(BufferedImage img, String path) throws java.io.IOException {
         return m_doSaveImg(img, path, "png");
     }
+    static public File savePng(Image img, String path) throws java.io.IOException {
+        return savePng(SwingFXUtils.fromFXImage(img, null), path);
+    }
+
 
     static private File m_doSaveImg(BufferedImage img, String path, String fmt) throws java.io.IOException {
         File f = new File(path);

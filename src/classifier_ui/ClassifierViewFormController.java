@@ -102,6 +102,12 @@ public class ClassifierViewFormController {
             // m_debugSavePng(pr, ocrRect);
             m_ocrPartImage(bSubBinImage, pane, ocrRect);
         });
+
+        m_cfChip.getRectangleList().forEach(chRect -> {
+            BufferedImage bSubBinImage = getRectSubImage(bBinImage, chRect);
+            // m_debugSavePng(pr, ocrRect);
+            m_ocrPartImage(bSubBinImage, pane, chRect);
+        });
     }
 
     private Rectangle m_getOcrRectanble(Rectangle pr) {

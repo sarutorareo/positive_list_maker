@@ -51,7 +51,7 @@ public class CFFacade {
         return m_createResult(rects, fullRects);
     }
 
-    private ArrayList<Rectangle> m_doClassify(javafx.scene.image.Image fxImage, String cascadeXmlPath,
+    protected ArrayList<Rectangle> m_doClassify(javafx.scene.image.Image fxImage, String cascadeXmlPath,
                                          int minNeighbors, double scaleFactor,
                                          Size minSize, Size maxSize, boolean removeDuplicate) {
         System.out.println(String.format("in m_doClassify cascadeXmlPath = %s, minNeighbors = %d, scaleFactor=%f, minSize=(%f, %f), maxSize=(%f, %f), removeDuplicate=%d",
