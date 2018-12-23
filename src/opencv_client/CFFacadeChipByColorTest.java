@@ -1,12 +1,10 @@
 package opencv_client;
 
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 import static java.util.Comparator.comparing;
 import static org.junit.jupiter.api.Assertions.*;
@@ -185,15 +183,16 @@ public class CFFacadeChipByColorTest {
     void test_getTopLine() {
         CFFacadeChipByColor cc = new CFFacadeChipByColor();
 
+        // 半分より上で一番長いのを採用する
         List<Line> group = new ArrayList<Line>();
         group.add(new Line(0, 0, 10, 0));
         group.add(new Line(0, 1, 9, 1));
-        group.add(new Line(0, 2, 10, 2));
+        group.add(new Line(0, 2, 11, 2));
         group.add(new Line(0, 3, 9, 3));
 
         group.sort(comparing(Line::getStartY));
         Line result = cc.m_getTopLine(group);
-        assertEquals(1, result.getStartY());
+        assertEquals(0, result.getStartY());
 
         // 長さが50%未満なら採用しない
         group = new ArrayList<Line>();
@@ -212,14 +211,15 @@ public class CFFacadeChipByColorTest {
         CFFacadeChipByColor cc = new CFFacadeChipByColor();
 
         List<Line> group = new ArrayList<Line>();
+        // 一番長いものを採用
         group.add(new Line(0, 0, 10, 0));
-        group.add(new Line(0, 1, 9, 1));
-        group.add(new Line(0, 2, 10, 2));
-        group.add(new Line(0, 3, 9, 3));
+        group.add(new Line(0, 1, 13, 1));
+        group.add(new Line(0, 2, 9, 2));
+        group.add(new Line(0, 3, 10, 3));
 
         group.sort(comparing(Line::getStartY));
         Line result = cc.m_getBottomLine(group);
-        assertEquals(2, result.getStartY());
+        assertEquals(3, result.getStartY());
 
         // 長さが50%未満なら採用しない
         group = new ArrayList<Line>();

@@ -18,6 +18,7 @@ import org.opencv.core.Size;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static java.util.Comparator.comparing;
 
@@ -220,35 +221,35 @@ public class CFFacadeChipByColor extends CFFacade {
     }
 
     protected Line m_getTopLine(List<Line> lineGroup) {
-        assert(lineGroup.size() > 0);
-        int groupWidth = m_getGroupWidth(lineGroup);
-        // 半分より上で一番下
+        // 半分より上で一番長いもの
         int half = m_getGroupHeight(lineGroup) / 2 + (int)lineGroup.get(0).getStartY();
-        for (int l = lineGroup.size()-1; l >= 0; l--) {
-            Line line = lineGroup.get(l);
-            if (line.getStartY() >= half) {
-                continue;
-            }
-            if ((line.getEndX() - line.getStartX() + 1) > groupWidth * LINE_RATIO) {
-                return line;
-            }
-        }
-        return null;
+        Predicate<Line> isRange = (l)-> { return l.getStartY()  < half; };
+        return m_getMaxLine(lineGroup, isRange);
+    }
+    protected Line m_getBottomLine(List<Line> lineGroup) {
+        // 半分より下で一番長いもの
+        int half = m_getGroupHeight(lineGroup) / 2 + (int)lineGroup.get(0).getStartY();
+        Predicate<Line> isRange = (l)-> { return l.getStartY()  >= half; };
+        return m_getMaxLine(lineGroup, isRange);
     }
 
-    protected Line m_getBottomLine(List<Line> lineGroup) {
+    protected Line m_getMaxLine(List<Line> lineGroup, Predicate<Line> isRange) {
         assert(lineGroup.size() > 0);
         int groupWidth = m_getGroupWidth(lineGroup);
-        // 半分より下で一番上
-        int half = m_getGroupHeight(lineGroup) / 2 + (int)lineGroup.get(0).getStartY();
-        for (int l = 0; l < lineGroup.size(); l++) {
+        double maxLen = -1;
+        Line maxLine = null;
+        for (int l = 0;  l < lineGroup.size(); l++) {
             Line line = lineGroup.get(l);
-            if (line.getStartY() < half) {
+            if (!isRange.test(line)) {
                 continue;
             }
-            if ((line.getEndX() - line.getStartX() + 1) > groupWidth*LINE_RATIO ) {
-                return line;
+            if (line.getEndX() - line.getStartX() + 1 >= maxLen) {
+                maxLine = line;
+                maxLen = line.getEndX() - line.getStartX() + 1;
             }
+        }
+        if (maxLine != null && (maxLine.getEndX() - maxLine.getStartX() + 1) > groupWidth * LINE_RATIO) {
+            return maxLine;
         }
         return null;
     }
