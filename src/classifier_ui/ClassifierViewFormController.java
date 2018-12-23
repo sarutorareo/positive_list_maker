@@ -10,9 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.TextField;
+import javafx.scene.image.*;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.Clipboard;
+import javafx.scene.input.DataFormat;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -34,6 +35,7 @@ import java.nio.Buffer;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import static net.sourceforge.tess4j.ITessAPI.TessPageIteratorLevel.RIL_WORD;
 import static net.sourceforge.tess4j.ITessAPI.TessPageSegMode.*;
@@ -190,7 +192,7 @@ public class ClassifierViewFormController {
 //        tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
         tesseract.setTessVariable("load_system_dawg", "0");
         tesseract.setTessVariable("user_words_suffix", "0");
-        tesseract.setPageSegMode(PSM_AUTO);
+        tesseract.setPageSegMode(PSM_SINGLE_WORD);
         tesseract.setDatapath("D:\\MyProgram\\GitHub\\positive_list_maker\\tessdata");
         tesseract.setOcrEngineMode(1);
         List<Word> word = tesseract.getWords(bImage, m_getRIL());
@@ -462,6 +464,46 @@ public class ClassifierViewFormController {
         Clipboard cb = Clipboard.getSystemClipboard();
         System.out.println(cb.getContentTypes());
         Image newImage = cb.getImage();
+        if (m_hasOLEFormat(cb.getContentTypes())) {
+            newImage = m_convertToRGBA(newImage);
+        }
         m_initImageView(newImage);
+    }
+
+    private byte[] imageToData(Image image) {
+        int width = (int) image.getWidth();
+        int height = (int) image.getHeight();
+
+        byte[] data = new byte[width * height * 3];
+
+        int i = 0;
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
+                int argb = image.getPixelReader().getArgb(x, y);
+                int r = (argb >> 16) & 0xFF;
+                int g = (argb >>  8) & 0xFF;
+                int b =  argb        & 0xFF;
+                data[i++] = (byte) r;
+                data[i++] = (byte) g;
+                data[i++] = (byte) b;
+            }
+        }
+        return data;
+    }
+
+    private Image m_convertToRGBA(Image img) {
+        Image content = (Image) Clipboard.getSystemClipboard().getContent(DataFormat.IMAGE);
+        byte[] data = imageToData(content);
+
+        WritableImage writableImage = new WritableImage((int) content.getWidth(), (int) content.getHeight());
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+        pixelWriter.setPixels(0, 0, (int) content.getWidth(), (int) content.getHeight(),
+                PixelFormat.getByteRgbInstance(), data, 0, (int) content.getWidth() * 3);
+        return writableImage;
+    }
+
+    private boolean m_hasOLEFormat(Set<DataFormat> set) {
+        ///set.contains(DataFormat.lookupMimeType()) == )
+        return true;
     }
 }

@@ -26,7 +26,7 @@ public class CFFacadeChipByColor extends CFFacade {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
     }
 
-    double LINE_RATIO = 0.8;
+    double LINE_RATIO = 0.5;
 
     @Override
     protected CFResult m_createResult(ArrayList<Rectangle>rects, ArrayList<Rectangle>fullRects)
@@ -115,22 +115,26 @@ public class CFFacadeChipByColor extends CFFacade {
     }
 
     private ArrayList<ArrayList<Line>> m_regulationLines(List<Line> orgLineList) {
-        int SUKIMA = 2;
+        int SUKIMA = 4;
         ArrayList<Line>lineList = m_regulationLines_yokoSukima(orgLineList, SUKIMA);
-//        lineList = m_regulationLines_tateRenzoku(lineList);
         ArrayList<ArrayList<Line>> result = m_groupingLines(lineList);
 
         return result;
     }
 
     public ArrayList<Line> m_regulationLines_yokoSukima(List<Line> lineList, int sukima) {
+        final int MIN_LENGTH = sukima * 5;
         ArrayList<Line> result = new ArrayList<Line>();
         Line beforeLine = null;
         for (int i = 0; i < lineList.size(); i++) {
             Line l = lineList.get(i);
             if ((beforeLine != null)
                     && (l.getStartX() - beforeLine.getEndX() - 1 <= sukima)
-                    && (l.getStartY() == beforeLine.getEndY())) {
+                    && (l.getStartY() == beforeLine.getEndY())
+                    && ( (l.getEndX() - l.getStartX() + 1 > MIN_LENGTH)
+                        || (beforeLine.getEndX() - beforeLine.getStartX() + 1 > MIN_LENGTH)
+                       )
+                    ) {
                 beforeLine.setEndX(l.getEndX());
             }
             else {
@@ -166,30 +170,6 @@ public class CFFacadeChipByColor extends CFFacade {
                 m_groupingLinesRec(l, group, lineList);
             }
         });
-    }
-
-    protected List<Line> m_regulationLines_tateRenzoku(List<Line> lineList) {
-        List<Line> result = new ArrayList<Line>();
-        Line beforeLine = null;
-        Line maxLine = null;
-        for (int i = 0; i < lineList.size(); i++) {
-            Line l = lineList.get(i);
-            if (beforeLine != null
-                    && (l.getStartY() - beforeLine.getEndY() <= 1)
-                    && m_isCovered(l, beforeLine)) {
-                if (m_getLonger(l, maxLine) == l) {
-                    result.remove(maxLine);
-                    result.add(l);
-                    maxLine = l;
-                }
-            }
-            else {
-                result.add(l);
-                maxLine = l;
-            }
-            beforeLine = l;
-        }
-        return result;
     }
 
     protected boolean m_isCovered(Line l1, Line l2) {
@@ -249,7 +229,7 @@ public class CFFacadeChipByColor extends CFFacade {
             if (line.getStartY() >= half) {
                 continue;
             }
-            if ((line.getEndX() - line.getStartX() + 1) > groupWidth*LINE_RATIO ) {
+            if ((line.getEndX() - line.getStartX() + 1) > groupWidth * LINE_RATIO) {
                 return line;
             }
         }
@@ -321,11 +301,12 @@ public class CFFacadeChipByColor extends CFFacade {
 
             // x%以上の長さを持ち、半分より上で最も下を探す
             g.sort(comparing(Line::getStartY));
+            final int MIN_LENGTH = 10;
             Line topLine = m_getTopLine(g);
             Line bottomLine = m_getBottomLine(g);
             if (topLine == null || bottomLine == null
-                || (topLine.getEndX() - topLine.getStartX() + 1 < 10)
-                || (bottomLine.getEndX() - bottomLine.getStartX() + 1 < 10)) {
+                || (topLine.getEndX() - topLine.getStartX() + 1 < MIN_LENGTH)
+                || (bottomLine.getEndX() - bottomLine.getStartX() + 1 < MIN_LENGTH)) {
                 continue;
             }
             System.out.println(String.format("top / bottom"));
@@ -342,8 +323,8 @@ public class CFFacadeChipByColor extends CFFacade {
                 }
             }
 
-            double left = Math.max(topLine.getStartX(), bottomLine.getStartX()) -3;
-            double right = Math.min(topLine.getEndX(), bottomLine.getEndX()) + 3;
+            double left = Math.max(topLine.getStartX(), bottomLine.getStartX()) - 2;
+            double right = Math.min(topLine.getEndX(), bottomLine.getEndX()) + 2;
             Rectangle rect = new Rectangle(
                 left,
                 topLine.getStartY(),

@@ -59,18 +59,18 @@ public class CFFacadeChipByColorTest {
 
         List<Line> lineList = new ArrayList<Line>();
         lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(12, 0, 20, 0));
+        lineList.add(new Line(12, 0, 32, 0));
 
         List<Line> result = cc.m_regulationLines_yokoSukima(lineList, SUKIMA);
         assertEquals(1, result.size());
         assertEquals(0, result.get(0).getStartX());
         assertEquals(0, result.get(0).getStartY());
-        assertEquals(20, result.get(0).getEndX());
+        assertEquals(32, result.get(0).getEndX());
         assertEquals(0, result.get(0).getEndY());
 
         lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(13, 0, 20, 0));
+        lineList.add(new Line(0, 0, 20, 0));
+        lineList.add(new Line(23, 0, 24, 0));
         result = cc.m_regulationLines_yokoSukima(lineList, SUKIMA);
         assertEquals(1, result.size());
 
@@ -83,6 +83,12 @@ public class CFFacadeChipByColorTest {
         lineList = new ArrayList<Line>();
         lineList.add(new Line(0, 0, 10, 0));
         lineList.add(new Line(12, 1, 20, 1));
+        result = cc.m_regulationLines_yokoSukima(lineList, SUKIMA);
+        assertEquals(2, result.size());
+
+        lineList = new ArrayList<Line>();
+        lineList.add(new Line(0, 0, 2, 0));
+        lineList.add(new Line(5, 0, 7, 0));
         result = cc.m_regulationLines_yokoSukima(lineList, SUKIMA);
         assertEquals(2, result.size());
     }
@@ -146,86 +152,6 @@ public class CFFacadeChipByColorTest {
     }
 
     @org.junit.jupiter.api.Test
-    void test_regulationLines_tateRenzoku() {
-        CFFacadeChipByColor cc = new CFFacadeChipByColor();
-
-        List<Line> lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(0, 1, 10, 1));
-
-        List<Line> result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(1, result.size());
-        assertEquals(0, result.get(0).getStartX());
-        assertEquals(10, result.get(0).getEndX());
-
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(0, 2, 10, 2));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(2, result.size());
-
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(0, 1, 10, 1));
-        lineList.add(new Line(0, 2, 10, 2));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(1, result.size());
-        assertEquals(0, result.get(0).getStartX());
-        assertEquals(10, result.get(0).getEndX());
-
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 9, 0));
-        lineList.add(new Line(0, 1, 10, 1));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(1, result.size());
-        assertEquals(0, result.get(0).getStartX());
-        assertEquals(10, result.get(0).getEndX());
-        assertEquals(1, result.get(0).getStartY());
-
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 20, 0));
-        lineList.add(new Line(0, 1, 10, 1));
-        lineList.add(new Line(0, 2, 11, 2));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(1, result.size());
-        assertEquals(0, result.get(0).getStartX());
-        assertEquals(20, result.get(0).getEndX());
-
-        // Y座標は並んでいても重なっていなければくっつかない
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(11, 1, 20, 1));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(2, result.size());
-
-        // Y座標が並んでいても重なっていなければくっつかない
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(11, 1, 20, 1));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(2, result.size());
-
-        // 直前に同じY座標の線があるが、二つ前の線とはくっついてる
-        lineList = new ArrayList<Line>();
-        lineList.add(new Line(10, 0, 15, 0));
-        lineList.add(new Line(0, 1, 5, 1));
-        lineList.add(new Line(10, 1, 21, 1));
-
-        result = cc.m_regulationLines_tateRenzoku(lineList);
-        assertEquals(2, result.size());
-        assertEquals(0, result.get(0).getStartX());
-        assertEquals(5, result.get(0).getEndX());
-        assertEquals(10, result.get(0).getStartX());
-        assertEquals(21, result.get(0).getEndX());
-    }
-
-    @org.junit.jupiter.api.Test
     void test_getGroupWidth_Height() {
         CFFacadeChipByColor cc = new CFFacadeChipByColor();
 
@@ -269,10 +195,10 @@ public class CFFacadeChipByColorTest {
         Line result = cc.m_getTopLine(group);
         assertEquals(1, result.getStartY());
 
-        // 長さが80%未満なら採用しない
+        // 長さが50%未満なら採用しない
         group = new ArrayList<Line>();
         group.add(new Line(0, 0, 10, 0));
-        group.add(new Line(0, 1, 7, 1));
+        group.add(new Line(0, 1, 4, 1));
         group.add(new Line(0, 2, 10, 2));
         group.add(new Line(0, 3, 9, 3));
 
@@ -295,11 +221,11 @@ public class CFFacadeChipByColorTest {
         Line result = cc.m_getBottomLine(group);
         assertEquals(2, result.getStartY());
 
-        // 長さが80%未満なら採用しない
+        // 長さが50%未満なら採用しない
         group = new ArrayList<Line>();
         group.add(new Line(0, 0, 10, 0));
         group.add(new Line(0, 1, 7, 1));
-        group.add(new Line(0, 2, 7, 2));
+        group.add(new Line(0, 2, 4, 2));
         group.add(new Line(0, 3, 9, 3));
 
         group.sort(comparing(Line::getStartY));
