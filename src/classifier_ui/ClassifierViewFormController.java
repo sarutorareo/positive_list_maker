@@ -96,19 +96,26 @@ public class ClassifierViewFormController {
 
     private void m_doOCR(Pane pane) {
         Image fxBinImage = m_getBinImage();
+        try {
+            savePng(fxBinImage, "D:\\MyProgram\\GitHub\\positive_list_maker\\temp_pic\\temp.png");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
         BufferedImage bBinImage = SwingFXUtils.fromFXImage(fxBinImage, null);
 
         m_cfPlayer.getRectangleList().forEach(pr -> {
             Rectangle ocrRect = m_getOcrRectanble(pr);
             BufferedImage bSubBinImage = getRectSubImage(bBinImage, ocrRect);
             // m_debugSavePng(pr, ocrRect);
-            m_ocrPartImage(bSubBinImage, pane, ocrRect);
+            BufferedImage cleanedImage = (new ImageCleaner()).cleaning(bSubBinImage);
+            m_ocrPartImage(cleanedImage, pane, ocrRect);
         });
 
         m_cfChip.getRectangleList().forEach(chRect -> {
             BufferedImage bSubBinImage = getRectSubImage(bBinImage, chRect);
             // m_debugSavePng(pr, ocrRect);
-            m_ocrPartImage(bSubBinImage, pane, chRect);
+            BufferedImage cleanedImage = (new ImageCleaner()).cleaning(bSubBinImage);
+            m_ocrPartImage(cleanedImage, pane, chRect);
         });
     }
 
@@ -143,19 +150,18 @@ public class ClassifierViewFormController {
 
     private void m_ocrPartImage(BufferedImage bSubImage, Pane pane, Rectangle subRect)
     {
-        BufferedImage cleanedImage = (new ImageCleaner()).cleaning(bSubImage);
         // debug用に画像を保存
         try {
             String strDate = toNumStr(new Date());
-            String filePathWithoutExt = String.format("D:\\MyProgram\\GitHub\\positive_list_maker\\temp_pic\\player_%s_%d-%d", strDate, (int) subRect.getX(), (int) subRect.getY());
-            ImageUtils.saveTiff(cleanedImage, filePathWithoutExt + ".tif");
-            ImageUtils.savePng(cleanedImage, filePathWithoutExt + ".png");
+            String filePathWithoutExt = String.format("D:\\MyProgram\\GitHub\\positive_list_maker\\temp_pic\\%s_%d-%d", strDate, (int) subRect.getX(), (int) subRect.getY());
+//            ImageUtils.saveTiff(cleanedImage, filePathWithoutExt + ".tif");
+            ImageUtils.savePng(bSubImage, filePathWithoutExt + ".png");
         } catch(IOException ex) {
             System.out.println(ex.getMessage());
             ex.printStackTrace();
         }
 
-        List<Word> word = m_getWords(cleanedImage);
+        List<Word> word = m_getWords(bSubImage);
         word.forEach(w -> {
             if (isWord(w)) {
                 System.out.print(String.format("(%s)", w.getText()));
@@ -189,7 +195,7 @@ public class ClassifierViewFormController {
         tesseract.setLanguage(lang);
         //数字と一部の四則演算記号のみ認識させる
         tesseract.setTessVariable("tessedit_char_whitelist","0123456789,");
-//        tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
+        tesseract.setTessVariable("language_model_penalty_non_dict_word", "1");
         tesseract.setTessVariable("load_system_dawg", "0");
         tesseract.setTessVariable("user_words_suffix", "0");
         tesseract.setPageSegMode(PSM_SINGLE_WORD);

@@ -48,6 +48,9 @@ public class CFFacadeChipByColorTest {
 
         c = new Color((double)2/255, (double)97/255, (double)31/255, 1);
         assertEquals(false, cc.isChipColor(c));
+
+        c = new Color((double)2/255, (double)95/255, (double)29/255, 1);
+        assertEquals(false, cc.isChipColor(c));
     }
 
     @org.junit.jupiter.api.Test
@@ -95,12 +98,12 @@ public class CFFacadeChipByColorTest {
     void test_groupingLines() {
         CFFacadeChipByColor cc = new CFFacadeChipByColor();
 
-        ArrayList<Line> lineList = new ArrayList<Line>();
-        lineList.add(new Line(0, 0, 10, 0));
-        lineList.add(new Line(0, 1, 10, 1));
-        lineList.add(new Line(0, 10, 10, 10));
+        ArrayList<Line> group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 10, 0));
+        group.add(new Line(0, 1, 10, 1));
+        group.add(new Line(0, 10, 10, 10));
 
-        ArrayList<ArrayList<Line>> result = cc.m_groupingLines(lineList);
+        ArrayList<ArrayList<Line>> result = cc.m_groupingLines(group);
         assertEquals(2, result.size());
         assertEquals(2, result.get(0).size());
         assertEquals(0, result.get(0).get(0).getStartX());
@@ -147,6 +150,188 @@ public class CFFacadeChipByColorTest {
 
         assertEquals(0, lineList.size());
         assertEquals(3, group.size());
+    }
+
+    @org.junit.jupiter.api.Test
+    void test_isSukimaY() {
+        CFFacadeChipByColor cc = new CFFacadeChipByColor();
+
+        ArrayList<Line> group = new ArrayList<Line>();
+        ArrayList<Line> devided1 = new ArrayList<Line>();
+        ArrayList<Line> devided2 = new ArrayList<Line>();
+        group.add(new Line(0, 0, 10, 0));
+        group.add(new Line(0, 1, 1, 1));
+
+        assertEquals(false, cc.m_isSukimaY(0, group));
+        assertEquals(true, cc.m_isSukimaY(1, group));
+        assertEquals(false, cc.m_isSukimaY(0.5, group));
+    }
+
+    @org.junit.jupiter.api.Test
+    void test_isTableEdge() {
+        CFFacadeChipByColor cc = new CFFacadeChipByColor();
+
+        ArrayList<Line> group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 99, 0));
+        group.add(new Line(0, 1, 99, 1));
+        group.add(new Line(0, 2, 99, 1));
+        group.add(new Line(0, 3, 99, 1));
+
+        assertEquals(true, cc.m_isTableEdge(group));
+
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 98, 0));
+        group.add(new Line(0, 1, 98, 1));
+        group.add(new Line(0, 2, 98, 1));
+        group.add(new Line(0, 3, 98, 1));
+
+        assertEquals(false, cc.m_isTableEdge(group));
+    }
+
+    @org.junit.jupiter.api.Test
+    void test_removeTableEdge() {
+        final int REMOVE_LINE_NUM = 3;
+        CFFacadeChipByColor cc = new CFFacadeChipByColor();
+
+        // 一つ目
+        ArrayList<ArrayList<Line>> groupList = new ArrayList<ArrayList<Line>>();
+        ArrayList<Line>group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 150, 0));
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        groupList.add(group);
+
+        cc.m_removeTableEdge(groupList, REMOVE_LINE_NUM);
+
+        assertEquals(1, groupList.size());
+        assertEquals(1, groupList.get(0).size());
+
+        // 一つ目、削除した結果グループが別れる
+        groupList = new ArrayList<ArrayList<Line>>();
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 150, 0));
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(100, 3, 150, 3));
+        group.add(new Line(10, 3, 20, 3));
+        group.add(new Line(10, 4, 20, 4));
+        groupList.add(group);
+
+        cc.m_removeTableEdge(groupList, REMOVE_LINE_NUM);
+
+        assertEquals(2, groupList.size());
+        assertEquals(1, groupList.get(0).size());
+        assertEquals(2, groupList.get(1).size());
+
+        // 二つ目の高さは消えない
+        groupList = new ArrayList<ArrayList<Line>>();
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 150, 0));
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        groupList.add(group);
+
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        group.add(new Line(0, 4, 150, 4));
+        groupList.add(group);
+
+        cc.m_removeTableEdge(groupList, REMOVE_LINE_NUM);
+        assertEquals(2, groupList.size());
+        assertEquals(1, groupList.get(1).size());
+        assertEquals(4, groupList.get(0).size());
+
+        // 3つ目だけど同じ高さなら消える
+        groupList = new ArrayList<ArrayList<Line>>();
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 150, 0));
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        groupList.add(group);
+
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        group.add(new Line(0, 4, 150, 4));
+        groupList.add(group);
+
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 150, 0));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        group.add(new Line(0, 4, 150, 4));
+        groupList.add(group);
+
+        cc.m_removeTableEdge(groupList, REMOVE_LINE_NUM);
+        assertEquals(3, groupList.size());
+        assertEquals(1, groupList.get(1).size());
+        assertEquals(4, groupList.get(0).size());
+        assertEquals(1, groupList.get(2).size());
+    }
+
+    @org.junit.jupiter.api.Test
+    void test_removeTableLines() {
+        final int REMOVE_LINE_NUM = 3;
+        CFFacadeChipByColor cc = new CFFacadeChipByColor();
+
+        // 先頭から指定した行数を消す
+        ArrayList<Line> group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 150, 0));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        group.add(new Line(0, 4, 150, 4));
+
+        cc.m_removeTopLines(group, REMOVE_LINE_NUM);
+        assertEquals(1, group.size());
+
+        // 同じ座標に複数の線がある場合は全部消す
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 1, 150, 1));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 2, 150, 2));
+        group.add(new Line(0, 3, 150, 3));
+        group.add(new Line(0, 4, 150, 4));
+
+        cc.m_removeTopLines(group, REMOVE_LINE_NUM);
+        assertEquals(1, group.size());
+    }
+
+    @org.junit.jupiter.api.Test
+    void test_getTopYTableEdge() {
+        CFFacadeChipByColor cc = new CFFacadeChipByColor();
+
+        // 一つ目
+        ArrayList<ArrayList<Line>> groupList = new ArrayList<ArrayList<Line>>();
+        ArrayList<Line> group = new ArrayList<Line>();
+        group.add(new Line(0, 10, 100, 10));
+        groupList.add(group);
+
+        assertEquals(10, cc.m_getTopYTableEdge(groupList));
+
+        // 2つ目
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 20, 100, 20));
+        group.add(new Line(0, 1, 100, 1));
+        groupList.add(group);
+
+        // ３つ目が一番高いけどTableEdgeじゃない
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 0, 90, 0));
+        groupList.add(group);
+        assertEquals(1, cc.m_getTopYTableEdge(groupList));
+
+        // TableEdgeが一つもない
+        groupList = new ArrayList<ArrayList<Line>>();
+        group = new ArrayList<Line>();
+        group.add(new Line(0, 10, 10, 10));
+        groupList.add(group);
+        assertEquals(Double.MAX_VALUE, cc.m_getTopYTableEdge(groupList));
     }
 
     @org.junit.jupiter.api.Test

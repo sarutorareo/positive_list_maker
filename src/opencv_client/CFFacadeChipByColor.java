@@ -77,7 +77,7 @@ public class CFFacadeChipByColor extends CFFacade {
         if (c.getGreen() < (double)60/255) {
             return false;
         }
-        if (c.getGreen() > (double)95/255) {
+        if (c.getGreen() > (double)94/255) {
             return false;
         }
         if (c.getBlue() > (double)60/255) {
@@ -116,14 +116,110 @@ public class CFFacadeChipByColor extends CFFacade {
     }
 
     private ArrayList<ArrayList<Line>> m_regulationLines(List<Line> orgLineList) {
-        int SUKIMA = 4;
+        // 隙間が少し空いているだけの線はくっつける
+        final int SUKIMA = 4;
+        final int MIN_LENGTH = 2;
+        final int REMOVE_EDGE_LINE_NUM = 5;
         ArrayList<Line>lineList = m_regulationLines_yokoSukima(orgLineList, SUKIMA);
+
+        /*
+        // 1～2ドットの長さしかない線は消す
+        //TODO 隙間の１ドット～２ドットでくっついているものを分離する
+        lineList = m_removeShortLine(lineList, MIN_LENGTH);
+        */
+
+        // 塗りつぶしでグルーピング
         ArrayList<ArrayList<Line>> result = m_groupingLines(lineList);
+        result.forEach(g -> {
+            g.sort(comparing(Line::getStartY));
+        });
+
+        // テーブルエッジのバリを取る
+        m_removeTableEdge(result, REMOVE_EDGE_LINE_NUM);
+
+        // 微妙な線を分離する
+        // result = m_groupingLines_devideSukima(result);
 
         return result;
     }
 
-    public ArrayList<Line> m_regulationLines_yokoSukima(List<Line> lineList, int sukima) {
+    protected void m_removeTableEdge(ArrayList<ArrayList<Line>>  groupList, int removeNum)
+    {
+        // テーブルエッジの中で一番上にある線を削除
+        double topY = m_getTopYTableEdge(groupList);
+        ArrayList<ArrayList<Line>> removedGroup = new ArrayList<ArrayList<Line>>();
+        for (ArrayList<Line> g : groupList) {
+            double groupTop = m_getGroupTop(g);
+            if (m_isTableEdge(g) && groupTop == topY) {
+                if (m_removeTopLines(g, removeNum)) {
+                    removedGroup.add(g);
+                }
+            }
+        }
+
+        // 削除したグループを再編
+        removedGroup.forEach(rg -> {
+            groupList.remove(rg);
+            ArrayList<ArrayList<Line>> newGroups = m_groupingLines(rg);
+            groupList.addAll(newGroups);
+        });
+    }
+
+    protected double m_getTopYTableEdge(ArrayList<ArrayList<Line>>  groupList) {
+        double minY = Double.MAX_VALUE;
+        for (ArrayList<Line> g : groupList) {
+            if (!m_isTableEdge(g)) {
+                continue;
+            }
+            double groupTop = m_getGroupTop(g);
+            if (groupTop < minY) {
+                minY = groupTop;
+            }
+        }
+        return minY;
+    }
+
+    protected boolean m_removeTopLines(ArrayList<Line> group, int num) {
+        boolean isRemoved = false;
+        for (int i = 0; i < num; i++) {
+            if (group.size() == 0) {
+                return isRemoved;
+            }
+            double topY = m_getGroupTop(group);
+            int index = 0;
+            while(index < group.size()) {
+                Line l = group.get(index);
+                if (l.getStartY() == topY) {
+                    isRemoved = true;
+                    group.remove(l);
+                }
+                else {
+                    index++;
+                }
+            }
+        }
+        return isRemoved;
+    }
+
+    protected boolean m_isTableEdge(ArrayList<Line> group)
+    {
+        final int TABLE_EDGE_WIDTH = 100;
+        int width = m_getGroupWidth(group);
+        return width >= TABLE_EDGE_WIDTH;
+    }
+
+    protected  ArrayList<Line> m_removeShortLine(List<Line> lineList, int minLength) {
+        ArrayList<Line> result = new ArrayList<Line>();
+        for (int i = 0; i < lineList.size(); i++) {
+            Line l = lineList.get(i);
+            if (l.getEndX() - l.getStartX() + 1 >= minLength) {
+               result.add(l);
+            }
+        }
+        return result;
+    }
+
+    protected ArrayList<Line> m_regulationLines_yokoSukima(List<Line> lineList, int sukima) {
         final int MIN_LENGTH = sukima * 5;
         ArrayList<Line> result = new ArrayList<Line>();
         Line beforeLine = null;
@@ -150,6 +246,7 @@ public class CFFacadeChipByColor extends CFFacade {
         ArrayList<Line> lineList = (ArrayList<Line>)orgLineList.clone();
         ArrayList<ArrayList<Line>> result = new ArrayList<ArrayList<Line>>();
 
+        // 再帰的にくっついてるものを集めてグルーピング
         while(lineList.size() > 0) {
             Line line = lineList.get(0);
             ArrayList<Line> group = new ArrayList<Line>();
@@ -158,6 +255,21 @@ public class CFFacadeChipByColor extends CFFacade {
         }
 
         return result;
+    }
+
+    protected boolean m_isSukimaY(double y, ArrayList<Line> group) {
+        final int SUKIMA = 2;
+        boolean existsY = false;
+        for(int i = 0; i < group.size(); i++) {
+            Line l = group.get(i);
+            if (l.getStartY() == y) {
+                existsY = true;
+                if ((l.getEndX() - l.getStartX() + 1) > SUKIMA) {
+                    return false;
+                }
+            }
+        }
+        return existsY;
     }
 
     protected void m_groupingLinesRec(Line line, ArrayList<Line> group, ArrayList<Line> lineList) {
@@ -204,19 +316,33 @@ public class CFFacadeChipByColor extends CFFacade {
         return (int)(right - left + 1);
     }
 
-    protected int m_getGroupHeight(List<Line> lineGroup) {
+    protected double m_getGroupTop(List<Line> lineGroup) {
         assert(lineGroup.size() > 0);
         double top = Integer.MAX_VALUE;
-        double bottom = -1;
         for (Line l : lineGroup) {
             if (l.getStartY() < top) {
                 top = l.getStartY();
             }
-            if (l.getEndY() > bottom) {
-                bottom = l.getEndY();
+        }
+
+        return top;
+    }
+
+    protected double m_getGroupBottom(List<Line> lineGroup) {
+        assert(lineGroup.size() > 0);
+        double bottom = -1;
+        for (Line l : lineGroup) {
+            if (l.getStartY() > bottom) {
+                bottom = l.getStartY();
             }
         }
 
+        return bottom;
+    }
+
+    protected int m_getGroupHeight(List<Line> lineGroup) {
+        double top = m_getGroupTop(lineGroup);
+        double bottom = m_getGroupBottom(lineGroup);
         return (int)(bottom - top + 1);
     }
 
@@ -324,8 +450,8 @@ public class CFFacadeChipByColor extends CFFacade {
                 }
             }
 
-            double left = Math.max(topLine.getStartX(), bottomLine.getStartX()) - 2;
-            double right = Math.min(topLine.getEndX(), bottomLine.getEndX()) + 2;
+            double left = Math.max(topLine.getStartX(), bottomLine.getStartX());
+            double right = Math.min(topLine.getEndX(), bottomLine.getEndX());
             Rectangle rect = new Rectangle(
                 left,
                 topLine.getStartY(),

@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b1f36e5a-220e-404e-92b7-73118e2a3be3" name="Default" comment="jk">
+      <change afterPath="$PROJECT_DIR$/src/utils/JavaTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/memo.txt" beforeDir="false" afterPath="$PROJECT_DIR$/memo.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/ImageUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/ImageUtils.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -27,20 +32,12 @@
       <file leaf-file-name="CFFacadeChipByColor.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColor.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="248" column="12" selection-start-line="248" selection-start-column="12" selection-end-line="248" selection-end-column="12" />
+            <state relative-caret-position="132">
+              <caret line="452" column="79" selection-start-line="452" selection-start-column="79" selection-end-line="452" selection-end-column="79" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#4919#4936#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CFFacade.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacade.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="37" column="20" selection-start-line="37" selection-start-column="20" selection-end-line="37" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -48,35 +45,24 @@
       <file leaf-file-name="CFFacadeChipByColorTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColorTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            <state relative-caret-position="22">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#13409#13415#0" expanded="true" />
+                <element signature="e#16516#16522#0" expanded="true" />
+                <element signature="e#15479#15496#0" expanded="true" />
+                <element signature="e#15544#15550#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CFFacadeChip.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChip.java">
+      <file leaf-file-name="JavaTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/JavaTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="88">
-              <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CFResultChip.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultChip.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/application/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="16" column="23" selection-start-line="16" selection-start-column="23" selection-end-line="16" selection-end-column="23" />
+            <state relative-caret-position="110">
+              <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -84,8 +70,8 @@
       <file leaf-file-name="ClassifierViewFormController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3256">
-              <caret line="190" column="67" selection-start-line="190" selection-start-column="67" selection-end-line="190" selection-end-column="67" />
+            <state relative-caret-position="87">
+              <caret line="119" column="4" selection-start-line="119" selection-start-column="4" selection-end-line="119" selection-end-column="4" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -93,35 +79,62 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Classifier.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/classifier_ui/Classifier.java">
+      <file leaf-file-name="ImageCleaner.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="352">
-              <caret line="29" column="33" selection-start-line="29" selection-start-column="33" selection-end-line="29" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Clipboard.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/input/Clipboard.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3828">
-              <caret line="212" column="17" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="17" />
+            <state relative-caret-position="110">
+              <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
               <folding>
-                <element signature="e#8765#8766#0" expanded="true" />
-                <element signature="e#8810#8811#0" expanded="true" />
-                <element signature="e#14678#14679#0" expanded="true" />
-                <element signature="e#14737#14738#0" expanded="true" />
+                <element signature="imports" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DataFormat.java" pinned="false" current-in-tab="false">
-        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/input/DataFormat.java">
+      <file leaf-file-name="ImageUtils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/ImageUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4158">
-              <caret line="221" column="29" selection-start-line="221" selection-start-column="29" selection-end-line="221" selection-end-column="29" />
+            <state relative-caret-position="248">
+              <caret line="246" column="13" selection-start-line="246" selection-start-column="13" selection-end-line="246" selection-end-column="13" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ResizableRectangleTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangleTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="66">
+              <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BufferedImage.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/awt/image/BufferedImage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="317">
+              <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PixelReader.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/image/PixelReader.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="242">
+              <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="WritableImage.java" pinned="false" current-in-tab="false">
+        <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/image/WritableImage.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -177,8 +190,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/opencv_client/CFFacadePlayer.java" />
-        <option value="$PROJECT_DIR$/src/opencv_client/CFFacadeDealerButton.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/EnTargetTest.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/PositiveListMakerForm.fxml" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierDealerButton.java" />
@@ -202,7 +213,6 @@
         <option value="$PROJECT_DIR$/src/utils/FileUtil.java" />
         <option value="$PROJECT_DIR$/src/utils/DateTimeUtil.java" />
         <option value="$PROJECT_DIR$/src/utils/DateTimeUtilTest.java" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/CFResultP.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/CFSettingsChip.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CFFacadeChip.java" />
@@ -224,9 +234,12 @@
         <option value="$PROJECT_DIR$/src/opencv_client/CFFacadeChip_byColor.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CFFacade.java" />
         <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierChip.java" />
-        <option value="$PROJECT_DIR$/src/utils/ImageUtils.java" />
-        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColorTest.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java" />
+        <option value="$PROJECT_DIR$/src/utils/ImageUtils.java" />
+        <option value="$PROJECT_DIR$/src/utils/javaTest.java" />
+        <option value="$PROJECT_DIR$/src/utils/JavaTest.java" />
+        <option value="$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java" />
         <option value="$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColor.java" />
       </list>
     </option>
@@ -238,8 +251,8 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="604" />
-    <option name="y" value="212" />
+    <option name="x" value="-14" />
+    <option name="y" value="2" />
     <option name="width" value="1291" />
     <option name="height" value="736" />
   </component>
@@ -248,8 +261,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -296,7 +307,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -387,7 +400,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="CFFacadeChipByColorTest.test_getBottomLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CFFacadeChipByColorTest.test_groupingLines" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
@@ -399,7 +412,7 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="opencv_client" />
       <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeChipByColorTest" />
-      <option name="METHOD_NAME" value="test_getBottomLine" />
+      <option name="METHOD_NAME" value="test_groupingLines" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -410,7 +423,7 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="CFFacadeChipByColorTest.test_getTopLine" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="CFFacadeChipByColorTest.test_removeTableEdge" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
@@ -422,7 +435,7 @@
       <option name="ALTERNATIVE_JRE_PATH" />
       <option name="PACKAGE_NAME" value="opencv_client" />
       <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeChipByColorTest" />
-      <option name="METHOD_NAME" value="test_getTopLine" />
+      <option name="METHOD_NAME" value="test_removeTableEdge" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -433,19 +446,19 @@
       </option>
       <patterns />
     </configuration>
-    <configuration name="CFFacadeChipByColorTest.test_regulationLines_yokoSukima" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="JavaTest.test_initialize_array" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="positive_list_maker" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="opencv_client.*" />
+          <option name="PATTERN" value="utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="opencv_client" />
-      <option name="MAIN_CLASS_NAME" value="opencv_client.CFFacadeChipByColorTest" />
-      <option name="METHOD_NAME" value="test_regulationLines_yokoSukima" />
+      <option name="PACKAGE_NAME" value="utils" />
+      <option name="MAIN_CLASS_NAME" value="utils.JavaTest" />
+      <option name="METHOD_NAME" value="test_initialize_array" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -495,19 +508,19 @@
       <listeners />
     </configuration>
     <list>
-      <item itemvalue="JUnit.CFFacadeChipByColorTest.test_regulationLines_yokoSukima" />
-      <item itemvalue="JUnit.CFFacadeChipByColorTest" />
-      <item itemvalue="JUnit.CFFacadeChipByColorTest.test_getTopLine" />
-      <item itemvalue="JUnit.CFFacadeChipByColorTest.test_getBottomLine" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="JUnit.CFFacadeChipByColorTest" />
+      <item itemvalue="JUnit.CFFacadeChipByColorTest.test_groupingLines" />
+      <item itemvalue="JUnit.CFFacadeChipByColorTest.test_removeTableEdge" />
+      <item itemvalue="JUnit.JavaTest.test_initialize_array" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="JUnit.CFFacadeChipByColorTest.test_getTopLine" />
+        <item itemvalue="JUnit.JavaTest.test_initialize_array" />
         <item itemvalue="JUnit.CFFacadeChipByColorTest" />
-        <item itemvalue="JUnit.CFFacadeChipByColorTest.test_getBottomLine" />
-        <item itemvalue="JUnit.CFFacadeChipByColorTest.test_regulationLines_yokoSukima" />
+        <item itemvalue="JUnit.CFFacadeChipByColorTest.test_removeTableEdge" />
+        <item itemvalue="JUnit.CFFacadeChipByColorTest.test_groupingLines" />
       </list>
     </recent_temporary>
   </component>
@@ -525,35 +538,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CFFacadeChipByColorTest_test_getBottomLine - 2018.12.23 at 14h 18m 34s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_getBottomLine" configurationId="JUnit" />
+    <history-entry file="CFFacadeChipByColorTest_test_removeTableEdge - 2019.01.02 at 10h 34m 08s.xml">
+      <configuration name="CFFacadeChipByColorTest.test_removeTableEdge" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest_test_getBottomLine - 2018.12.23 at 14h 18m 50s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_getBottomLine" configurationId="JUnit" />
+    <history-entry file="CFFacadeChipByColorTest_test_removeTableEdge - 2019.01.02 at 10h 38m 47s.xml">
+      <configuration name="CFFacadeChipByColorTest.test_removeTableEdge" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest_test_getTopLine - 2018.12.23 at 14h 18m 57s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_getTopLine" configurationId="JUnit" />
+    <history-entry file="CFFacadeChipByColorTest_test_removeTableEdge - 2019.01.02 at 10h 43m 24s.xml">
+      <configuration name="CFFacadeChipByColorTest.test_removeTableEdge" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest_test_getTopLine - 2018.12.23 at 14h 20m 21s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_getTopLine" configurationId="JUnit" />
+    <history-entry file="CFFacadeChipByColorTest_test_removeTableEdge - 2019.01.02 at 10h 44m 03s.xml">
+      <configuration name="CFFacadeChipByColorTest.test_removeTableEdge" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest_test_getTopLine - 2018.12.23 at 14h 20m 45s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_getTopLine" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CFFacadeChipByColorTest - 2018.12.23 at 14h 20m 51s.xml">
+    <history-entry file="CFFacadeChipByColorTest - 2019.01.02 at 10h 44m 08s.xml">
       <configuration name="CFFacadeChipByColorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest - 2018.12.23 at 14h 20m 55s.xml">
+    <history-entry file="CFFacadeChipByColorTest - 2019.01.02 at 10h 44m 26s.xml">
       <configuration name="CFFacadeChipByColorTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest - 2018.12.23 at 14h 21m 33s.xml">
-      <configuration name="CFFacadeChipByColorTest" configurationId="JUnit" />
+    <history-entry file="JavaTest_test_initialize_array - 2019.01.02 at 13h 14m 39s.xml">
+      <configuration name="JavaTest.test_initialize_array" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest_test_regulationLines_tateRenzoku - 2018.12.23 at 14h 22m 08s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_regulationLines_tateRenzoku" configurationId="JUnit" />
+    <history-entry file="JavaTest_test_initialize_array - 2019.01.02 at 13h 17m 22s.xml">
+      <configuration name="JavaTest.test_initialize_array" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="CFFacadeChipByColorTest_test_getTopLine - 2018.12.23 at 14h 23m 40s.xml">
-      <configuration name="CFFacadeChipByColorTest.test_getTopLine" configurationId="JUnit" />
+    <history-entry file="JavaTest_test_initialize_array - 2019.01.02 at 13h 18m 17s.xml">
+      <configuration name="JavaTest.test_initialize_array" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="JavaTest_test_initialize_array - 2019.01.02 at 13h 18m 24s.xml">
+      <configuration name="JavaTest.test_initialize_array" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -566,7 +579,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-4" y="0" width="1291" height="736" extended-state="1" />
+    <frame x="-14" y="2" width="1291" height="736" extended-state="0" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4979356" weight="0.32833335" />
@@ -576,17 +589,18 @@
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.34600762" side_tool="true" weight="0.2940141" />
       <window_info anchor="right" id="Maven Projects" order="3" weight="0.32925835" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.6539924" visible="true" weight="0.2940141" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.6539924" weight="0.2940141" />
       <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.32943144" />
-      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49697784" weight="0.32866043" />
+      <window_info anchor="bottom" id="Terminal" order="10" sideWeight="0.49697784" weight="0.3274648" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.43056697" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.336894" />
+      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.78199834" weight="0.31514084" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24938875" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5730801" weight="0.38515902" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5730801" weight="0.38380283" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Coverage" order="4" side_tool="true" weight="0.328654" />
@@ -594,35 +608,34 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" sideWeight="0.78199834" weight="0.3162544" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49697784" weight="0.32866043" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7152451" visible="true" weight="0.23364486" />
+      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.32943144" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.34251174" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.24938875" />
       <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.49870577" weight="0.32943144" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.7152451" visible="true" weight="0.23364486" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.49429148" weight="0.3224299" />
+      <window_info anchor="right" id="Maven Projects" order="7" weight="0.32925835" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.549362" weight="0.38785046" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
-      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32925835" />
+      <window_info anchor="bottom" id="Terminal" order="7" sideWeight="0.49697784" weight="0.32866043" />
       <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.28475487" side_tool="true" visible="true" weight="0.23364486" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Version Control" order="9" sideWeight="0.49784297" weight="0.32943144" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info id="Capture Tool" order="5" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.46406984" weight="0.317757" />
-      <window_info anchor="right" id="Maven Projects" order="7" weight="0.32925835" />
+      <window_info anchor="right" id="Coverage" order="8" side_tool="true" weight="0.32925835" />
       <window_info id="Favorites" order="6" side_tool="true" />
     </layout-to-restore>
   </component>
@@ -650,8 +663,14 @@
           <properties />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java</url>
+          <line>20</line>
+          <properties />
+          <option name="timeStamp" value="86" />
+        </line-breakpoint>
       </breakpoints>
-      <option name="time" value="79" />
+      <option name="time" value="88" />
     </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
@@ -710,76 +729,6 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/utils/DateTimeUtilTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/FileUtilTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/tess4j_client/StrRectangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" column="53" selection-start-line="4" selection-start-column="53" selection-end-line="4" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/Node.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="55418">
-          <caret line="2863" column="16" selection-start-line="2863" selection-start-column="16" selection-end-line="2863" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/application/RectPos.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangleTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="9" column="24" selection-start-line="9" selection-start-column="24" selection-end-line="9" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/AutoCaptureThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-351">
-          <caret line="8" column="30" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/input/KeyEvent.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="330" column="25" selection-start-line="330" selection-start-column="25" selection-end-line="330" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangle.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="77" column="19" selection-start-line="77" selection-start-column="19" selection-end-line="77" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/GlobalSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-154">
-          <caret line="22" column="19" selection-start-line="22" selection-start-column="19" selection-end-line="22" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFSettingsDealerButton.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -872,16 +821,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="308">
           <caret line="18" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/paint/Color.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38984">
-          <caret line="1831" column="24" selection-start-line="1831" selection-start-column="24" selection-end-line="1831" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -889,16 +828,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4114">
           <caret line="234" selection-start-line="234" selection-end-line="234" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/utils/ImageUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3586">
-          <caret line="191" column="23" selection-start-line="191" selection-start-column="23" selection-end-line="191" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -953,9 +882,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
           <caret line="18" column="23" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1032,12 +958,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="3828">
           <caret line="212" column="17" selection-start-line="212" selection-start-column="17" selection-end-line="212" selection-end-column="17" />
-          <folding>
-            <element signature="e#8765#8766#0" expanded="true" />
-            <element signature="e#8810#8811#0" expanded="true" />
-            <element signature="e#14678#14679#0" expanded="true" />
-            <element signature="e#14737#14738#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1055,23 +975,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3256">
-          <caret line="190" column="67" selection-start-line="190" selection-start-column="67" selection-end-line="190" selection-end-column="67" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColorTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="88">
-          <caret line="4" selection-start-line="4" selection-end-line="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChip.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="88">
@@ -1079,10 +982,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultChip.java">
+    <entry file="file://$PROJECT_DIR$/src/utils/DateTimeUtil.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="132">
+          <caret line="7" column="63" selection-start-line="7" selection-start-column="63" selection-end-line="7" selection-end-column="63" />
         </state>
       </provider>
     </entry>
@@ -1093,12 +996,130 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColor.java">
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/paint/Color.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="248" column="12" selection-start-line="248" selection-start-column="12" selection-end-line="248" selection-end-column="12" />
+        <state relative-caret-position="22">
+          <caret line="1873" column="11" selection-start-line="1873" selection-start-column="11" selection-end-line="1873" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/CFResultChip.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="1256" selection-start-line="1256" selection-end-line="1256" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/util/stream/ForEachOps.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="183" selection-start-line="183" selection-end-line="183" />
+          <folding>
+            <element signature="e#6103#6104#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/image/PixelWriter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/image/WritableImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="45" column="13" selection-start-line="45" selection-start-column="13" selection-end-line="45" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/src.zip!/java/awt/image/BufferedImage.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="317">
+          <caret line="67" column="13" selection-start-line="67" selection-start-column="13" selection-end-line="67" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk1.8.0_172/javafx-src.zip!/javafx/scene/image/PixelReader.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="37" column="17" selection-start-line="37" selection-start-column="17" selection-end-line="37" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColorTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#13409#13415#0" expanded="true" />
+            <element signature="e#16516#16522#0" expanded="true" />
+            <element signature="e#15479#15496#0" expanded="true" />
+            <element signature="e#15544#15550#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/ImageUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="246" column="13" selection-start-line="246" selection-start-column="13" selection-end-line="246" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/ResizableRectangleTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="3" column="13" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/utils/JavaTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="9" column="33" selection-start-line="9" selection-start-column="33" selection-end-line="9" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ClassifierViewFormController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="87">
+          <caret line="119" column="4" selection-start-line="119" selection-start-column="4" selection-end-line="119" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/classifier_ui/ImageCleaner.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="110">
+          <caret line="13" column="4" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/opencv_client/CFFacadeChipByColor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="452" column="79" selection-start-line="452" selection-start-column="79" selection-end-line="452" selection-end-column="79" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#4919#4936#0" expanded="true" />
           </folding>
         </state>
       </provider>

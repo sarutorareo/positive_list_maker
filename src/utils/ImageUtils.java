@@ -6,6 +6,8 @@ import com.github.jaiimageio.plugins.tiff.TIFFImageWriteParam;
 import groovy.transform.PackageScope;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import org.opencv.core.*;
 
@@ -16,7 +18,9 @@ import javax.imageio.spi.ImageWriterSpi;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.DataBufferByte;
+import java.awt.image.WritableRaster;
 import java.io.*;
 import java.util.Locale;
 
@@ -204,4 +208,44 @@ public class ImageUtils {
         return orgImage.getSubimage((int)rect.getX(), (int)rect.getY(), (int)rect.getWidth(), (int)rect.getHeight());
     }
 
+    /**
+     * copy the given image to a writeable image
+     * @param image
+     * @return a writeable image
+     */
+    public static WritableImage copyImage(javafx.scene.image.Image image) {
+        int height=(int)image.getHeight();
+        int width=(int)image.getWidth();
+        PixelReader pixelReader=image.getPixelReader();
+        WritableImage writableImage = new WritableImage(width,height);
+        PixelWriter pixelWriter = writableImage.getPixelWriter();
+
+        for (int y = 0; y < height; y++){
+            for (int x = 0; x < width; x++){
+                javafx.scene.paint.Color color = pixelReader.getColor(x, y);
+                pixelWriter.setColor(x, y, color);
+            }
+        }
+        return writableImage;
+    }
+
+    public static BufferedImage copyImage(BufferedImage readImage) {
+        /*
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        */
+        int w = readImage.getWidth();
+        int h = readImage.getHeight();
+        BufferedImage writeImage = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+
+        for (int x = 0; x < w; x++) {
+            for (int y = 0; y < h; y++) {
+                int c = readImage.getRGB(x, y);
+                writeImage.setRGB(x, y, c);
+            }
+        }
+        return writeImage;
+    }
 }
